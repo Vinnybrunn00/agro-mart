@@ -21,6 +21,14 @@ class InputText extends StatelessWidget {
   final double? width;
   final int? maxLines;
   final double? height;
+  final bool autoFocus;
+  final Decoration? decoration;
+  final InputBorder? enabledBorder;
+  final InputBorder? focusedBorder;
+  final InputBorder? errorBorder;
+  final InputBorder? border;
+  final InputBorder? focusedErrorBorder;
+  final EdgeInsetsGeometry? padding;
 
   const InputText({
     super.key,
@@ -42,11 +50,21 @@ class InputText extends StatelessWidget {
     this.width,
     this.maxLines = 1,
     this.height,
+    this.autoFocus = true,
+    this.decoration,
+    this.enabledBorder,
+    this.focusedBorder,
+    this.errorBorder,
+    this.focusedErrorBorder,
+    this.border,
+    this.padding,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      padding: padding,
+      decoration: decoration,
       height: height ?? (errorText != null ? 65 : 43),
       width: width,
       child: TextField(
@@ -54,7 +72,7 @@ class InputText extends StatelessWidget {
         readOnly: readOnly,
         enabled: enabled,
         maxLength: maxLength,
-        autofocus: false,
+        autofocus: autoFocus,
         controller: controller,
         onChanged: onChanged,
         cursorHeight: 18,
@@ -76,14 +94,22 @@ class InputText extends StatelessWidget {
             fontSize: 12,
             fontWeight: .w600,
           ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: borderRadius,
-            borderSide: BorderSide(color: color ?? AppColors.blackColorAlpha55),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: borderRadius,
-            borderSide: BorderSide(color: color ?? AppColors.blackColorAlpha55),
-          ),
+          errorBorder:
+              errorBorder ??
+              OutlineInputBorder(
+                borderRadius: borderRadius,
+                borderSide: BorderSide(
+                  color: color ?? AppColors.blackColorAlpha55,
+                ),
+              ),
+          focusedErrorBorder:
+              focusedErrorBorder ??
+              OutlineInputBorder(
+                borderRadius: borderRadius,
+                borderSide: BorderSide(
+                  color: color ?? AppColors.blackColorAlpha55,
+                ),
+              ),
           counterText: '',
           hintText: hintText,
           hintStyle: TextStyle(
@@ -91,14 +117,20 @@ class InputText extends StatelessWidget {
             fontSize: 12.5,
           ),
           border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: borderRadius,
-            borderSide: BorderSide(color: color ?? AppColors.blackColorAlpha55),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: borderRadius,
-            borderSide: BorderSide(color: AppColors.mainColor),
-          ),
+          enabledBorder:
+              enabledBorder ??
+              OutlineInputBorder(
+                borderRadius: borderRadius,
+                borderSide: BorderSide(
+                  color: color ?? AppColors.blackColorAlpha55,
+                ),
+              ),
+          focusedBorder:
+              focusedBorder ??
+              OutlineInputBorder(
+                borderRadius: borderRadius,
+                borderSide: BorderSide(color: AppColors.mainColor),
+              ),
           contentPadding: .all(10),
           suffixIcon: suffixIcon,
         ),

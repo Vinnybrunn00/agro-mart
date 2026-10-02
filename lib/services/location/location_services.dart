@@ -1,14 +1,27 @@
-import 'dart:developer';
+import 'package:flutter/material.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 
-class LocationServices {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+class LocationServices with ChangeNotifier {
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  double? _latitude;
+  double? _longitude;
+
+  double? get latitude => _latitude;
+  double? get longitude => _longitude;
+
+  bool get latLongIsNotEmpty => _latitude != null && _longitude != null;
+
+  void _setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
 
   Future<void> determinePosition() async {
+    _setLoading(true);
+
     final bool serviceEnabled;
     late LocationPermission permission;
 
@@ -34,10 +47,11 @@ class LocationServices {
 
     final Position currentPosition = await Geolocator.getCurrentPosition();
 
-    await _saveCurrentLocation(
-      lat: currentPosition.latitude,
-      long: currentPosition.longitude,
-    );
+    _latitude = currentPosition.latitude;
+    _longitude = currentPosition.longitude;
+    notifyListeners();
+
+    _setLoading(false);
   }
 
   Stream<bool> get locationServiceStatusStream async* {
@@ -46,12 +60,4 @@ class LocationServices {
       (ServiceStatus status) => status == ServiceStatus.enabled,
     );
   }
-
-  Future<void> _saveCurrentLocation({
-    required double lat,
-    required double long,
-  }) async => await _firestore
-      .collection('users')
-      .doc(_firebaseAuth.currentUser?.uid)
-      .set({'lat': lat, 'long': long}, SetOptions(merge: true));
 }

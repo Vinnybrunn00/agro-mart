@@ -1,13 +1,18 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:agroshare/core/streams/user_stream.dart';
+import 'package:agroshare/navigator/navigator_app.dart';
 import 'package:agroshare/services/location/location_services.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
 import 'package:agroshare/ui/components/shimmer_loading_app.dart';
+import 'package:agroshare/ui/input/input.dart';
+import 'package:agroshare/ui/pages/auth/components/event_button.dart';
+import 'package:agroshare/ui/pages/equipamentos_page.dart';
 import 'package:agroshare/ui/screens/chat_screen.dart';
-import 'package:agroshare/ui/screens/equipamentos_screen.dart';
 import 'package:agroshare/ui/screens/home_screen.dart';
 import 'package:agroshare/ui/screens/profile_screen.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +29,7 @@ class HomePage extends StatelessWidget {
       builder: (_, snapshot) {
         final bool? status = snapshot.data;
 
-        return (status != null && status) ? MainPage() : ErrorLocation();
+        return MainPage();
       },
     );
   }
@@ -39,6 +44,26 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final NavigatorProvider navigator = Provider.of<NavigatorProvider>(context);
     return Scaffold(
+      floatingActionButton: navigator.index != 0
+          ? null
+          : GestureDetector(
+              onTap: () async =>
+                  await NavigatorsApp.push(context, EquipamentosPage()),
+              child: Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  color: AppColors.mainColor,
+                  borderRadius: .circular(60 / 2),
+                ),
+                child: Center(
+                  child: Icon(
+                    Iconsax.task_outline,
+                    color: AppColors.whiteColor,
+                  ),
+                ),
+              ),
+            ),
       appBar: navigator.index != 0
           ? null
           : AppBar(
@@ -53,7 +78,7 @@ class MainPage extends StatelessWidget {
                   final Map<String, dynamic>? data = snapshot.data?.data();
 
                   return Text(
-                    'Olá, ${data!['name'].toString()}',
+                    'Olá, ${data?['name'].toString()}',
                     style: TextStyle(fontSize: 18),
                   );
                 },
@@ -73,6 +98,7 @@ class ErrorLocation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
+
       body: SafeArea(
         child: Padding(
           padding: .symmetric(horizontal: 24),
@@ -195,9 +221,7 @@ class _NavigatorButtons extends StatelessWidget {
                   icon: selected ? value['SelectIcon'] : value['icon'],
                   title: value['title'],
                   onTap: isAdd
-                      ? () {
-                          log('add');
-                        }
+                      ? () async => await _showModal(context)
                       : (selected ? null : () => navigator.changePage(index)),
                 );
               }).toList(),
@@ -207,6 +231,108 @@ class _NavigatorButtons extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _showModal(BuildContext context) async {
+  await showModalBottomSheet(
+    sheetAnimationStyle: AnimationStyle(
+      duration: Duration(milliseconds: 450),
+      curve: Curves.fastOutSlowIn,
+    ),
+    useSafeArea: true,
+    useRootNavigator: true,
+    isScrollControlled: true,
+    backgroundColor: AppColors.backgroundColorWhite,
+    context: context,
+    builder: (ctx) {
+      return Container(
+        padding: .all(12),
+        height: double.infinity,
+        width: double.infinity,
+        child: Column(
+          spacing: 8,
+          crossAxisAlignment: .start,
+          children: [
+            Row(
+              spacing: 30,
+              children: [
+                InkWell(
+                  borderRadius: .circular(20 / 2),
+                  onTap: () => Navigator.pop(context),
+                  child: Ink(
+                    height: 35,
+                    width: 35,
+                    decoration: BoxDecoration(
+                      color: AppColors.whiteColor,
+                      borderRadius: .circular(20 / 2),
+                      border: Border.all(color: AppColors.borderColor),
+                    ),
+                    child: Center(child: Icon(BoxIcons.bx_x, size: 20)),
+                  ),
+                ),
+
+                Text(
+                  'Anunciar equipamento',
+                  style: TextStyle(fontSize: 18, fontWeight: .w600),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 5),
+
+            DottedBorder(
+              options: RoundedRectDottedBorderOptions(
+                dashPattern: [8, 4],
+                strokeWidth: 1,
+                radius: Radius.circular(
+                  30 / 2,
+                ), // Defina o raio das bordas arredondadas aqui
+              ),
+              child: Container(
+                height: 70,
+                width: 70,
+                decoration: BoxDecoration(
+                  color: AppColors.whiteColor,
+                  borderRadius: .circular(30 / 2),
+                ),
+                child: Center(child: Icon(Icons.add)),
+              ),
+            ),
+
+            InputText(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: .circular(12),
+              ),
+              prefixIcon: BoxIcons.bx_edit_alt,
+              hintText: "Nome do equipamento",
+            ),
+
+            InputText(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: .circular(12),
+              ),
+              prefixIcon: BoxIcons.bx_purchase_tag,
+              hintText: "Preço (R\$)",
+            ),
+
+            InputText(
+              color: Colors.transparent,
+              height: 150,
+              focusedBorder: OutlineInputBorder(),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: .circular(12),
+              ),
+              prefixIcon: BoxIcons.bx_purchase_tag,
+              hintText: "Preço (R\$)",
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
 
 class _NavigatorApp extends StatelessWidget {
@@ -281,13 +407,6 @@ class NavigatorProvider with ChangeNotifier {
       'icon': Iconsax.message_2_outline,
       'title': 'Chat',
       'screen': ChatScreen(),
-    },
-
-    {
-      'SelectIcon': FontAwesome.tractor_solid,
-      'icon': FontAwesome.tractor_solid,
-      'title': 'Ações',
-      'screen': EquipamentosScreen(),
     },
 
     {

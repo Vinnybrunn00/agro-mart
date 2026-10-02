@@ -10,4 +10,5 @@ abstract final class AppColors {
   static final Color blackColorAlpha120 = Color(0xFF000000).withAlpha(120);
   static final Color whiteColor = Color(0xffffffff);
   static final Color greyColor = Color(0xff777777);
+  static final Color borderColor = Color(0xffe2e8f8);
 }

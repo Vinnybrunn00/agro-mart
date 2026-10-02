@@ -20,6 +20,14 @@ class CPFPage extends StatelessWidget {
     final UserModel userModelProvider = Provider.of<UserModel>(context);
     final Cpf cpf = Provider.of<Cpf>(context);
     return Scaffold(
+      floatingActionButtonLocation: .startTop,
+      floatingActionButton: Padding(
+        padding: .only(left: 5, top: 20),
+        child: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Icon(BoxIcons.bx_arrow_back, color: AppColors.whiteColor),
+        ),
+      ),
       body: BackgroundAuth(
         children: [
           CardAuth(
@@ -59,7 +67,6 @@ class CPFPage extends StatelessWidget {
                 onTap: () async {
                   cpf.validate(userModelProvider.cpf);
                   if (cpf.getValue != null) {
-
                     await NavigatorsApp.push(context, EmailPage());
                   }
                 },

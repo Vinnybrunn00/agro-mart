@@ -4,10 +4,14 @@
 //  Create by Vinicius Bruno on 06/09/2026
 //
 
+import 'dart:developer';
+
 import 'package:agroshare/models/auth/user_model.dart';
+import 'package:agroshare/navigator/navigator_app.dart';
 import 'package:agroshare/services/auth/auth_services.dart';
 import 'package:agroshare/core/providers/picker/picker_profile.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
+import 'package:agroshare/ui/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +23,14 @@ class AddPhotoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButtonLocation: .startTop,
+      floatingActionButton: Padding(
+        padding: .only(left: 5, top: 20),
+        child: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Icon(BoxIcons.bx_arrow_back, color: AppColors.whiteColor),
+        ),
+      ),
       body: Container(
         padding: .only(left: 15, right: 15),
         height: size.height,
@@ -37,77 +49,44 @@ class AddPhotoPage extends StatelessWidget {
         ),
         child: SafeArea(
           child: Column(
+            mainAxisAlignment: .center,
             children: [
-              // VOLTAR
-              Align(alignment: .center, child: _BackButton()),
-
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: .center,
+              _CardPhoto(
+                children: [
+                  Column(
+                    spacing: 8,
                     children: [
-                      _CardPhoto(
-                        children: [
-                          Column(
-                            spacing: 8,
-                            children: [
-                              // TITULO
-                              Text(
-                                'Adicione uma foto de perfil',
-                                textAlign: .center,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: AppColors.textColor,
-                                  fontWeight: .w600,
-                                ),
-                              ),
+                      // TITULO
+                      Text(
+                        'Adicione uma foto de perfil',
+                        textAlign: .center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: AppColors.textColor,
+                          fontWeight: .w600,
+                        ),
+                      ),
 
-                              // SUBTITULO
-                              Text(
-                                'Ajude outros produtores a te reconhecer no AgroShare',
-                                textAlign: .center,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: AppColors.blackColorAlpha120,
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          // AVATAR
-                          _AvatarPicker(),
-
-                          // CONTINUAR
-                          _CreateAccount(),
-                        ],
+                      // SUBTITULO
+                      Text(
+                        'Ajude outros produtores a te reconhecer no AgroShare',
+                        textAlign: .center,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: AppColors.blackColorAlpha120,
+                        ),
                       ),
                     ],
                   ),
-                ),
+
+                  // AVATAR
+                  _AvatarPicker(),
+
+                  // CONTINUAR
+                  _CreateAccount(),
+                ],
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _BackButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      shape: CircleBorder(),
-      child: InkWell(
-        onTap: () => Navigator.maybePop(context),
-        customBorder: CircleBorder(),
-        child: Padding(
-          padding: .all(12),
-          child: Icon(
-            Iconsax.arrow_left_outline,
-            color: AppColors.whiteColor,
-            size: 22,
           ),
         ),
       ),
@@ -210,6 +189,10 @@ class _CreateAccount extends StatelessWidget {
                     userModelProvider.image = picker.image;
 
                     await authService.signUp(userModel: userModelProvider);
+
+                    if (!context.mounted) return;
+
+                    await NavigatorsApp.push(context, HomePage());
                   }
                 : null,
             child: Ink(
@@ -228,7 +211,7 @@ class _CreateAccount extends StatelessWidget {
                         strokeWidth: 1.8,
                       )
                     : Text(
-                        'Criar a conta',
+                        'Concluir Cadastro',
                         style: TextStyle(
                           color: AppColors.whiteColor,
                           fontWeight: .w600,

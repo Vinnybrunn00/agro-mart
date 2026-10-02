@@ -19,6 +19,14 @@ class NamePage extends StatelessWidget {
     final UserModel userModelProvider = Provider.of<UserModel>(context);
     final Name name = Provider.of<Name>(context);
     return Scaffold(
+      floatingActionButtonLocation: .startTop,
+      floatingActionButton: Padding(
+        padding: .only(left: 5, top: 20),
+        child: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Icon(BoxIcons.bx_arrow_back, color: AppColors.whiteColor),
+        ),
+      ),
       body: BackgroundAuth(
         children: [
           CardAuth(
@@ -50,7 +58,6 @@ class NamePage extends StatelessWidget {
                 onTap: () async {
                   name.validate(userModelProvider.name);
                   if (name.getValue != null) {
-
                     await NavigatorsApp.push(context, CPFPage());
                   }
                 },

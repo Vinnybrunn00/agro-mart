@@ -67,8 +67,8 @@ class AuthServices extends ManagerPicker with ChangeNotifier {
           'email': userModel.email,
           'create_in': DateTime.now().millisecondsSinceEpoch,
           'photo': imageUrl,
-          'lat': null,
-          'long': null,
+          'lat': userModel.latitude,
+          'long': userModel.longitude,
         });
       }
     } on FirebaseAuthException catch (error) {

@@ -15,6 +15,10 @@ class UserModel with ChangeNotifier {
   String? password;
   File? image;
   bool? isCheck = false;
+  String? nameProperty;
+  String? locationProperty;
+  double? latitude;
+  double? longitude;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -37,6 +41,10 @@ class UserModel with ChangeNotifier {
       'password': password,
       'isCheck': isCheck,
       'photo': image?.path,
+      'namePropriety': nameProperty,
+      'locationProperty': locationProperty,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 

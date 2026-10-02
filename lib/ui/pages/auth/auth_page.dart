@@ -15,6 +15,7 @@ import 'package:agroshare/ui/pages/auth/components/background_auth.dart';
 import 'package:agroshare/ui/pages/auth/components/card_auth.dart';
 import 'package:agroshare/ui/pages/auth/components/event_button.dart';
 import 'package:agroshare/ui/pages/auth/register/name_page.dart';
+import 'package:agroshare/ui/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:provider/provider.dart';
@@ -80,6 +81,9 @@ class AuthPage extends StatelessWidget {
                       password: password.getValue!,
                       userModel: userModelProvider,
                     );
+
+                    if (!context.mounted) return;
+                    await NavigatorsApp.push(context, HomePage());
                   }
                 },
               ),
