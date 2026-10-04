@@ -1,71 +1,85 @@
+import 'dart:developer';
+
+import 'package:agroshare/core/streams/user_stream.dart';
+import 'package:agroshare/repository/users/users_repository.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
+import 'package:agroshare/ui/components/box_anuncio.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatelessWidget {
-  const new({super.key});
+  new({super.key});
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  final UserStream _userStream = UserStream();
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        spacing: 12,
-        children: [
-          for (int i = 0; i < 10; i++)
-            Container(
-              padding: .only(left: 12, right: 12),
-              margin: .only(left: 16, right: 16),
-              height: 110,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: AppColors.whiteColor,
-                borderRadius: .circular(12),
-              ),
-              child: Row(
-                spacing: 8,
-                children: [
-                  Container(
-                    height: 80,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      color: AppColors.mainColor.withAlpha(80),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(Icons.agriculture_outlined),
-                  ),
+    return Column(
+      spacing: 12,
+      children: [
+        Expanded(
+          child: StreamBuilder(
+            stream: _userStream.snapshot(),
+            builder: (context, userSnapshot) {
+              if (userSnapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
 
-                  Column(
-                    crossAxisAlignment: .start,
-                    mainAxisAlignment: .center,
-                    children: [
-                      Text(
-                        'Trator Massey 4x2 65cv',
-                        style: TextStyle(fontSize: 15, fontWeight: .w600),
-                      ),
-                      Row(
-                        spacing: 8,
-                        children: [
-                          Text('João P. · 3,2 km'),
-                          Row(
-                            spacing: 5,
-                            children: [
-                              Icon(Icons.star, color: Colors.yellow),
-                              Text('4.9'),
-                            ],
-                          ),
-                        ],
-                      ),
+              if (!userSnapshot.hasData || !userSnapshot.data!.exists) {
+                return Text('Error');
+              }
 
-                      Text(
-                        'R\$ 180,00',
-                        style: TextStyle(fontSize: 15, fontWeight: .w600),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
+              final UsersRepository currentUser =
+                  UsersRepository.fromQueryDocument(
+                    queryDocument: userSnapshot.data!,
+                  );
+
+              return StreamBuilder(
+                stream: _firestore.collectionGroup('equipamentos').snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+
+                  if (!snapshot.hasData) return Text('Error');
+
+                  final equipamentos = snapshot.data?.docs;
+
+                  return ListView.builder(
+                    itemCount: equipamentos?.length,
+                    itemBuilder: (context, index) {
+                      final queryEquipamentos = equipamentos?[index];
+
+                      final double distanceKm =
+                          Geolocator.distanceBetween(
+                            currentUser.latitude,
+                            currentUser.longitude,
+                            queryEquipamentos?['lat'],
+                            queryEquipamentos?['long'],
+                          ) /
+                          1000;
+
+                      final bool isNotView =
+                          currentUser.id == queryEquipamentos?['uid'];
+
+                      return (isNotView || distanceKm >= 160)
+                          ? SizedBox.shrink()
+                          : BoxAnuncio(
+                              equipamentos: queryEquipamentos,
+                              distanceKm: distanceKm,
+                            );
+                    },
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

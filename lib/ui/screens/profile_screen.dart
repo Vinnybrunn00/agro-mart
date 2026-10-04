@@ -40,16 +40,6 @@ class ProfileScreen extends StatelessWidget {
             crossAxisAlignment: .start,
             spacing: 24,
             children: [
-              // TITULO
-              Text(
-                'Conta',
-                style: TextStyle(
-                  fontSize: 22,
-                  color: AppColors.textColor,
-                  fontWeight: .w700,
-                ),
-              ),
-
               // FOTO E NOME
               _ProfileHeader(currentUser: currentUser),
 

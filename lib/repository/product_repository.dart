@@ -11,13 +11,15 @@ class ProductRepository {
 
   User? get _currentUser => FirebaseAuth.instance.currentUser;
 
+  int get timeStamp => DateTime.now().millisecondsSinceEpoch;
+
   DocumentReference<Map<String, dynamic>> get _users =>
       _firestore.collection('users').doc(_currentUser?.uid);
 
-  CollectionReference<Map<String, dynamic>> get _items =>
-      _firestore.collection('equipamentos');
-
-  int get timeStamp => DateTime.now().millisecondsSinceEpoch;
+  CollectionReference<Map<String, dynamic>> get _items => _firestore
+      .collection('users')
+      .doc(_currentUser?.uid)
+      .collection('equipamentos');
 
   Future<void> saveProduct(EquipamentosModel product) async {
     final DocumentSnapshot<Map<String, dynamic>> getUser = await _users.get();
@@ -33,8 +35,13 @@ class ProductRepository {
       'timestamp': timeStamp,
       'nome_equipamento': product.name,
       'description': product.description,
+      'data_inicio': product.startDate?.millisecondsSinceEpoch,
+      'data_fim': product.endDate?.millisecondsSinceEpoch,
+      'periodo_dias': product.periodDays,
       'lat': usersRepository.latitude,
       'long': usersRepository.longitude,
+      'periodDays': product.periodDays,
+      'status': true,
     });
   }
 

@@ -3,19 +3,15 @@ import 'dart:io';
 
 import 'package:agroshare/core/streams/user_stream.dart';
 import 'package:agroshare/models/equipamentos/equipamentos_model.dart';
-import 'package:agroshare/navigator/navigator_app.dart';
 import 'package:agroshare/repository/product_repository.dart';
 import 'package:agroshare/services/location/location_services.dart';
 import 'package:agroshare/services/picker/select_images.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
 import 'package:agroshare/ui/components/shimmer_loading_app.dart';
 import 'package:agroshare/ui/input/input.dart';
-import 'package:agroshare/ui/pages/auth/components/event_button.dart';
-import 'package:agroshare/ui/pages/equipamentos_page.dart';
-import 'package:agroshare/ui/screens/chat_screen.dart';
+import 'package:agroshare/ui/screens/ferramenta_screen.dart';
 import 'package:agroshare/ui/screens/home_screen.dart';
 import 'package:agroshare/ui/screens/profile_screen.dart';
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
@@ -44,65 +40,76 @@ class MainPage extends StatelessWidget {
 
   final UserStream _userStream = UserStream();
 
+  PreferredSizeWidget? _showAppBar(int index) {
+    switch (index) {
+      case 0:
+        return PreferredSize(
+          preferredSize: Size(double.infinity, 110),
+          child: Column(
+            children: [
+              AppBar(
+                scrolledUnderElevation: 0,
+                backgroundColor: AppColors.backgroundColor,
+                title: StreamBuilder(
+                  stream: _userStream.snapshot(),
+                  builder: (_, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return SimmerLoading(width: 130);
+                    }
+
+                    final Map<String, dynamic>? data = snapshot.data?.data();
+
+                    return Text(
+                      'Olá, ${data?['name'].toString()}',
+                      style: TextStyle(fontSize: 18),
+                    );
+                  },
+                ),
+              ),
+              InputText(
+                autoFocus: false,
+                padding: .only(left: 12, right: 12),
+                prefixIcon: BoxIcons.bx_search,
+              ),
+            ],
+          ),
+        );
+      case 1:
+        return AppBar(
+          scrolledUnderElevation: 0,
+          backgroundColor: AppColors.backgroundColor,
+          title: Text(
+            'Anuncios',
+            style: TextStyle(
+              fontSize: 22,
+              color: AppColors.textColor,
+              fontWeight: .w700,
+            ),
+          ),
+        );
+      case 2:
+        return AppBar(
+          scrolledUnderElevation: 0,
+          backgroundColor: AppColors.backgroundColor,
+          title: Text(
+            'Conta',
+            style: TextStyle(
+              fontSize: 22,
+              color: AppColors.textColor,
+              fontWeight: .w700,
+            ),
+          ),
+        );
+      default:
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final NavigatorProvider navigator = Provider.of<NavigatorProvider>(context);
     return Scaffold(
-      floatingActionButton: navigator.index != 0
-          ? null
-          : GestureDetector(
-              onTap: () async =>
-                  await NavigatorsApp.push(context, EquipamentosPage()),
-              child: Container(
-                height: 60,
-                width: 60,
-                decoration: BoxDecoration(
-                  color: AppColors.mainColor,
-                  borderRadius: .circular(60 / 2),
-                ),
-                child: Center(
-                  child: Icon(
-                    Iconsax.task_outline,
-                    color: AppColors.whiteColor,
-                  ),
-                ),
-              ),
-            ),
-      appBar: navigator.index != 0
-          ? null
-          : PreferredSize(
-              preferredSize: Size(double.infinity, 110),
-              child: Column(
-                children: [
-                  AppBar(
-                    scrolledUnderElevation: 0,
-                    backgroundColor: AppColors.backgroundColor,
-                    title: StreamBuilder(
-                      stream: _userStream.snapshot(),
-                      builder: (_, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return SimmerLoading(width: 130);
-                        }
-
-                        final Map<String, dynamic>? data = snapshot.data
-                            ?.data();
-
-                        return Text(
-                          'Olá, ${data?['name'].toString()}',
-                          style: TextStyle(fontSize: 18),
-                        );
-                      },
-                    ),
-                  ),
-                  InputText(
-                    autoFocus: false,
-                    padding: .only(left: 12, right: 12),
-                    prefixIcon: BoxIcons.bx_search,
-                  ),
-                ],
-              ),
-            ),
+      appBar: _showAppBar(navigator.index),
       backgroundColor: AppColors.backgroundColor,
       bottomNavigationBar: _NavigatorButtons(),
       body: SafeArea(child: navigator.screens[navigator.index]['screen']),
@@ -239,7 +246,7 @@ class _NavigatorButtons extends StatelessWidget {
                   icon: selected ? value['SelectIcon'] : value['icon'],
                   title: value['title'],
                   onTap: isAdd
-                      ? () async => await _showModal(context)
+                      ? () async => await _addEquipamento(context)
                       : (selected ? null : () => navigator.changePage(index)),
                 );
               }).toList(),
@@ -251,7 +258,7 @@ class _NavigatorButtons extends StatelessWidget {
   }
 }
 
-Future<void> _showModal(BuildContext context) async {
+Future<void> _addEquipamento(BuildContext context) async {
   await showModalBottomSheet(
     sheetAnimationStyle: AnimationStyle(
       duration: Duration(milliseconds: 450),
@@ -304,9 +311,7 @@ Future<void> _showModal(BuildContext context) async {
                   spacing: 5,
                   children: [
                     GestureDetector(
-                      onTap: () async {
-                        await selectImages.onSelectImages();
-                      },
+                      onTap: () async => await selectImages.onSelectImages(),
                       child: DottedBorder(
                         options: RoundedRectDottedBorderOptions(
                           dashPattern: [8, 4],
@@ -414,6 +419,35 @@ Future<void> _showModal(BuildContext context) async {
                   inputFormatters: [equipamentos.formatter],
                 ),
 
+                _PeriodSelector(
+                  label: equipamentos.periodLabel,
+                  onTap: () async {
+                    final DateTime today = DateUtils.dateOnly(DateTime.now());
+
+                    final DateTimeRange? period = await showDateRangePicker(
+                      context: context,
+                      locale: const Locale('pt', 'BR'),
+                      firstDate: today,
+                      lastDate: today.add(const Duration(days: 365)),
+                      initialDateRange: equipamentos.period,
+                      helpText: 'Período de aluguel',
+                      saveText: 'Confirmar',
+                      builder: (context, child) {
+                        return Theme(
+                          data: Theme.of(context).copyWith(
+                            colorScheme: .fromSeed(
+                              seedColor: AppColors.mainColor,
+                            ),
+                          ),
+                          child: child!,
+                        );
+                      },
+                    );
+
+                    if (period != null) equipamentos.period = period;
+                  },
+                ),
+
                 InputText(
                   onChanged: (description) =>
                       equipamentos.description = description,
@@ -437,8 +471,6 @@ Future<void> _showModal(BuildContext context) async {
                         ProductRepository();
 
                     await productRepository.saveProduct(equipamentos);
-
-                    
                   },
                 ),
               ],
@@ -448,6 +480,53 @@ Future<void> _showModal(BuildContext context) async {
       );
     },
   );
+}
+
+class _PeriodSelector extends StatelessWidget {
+  final String? label;
+  final void Function()? onTap;
+
+  const _PeriodSelector({required this.label, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      borderRadius: .circular(12),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: .circular(12),
+        child: Ink(
+          height: 43,
+          padding: .symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            borderRadius: .circular(12),
+            border: Border.all(color: AppColors.blackColorAlpha55),
+          ),
+          child: Row(
+            spacing: 12,
+            children: [
+              Icon(
+                BoxIcons.bx_calendar,
+                size: 21,
+                color: AppColors.blackColorAlpha120,
+              ),
+              Expanded(
+                child: Text(
+                  label ?? 'Período de aluguel',
+                  overflow: .ellipsis,
+                  style: TextStyle(
+                    color: label == null ? AppColors.blackColorAlpha55 : null,
+                    fontSize: label == null ? 12.5 : 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _NavigatorApp extends StatelessWidget {
@@ -518,10 +597,10 @@ class NavigatorProvider with ChangeNotifier {
     },
 
     {
-      'SelectIcon': Iconsax.message_2_bold,
-      'icon': Iconsax.message_2_outline,
-      'title': 'Chat',
-      'screen': ChatScreen(),
+      'SelectIcon': Iconsax.truck_bold,
+      'icon': Iconsax.truck_outline,
+      'title': 'Anuncios',
+      'screen': FerramentaScreen(),
     },
 
     {

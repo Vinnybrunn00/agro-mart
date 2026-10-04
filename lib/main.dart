@@ -20,6 +20,7 @@ import 'package:agroshare/ui/pages/auth/auth_page.dart';
 import 'package:agroshare/ui/pages/home/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -62,6 +63,8 @@ class AgroShare extends StatelessWidget {
           );
         },
         debugShowCheckedModeBanner: false,
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
+        supportedLocales: const [Locale('pt', 'BR')],
         title: 'AgroShare',
         theme: ThemeData(
           textTheme: GoogleFonts.figtreeTextTheme(),
