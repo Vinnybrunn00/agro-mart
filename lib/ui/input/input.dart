@@ -29,6 +29,8 @@ class InputText extends StatelessWidget {
   final InputBorder? border;
   final InputBorder? focusedErrorBorder;
   final EdgeInsetsGeometry? padding;
+  final bool expands;
+  final TextCapitalization textCapitalization;
 
   const InputText({
     super.key,
@@ -58,6 +60,8 @@ class InputText extends StatelessWidget {
     this.focusedErrorBorder,
     this.border,
     this.padding,
+    this.expands = false,
+    this.textCapitalization = TextCapitalization.words,
   });
 
   @override
@@ -67,8 +71,11 @@ class InputText extends StatelessWidget {
       decoration: decoration,
       height: height ?? (errorText != null ? 65 : 43),
       width: width,
+
       child: TextField(
         maxLines: maxLines,
+        expands: expands,
+        textAlignVertical: expands ? TextAlignVertical.top : null,
         readOnly: readOnly,
         enabled: enabled,
         maxLength: maxLength,
@@ -81,13 +88,11 @@ class InputText extends StatelessWidget {
         keyboardType: keyboardType,
         style: TextStyle(color: styleTextColor, fontSize: 14),
         cursorErrorColor: Colors.black,
-        textCapitalization: TextCapitalization.words,
+        textCapitalization: textCapitalization,
         decoration: InputDecoration(
-          prefixIcon: Icon(
-            prefixIcon,
-            size: 21,
-            color: AppColors.blackColorAlpha120,
-          ),
+          prefixIcon: prefixIcon == null
+              ? null
+              : Icon(prefixIcon, size: 21, color: AppColors.blackColorAlpha120),
           errorText: errorText,
           errorStyle: TextStyle(
             color: Color(0xFFFF9500),

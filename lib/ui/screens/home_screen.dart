@@ -1,7 +1,5 @@
 import 'package:agroshare/ui/colors/app_colors.dart';
-import 'package:agroshare/ui/input/input.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsx_plus/iconsx_plus.dart';
 
 class HomeScreen extends StatelessWidget {
   const new({super.key});
@@ -12,11 +10,6 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         spacing: 12,
         children: [
-          InputText(
-            padding: .only(left: 12, right: 12),
-            prefixIcon: BoxIcons.bx_search,
-          ),
-
           for (int i = 0; i < 10; i++)
             Container(
               padding: .only(left: 12, right: 12),

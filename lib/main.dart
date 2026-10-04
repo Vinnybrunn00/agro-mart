@@ -12,8 +12,10 @@ import 'package:agroshare/models/auth/credentials/property/location.dart';
 import 'package:agroshare/models/auth/credentials/property/name.dart';
 import 'package:agroshare/models/auth/user_model.dart';
 import 'package:agroshare/core/providers/picker/picker_profile.dart';
+import 'package:agroshare/models/equipamentos/equipamentos_model.dart';
 import 'package:agroshare/services/auth/auth_services.dart';
 import 'package:agroshare/services/location/location_services.dart';
+import 'package:agroshare/services/picker/select_images.dart';
 import 'package:agroshare/ui/pages/auth/auth_page.dart';
 import 'package:agroshare/ui/pages/home/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,6 +50,8 @@ class AgroShare extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NameProperty()),
         ChangeNotifierProvider(create: (_) => LocationProperty()),
         ChangeNotifierProvider(create: (_) => LocationServices()),
+        ChangeNotifierProvider(create: (_) => SelectImages()),
+        ChangeNotifierProvider(create: (_) => EquipamentosModel()),
       ],
       child: MaterialApp(
         builder: (context, child) {

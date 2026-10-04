@@ -1,9 +1,12 @@
 import 'dart:developer';
-import 'dart:ui';
+import 'dart:io';
 
 import 'package:agroshare/core/streams/user_stream.dart';
+import 'package:agroshare/models/equipamentos/equipamentos_model.dart';
 import 'package:agroshare/navigator/navigator_app.dart';
+import 'package:agroshare/repository/product_repository.dart';
 import 'package:agroshare/services/location/location_services.dart';
+import 'package:agroshare/services/picker/select_images.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
 import 'package:agroshare/ui/components/shimmer_loading_app.dart';
 import 'package:agroshare/ui/input/input.dart';
@@ -12,6 +15,7 @@ import 'package:agroshare/ui/pages/equipamentos_page.dart';
 import 'package:agroshare/ui/screens/chat_screen.dart';
 import 'package:agroshare/ui/screens/home_screen.dart';
 import 'package:agroshare/ui/screens/profile_screen.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
@@ -66,22 +70,37 @@ class MainPage extends StatelessWidget {
             ),
       appBar: navigator.index != 0
           ? null
-          : AppBar(
-              backgroundColor: AppColors.backgroundColor,
-              title: StreamBuilder(
-                stream: _userStream.snapshot(),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SimmerLoading(width: 130);
-                  }
+          : PreferredSize(
+              preferredSize: Size(double.infinity, 110),
+              child: Column(
+                children: [
+                  AppBar(
+                    scrolledUnderElevation: 0,
+                    backgroundColor: AppColors.backgroundColor,
+                    title: StreamBuilder(
+                      stream: _userStream.snapshot(),
+                      builder: (_, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return SimmerLoading(width: 130);
+                        }
 
-                  final Map<String, dynamic>? data = snapshot.data?.data();
+                        final Map<String, dynamic>? data = snapshot.data
+                            ?.data();
 
-                  return Text(
-                    'Olá, ${data?['name'].toString()}',
-                    style: TextStyle(fontSize: 18),
-                  );
-                },
+                        return Text(
+                          'Olá, ${data?['name'].toString()}',
+                          style: TextStyle(fontSize: 18),
+                        );
+                      },
+                    ),
+                  ),
+                  InputText(
+                    autoFocus: false,
+                    padding: .only(left: 12, right: 12),
+                    prefixIcon: BoxIcons.bx_search,
+                  ),
+                ],
               ),
             ),
       backgroundColor: AppColors.backgroundColor,
@@ -91,7 +110,7 @@ class MainPage extends StatelessWidget {
   }
 }
 
-class ErrorLocation extends StatelessWidget {
+class _ErrorLocation extends StatelessWidget {
   const new({super.key});
 
   @override
@@ -195,7 +214,7 @@ class _NavigatorButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: AnimatedContainer(
-        margin: .only(left: 12, right: 12, bottom: 18),
+        margin: .only(top: 8, left: 12, right: 12, bottom: 8),
         duration: Duration(milliseconds: 450),
         height: 65,
         width: double.infinity,
@@ -203,9 +222,8 @@ class _NavigatorButtons extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(25),
         ),
-
         child: Consumer<NavigatorProvider>(
-          builder: (_, navigator, _) {
+          builder: (_, NavigatorProvider navigator, _) {
             return Row(
               mainAxisAlignment: .spaceEvenly,
               children: navigator.screens.asMap().entries.map((entry) {
@@ -245,91 +263,188 @@ Future<void> _showModal(BuildContext context) async {
     backgroundColor: AppColors.backgroundColorWhite,
     context: context,
     builder: (ctx) {
-      return Container(
-        padding: .all(12),
-        height: double.infinity,
-        width: double.infinity,
-        child: Column(
-          spacing: 8,
-          crossAxisAlignment: .start,
-          children: [
-            Row(
-              spacing: 30,
+      return Consumer2<SelectImages, EquipamentosModel>(
+        builder: (context, selectImages, equipamentos, _) {
+          return Container(
+            padding: .all(12),
+            height: double.infinity,
+            width: double.infinity,
+            child: Column(
+              spacing: 8,
+              crossAxisAlignment: .start,
               children: [
-                InkWell(
-                  borderRadius: .circular(20 / 2),
-                  onTap: () => Navigator.pop(context),
-                  child: Ink(
-                    height: 35,
-                    width: 35,
-                    decoration: BoxDecoration(
-                      color: AppColors.whiteColor,
+                Row(
+                  spacing: 30,
+                  children: [
+                    InkWell(
                       borderRadius: .circular(20 / 2),
-                      border: Border.all(color: AppColors.borderColor),
+                      onTap: () => Navigator.pop(context),
+                      child: Ink(
+                        height: 35,
+                        width: 35,
+                        decoration: BoxDecoration(
+                          color: AppColors.whiteColor,
+                          borderRadius: .circular(20 / 2),
+                          border: Border.all(color: AppColors.borderColor),
+                        ),
+                        child: Center(child: Icon(BoxIcons.bx_x, size: 20)),
+                      ),
                     ),
-                    child: Center(child: Icon(BoxIcons.bx_x, size: 20)),
-                  ),
+
+                    Text(
+                      'Anunciar equipamento',
+                      style: TextStyle(fontSize: 18, fontWeight: .w600),
+                    ),
+                  ],
                 ),
 
-                Text(
-                  'Anunciar equipamento',
-                  style: TextStyle(fontSize: 18, fontWeight: .w600),
+                SizedBox(height: 5),
+
+                Row(
+                  spacing: 5,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        await selectImages.onSelectImages();
+                      },
+                      child: DottedBorder(
+                        options: RoundedRectDottedBorderOptions(
+                          dashPattern: [8, 4],
+                          strokeWidth: 1,
+                          radius: Radius.circular(30 / 2),
+                        ),
+                        child: Container(
+                          height: 70,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            color: AppColors.whiteColor,
+                            borderRadius: .circular(30 / 2),
+                          ),
+                          child: Center(child: Icon(Icons.add)),
+                        ),
+                      ),
+                    ),
+
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: .horizontal,
+                        child: Row(
+                          children: selectImages.listImages.asMap().entries.map(
+                            (entry) {
+                              return Container(
+                                alignment: .center,
+                                height: 85,
+                                width: 80,
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    SizedBox(
+                                      height: 70,
+                                      width: 70,
+                                      child: ClipRRect(
+                                        borderRadius: .circular(30 / 2),
+                                        child: Image.file(
+                                          File(entry.value),
+                                          width: 10,
+                                          fit: .cover,
+                                        ),
+                                      ),
+                                    ),
+
+                                    Positioned(
+                                      top: -5,
+                                      right: -5,
+                                      child: GestureDetector(
+                                        onTap: () => selectImages
+                                            .onRemoveImages(entry.key),
+                                        child: Container(
+                                          height: 25,
+                                          width: 25,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.black,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Icon(
+                                            BoxIcons.bx_x,
+                                            color: AppColors.whiteColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ).toList(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                if (selectImages.isNotEmpty) ...[
+                  if (selectImages.length > 1)
+                    Text('${selectImages.length} selecionadas.')
+                  else
+                    Text('${selectImages.length} selecionada.'),
+                ],
+
+                Divider(),
+
+                InputText(
+                  onChanged: (name) => equipamentos.name = name,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: .circular(12),
+                  ),
+                  prefixIcon: BoxIcons.bx_edit_alt,
+                  hintText: "Nome do equipamento",
+                ),
+
+                InputText(
+                  onChanged: (price) => equipamentos.price = price,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: .circular(12),
+                  ),
+                  prefixIcon: BoxIcons.bx_purchase_tag,
+                  hintText: "Preço (R\$)",
+                  keyboardType: .number,
+
+                  inputFormatters: [equipamentos.formatter],
+                ),
+
+                InputText(
+                  onChanged: (description) =>
+                      equipamentos.description = description,
+                  height: 150,
+                  maxLines: null,
+                  expands: true,
+                  maxLength: 300,
+                  autoFocus: false,
+                  keyboardType: .multiline,
+                  textCapitalization: .sentences,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: .circular(12),
+                  ),
+                  hintText: "Descrição do Equipamento",
+                ),
+
+                _SubmitEquipamentosBtn(
+                  onTap: () async {
+                    final ProductRepository productRepository =
+                        ProductRepository();
+
+                    await productRepository.saveProduct(equipamentos);
+
+                    
+                  },
                 ),
               ],
             ),
-
-            SizedBox(height: 5),
-
-            DottedBorder(
-              options: RoundedRectDottedBorderOptions(
-                dashPattern: [8, 4],
-                strokeWidth: 1,
-                radius: Radius.circular(
-                  30 / 2,
-                ), // Defina o raio das bordas arredondadas aqui
-              ),
-              child: Container(
-                height: 70,
-                width: 70,
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
-                  borderRadius: .circular(30 / 2),
-                ),
-                child: Center(child: Icon(Icons.add)),
-              ),
-            ),
-
-            InputText(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: .circular(12),
-              ),
-              prefixIcon: BoxIcons.bx_edit_alt,
-              hintText: "Nome do equipamento",
-            ),
-
-            InputText(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: .circular(12),
-              ),
-              prefixIcon: BoxIcons.bx_purchase_tag,
-              hintText: "Preço (R\$)",
-            ),
-
-            InputText(
-              color: Colors.transparent,
-              height: 150,
-              focusedBorder: OutlineInputBorder(),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: .circular(12),
-              ),
-              prefixIcon: BoxIcons.bx_purchase_tag,
-              hintText: "Preço (R\$)",
-            ),
-          ],
-        ),
+          );
+        },
       );
     },
   );
@@ -418,4 +533,32 @@ class NavigatorProvider with ChangeNotifier {
 
     {'icon': Iconsax.add_outline, 'title': 'Criar'},
   ];
+}
+
+class _SubmitEquipamentosBtn extends StatelessWidget {
+  final void Function()? onTap;
+
+  const new({this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: .circular(12),
+      child: Ink(
+        height: 55,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColors.mainColor,
+          borderRadius: .circular(12),
+        ),
+        child: Center(
+          child: Text(
+            'Anunciar Equipamento',
+            style: TextStyle(color: AppColors.whiteColor, fontWeight: .w600),
+          ),
+        ),
+      ),
+    );
+  }
 }
