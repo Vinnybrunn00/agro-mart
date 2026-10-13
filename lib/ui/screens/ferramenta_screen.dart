@@ -1,5 +1,5 @@
-import 'package:agroshare/ui/colors/app_colors.dart';
-import 'package:agroshare/ui/components/box_anuncio.dart';
+import 'package:agroshare/repository/equipamento/equipamento_repository.dart';
+import 'package:agroshare/ui/components/box_ferramentas_anuncio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class FerramentaScreen extends StatelessWidget {
   new({super.key});
 
-  final User? _currentUser = FirebaseAuth.instance.currentUser;
+  User? get _currentUser => FirebaseAuth.instance.currentUser;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
@@ -20,7 +20,8 @@ class FerramentaScreen extends StatelessWidget {
             stream: _firestore
                 .collection('users')
                 .doc(_currentUser?.uid)
-                .collection('ferramentas')
+                .collection('equipamentos')
+                .orderBy('timestamp', descending: true)
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -29,7 +30,8 @@ class FerramentaScreen extends StatelessWidget {
 
               if (!snapshot.hasData) return Text('Error');
 
-              final docs = snapshot.data?.docs;
+              final List<QueryDocumentSnapshot<Map<String, dynamic>>>? docs =
+                  snapshot.data?.docs;
 
               if (docs!.isEmpty) {
                 return Center(
@@ -40,7 +42,17 @@ class FerramentaScreen extends StatelessWidget {
               return ListView.builder(
                 itemCount: docs.length,
                 itemBuilder: (context, index) {
-                  return BoxAnuncio(equipamentos: docs[index]);
+                  final QueryDocumentSnapshot<Map<String, dynamic>>
+                  queryEquipamentos = docs[index];
+
+                  final EquipamentoRepository equipamentoRepository =
+                      EquipamentoRepository.fromQueryDocument(
+                        queryEquipamentos,
+                      );
+
+                  return BoxFerramentasAnuncio(
+                    equipamentos: equipamentoRepository,
+                  );
                 },
               );
             },

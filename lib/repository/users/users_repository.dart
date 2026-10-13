@@ -5,12 +5,18 @@ class UsersRepository {
   final String name;
   final double latitude;
   final double longitude;
+  final String nameProperty;
+  final String locationProperty;
+  final String photo;
 
   UsersRepository({
     required this.id,
     required this.name,
     required this.latitude,
     required this.longitude,
+    required this.nameProperty,
+    required this.locationProperty,
+    required this.photo,
   });
 
   factory UsersRepository.fromQueryDocument({
@@ -22,6 +28,9 @@ class UsersRepository {
       name: data?['name'] as String,
       latitude: data?['lat'] as double,
       longitude: data?['long'] as double,
+      nameProperty: data?['nameProperty'] as String,
+      locationProperty: data?['locationProperty'] as String,
+      photo: data?['photo'] as String,
     );
   }
 }

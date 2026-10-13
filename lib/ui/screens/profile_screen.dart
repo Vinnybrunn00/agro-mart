@@ -4,11 +4,12 @@
 //  Create by Vinicius Bruno on 06/09/2026
 //
 
+import 'package:agroshare/core/session/app_session.dart';
 import 'package:agroshare/core/streams/user_stream.dart';
 import 'package:agroshare/navigator/navigator_app.dart';
 import 'package:agroshare/core/providers/picker/picker_profile.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
-import 'package:agroshare/ui/pages/auth/auth_page.dart';
+import 'package:agroshare/ui/pages/pedidos_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
@@ -77,17 +78,40 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
 
+              Column(
+                crossAxisAlignment: .start,
+                spacing: 12,
+                children: [
+                  Text(
+                    'Ações',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: AppColors.textColor,
+                      fontWeight: .w600,
+                    ),
+                  ),
+
+                  _CredentialCard(
+                    onTap: () async =>
+                        await NavigatorsApp.push(context, PedidosPage()),
+                    icon: Iconsax.arrow_2_bold,
+                    value: 'Pedidos',
+                  ),
+                ],
+              ),
+
               // BOTÕES
               _ProfileButton(
                 icon: Iconsax.logout_outline,
                 title: 'Sair da conta',
                 color: Colors.redAccent,
-                onTap: () {
-                  FirebaseAuth.instance.signOut().then((_) async {
-                    if (!context.mounted) return;
+                onTap: () async {
+                  await FirebaseAuth.instance.signOut();
 
-                    await NavigatorsApp.pushAndRemoveUntil(context, AuthPage());
-                  });
+                  if (!context.mounted) return;
+
+                  // RECRIA PROVIDERS E NAVEGAÇÃO, LIMPANDO OS DADOS DA CONTA
+                  AppSession.reset(context);
                 },
               ),
             ],
@@ -216,63 +240,77 @@ class _ProfileHeader extends StatelessWidget {
 
 class _CredentialCard extends StatelessWidget {
   final IconData _icon;
-  final String _label;
+  final String? _label;
   final String _value;
+  final void Function()? onTap;
 
   const _CredentialCard({
     required this._icon,
-    required this._label,
+    this._label,
     required this._value,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: .symmetric(horizontal: 16, vertical: 14),
-      decoration: BoxDecoration(
-        color: AppColors.backgroundColorCard,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Row(
-        spacing: 14,
-        children: [
-          Container(
-            height: 40,
-            width: 40,
-            alignment: .center,
-            decoration: BoxDecoration(
-              color: AppColors.mainColor.withAlpha(30),
-              borderRadius: BorderRadius.circular(10),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
+      child: Ink(
+        width: double.infinity,
+        padding: .symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: AppColors.backgroundColorCard,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Row(
+          spacing: 14,
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              alignment: .center,
+              decoration: BoxDecoration(
+                color: AppColors.mainColor.withAlpha(30),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(_icon, size: 19, color: AppColors.mainColor),
             ),
-            child: Icon(_icon, size: 19, color: AppColors.mainColor),
-          ),
 
-          Expanded(
-            child: Column(
-              crossAxisAlignment: .start,
-              spacing: 2,
-              children: [
-                Text(
-                  _label,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.blackColorAlpha120,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: .start,
+                spacing: 2,
+                children: [
+                  if (_label != null)
+                    Text(
+                      _label,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppColors.blackColorAlpha120,
+                      ),
+                    ),
+                  Text(
+                    _value,
+                    overflow: .ellipsis,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textColor,
+                      fontWeight: .w600,
+                    ),
                   ),
-                ),
-                Text(
-                  _value,
-                  overflow: .ellipsis,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppColors.textColor,
-                    fontWeight: .w600,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+
+            if (onTap != null)
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: AppColors.greyColor,
+                size: 19,
+              ),
+          ],
+        ),
       ),
     );
   }

@@ -11,10 +11,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AuthServices extends ManagerPicker with ChangeNotifier {
+  // instancia do firebaseFirestore
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  // instancia do firebaseAuth
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   String? _firebaseMsgError;
+
+  /// Esse getter recebe um erro do FirebaseException
+  /// e exibe a mensagem ao usuário caso aconteça algum erro.
+  ///
+  /// - Caso não existe erro, ela será nula.
+  ///
+  /// O tratamento de erro é feito pela class abstrata e privada [_ExceptionMessage].
   String? get firebaseMsgError => _firebaseMsgError;
 
   Future<void> signIn({
@@ -52,8 +62,14 @@ class AuthServices extends ManagerPicker with ChangeNotifier {
 
       if (user != null) {
         /// OVERRIDE DE [ManagerPicker]
+        ///
+        /// Esse método [uploadImagePicker] extendido de [ManagerPicker]
         final String? imageUrl = await uploadImagePicker(user.uid, userModel);
 
+        // Lança um erro caso o usuário não selecione a imagem.
+        //
+        // O motivo dessa condição não está sendo tratada em [FirebaseException],
+        // é que o FirebaseExcpetion não extende a class Exception do [ManagerPicker]
         if (imageUrl == null) {
           throw 'Erro ao fazer upload da imagem, tente novamente';
         }
@@ -67,6 +83,8 @@ class AuthServices extends ManagerPicker with ChangeNotifier {
           'email': userModel.email,
           'create_in': DateTime.now().millisecondsSinceEpoch,
           'photo': imageUrl,
+          'nameProperty': userModel.nameProperty,
+          'locationProperty': userModel.locationProperty,
           'lat': userModel.latitude,
           'long': userModel.longitude,
         });

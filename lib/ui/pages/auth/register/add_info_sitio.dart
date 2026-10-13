@@ -1,7 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
+import 'package:agroshare/models/auth/credentials/property/latitude.dart';
 import 'package:agroshare/models/auth/credentials/property/location.dart';
+import 'package:agroshare/models/auth/credentials/property/longitude.dart';
 import 'package:agroshare/models/auth/credentials/property/name.dart';
 import 'package:agroshare/models/auth/user_model.dart';
 import 'package:agroshare/navigator/navigator_app.dart';
@@ -26,6 +27,8 @@ class AddInfoSitioPage extends StatelessWidget {
     final LocationProperty location = Provider.of<LocationProperty>(context);
     final NameProperty nameProperty = Provider.of<NameProperty>(context);
     final LocationServices locServices = Provider.of<LocationServices>(context);
+    final LatitudeProperty latitude = Provider.of<LatitudeProperty>(context);
+    final LongitudeProperty longitude = Provider.of<LongitudeProperty>(context);
 
     return Scaffold(
       floatingActionButtonLocation: .startTop,
@@ -121,6 +124,9 @@ class AddInfoSitioPage extends StatelessWidget {
                   if (locServices.latLongIsNotEmpty)
                     Text('${locServices.latitude}, ${locServices.longitude}'),
 
+                  if (latitude.msgError != null)
+                    Text('Clique no mapa acima para obter as coordenadas.'),
+
                   SizedBox(height: 12),
 
                   EventButton(
@@ -130,8 +136,11 @@ class AddInfoSitioPage extends StatelessWidget {
                       nameProperty.validate(userModelProvider.nameProperty);
                       location.validate(userModelProvider.locationProperty);
 
-                      userModelProvider.latitude = locServices.latitude;
-                      userModelProvider.longitude = locServices.longitude;
+                      latitude.validate(locServices.latitude);
+                      longitude.validate(locServices.longitude);
+
+                      userModelProvider.latitude = latitude.latitude;
+                      userModelProvider.longitude = longitude.longitude;
 
                       if (nameProperty.getValue != null &&
                           location.getValue != null) {

@@ -2,7 +2,12 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:agroshare/core/streams/user_stream.dart';
+import 'package:agroshare/models/equipamentos/days.dart';
+import 'package:agroshare/models/equipamentos/description.dart';
 import 'package:agroshare/models/equipamentos/equipamentos_model.dart';
+import 'package:agroshare/models/equipamentos/images.dart';
+import 'package:agroshare/models/equipamentos/name_equipamento.dart';
+import 'package:agroshare/models/equipamentos/price.dart';
 import 'package:agroshare/repository/product_repository.dart';
 import 'package:agroshare/services/location/location_services.dart';
 import 'package:agroshare/services/picker/select_images.dart';
@@ -12,6 +17,7 @@ import 'package:agroshare/ui/input/input.dart';
 import 'package:agroshare/ui/screens/ferramenta_screen.dart';
 import 'package:agroshare/ui/screens/home_screen.dart';
 import 'package:agroshare/ui/screens/profile_screen.dart';
+import 'package:agroshare/utils/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
@@ -79,7 +85,7 @@ class MainPage extends StatelessWidget {
           scrolledUnderElevation: 0,
           backgroundColor: AppColors.backgroundColor,
           title: Text(
-            'Anuncios',
+            'Minhas Ferramentas',
             style: TextStyle(
               fontSize: 22,
               color: AppColors.textColor,
@@ -118,8 +124,6 @@ class MainPage extends StatelessWidget {
 }
 
 class _ErrorLocation extends StatelessWidget {
-  const new({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -270,213 +274,287 @@ Future<void> _addEquipamento(BuildContext context) async {
     backgroundColor: AppColors.backgroundColorWhite,
     context: context,
     builder: (ctx) {
-      return Consumer2<SelectImages, EquipamentosModel>(
-        builder: (context, selectImages, equipamentos, _) {
-          return Container(
-            padding: .all(12),
-            height: double.infinity,
-            width: double.infinity,
-            child: Column(
-              spacing: 8,
-              crossAxisAlignment: .start,
-              children: [
-                Row(
-                  spacing: 30,
-                  children: [
-                    InkWell(
-                      borderRadius: .circular(20 / 2),
-                      onTap: () => Navigator.pop(context),
-                      child: Ink(
-                        height: 35,
-                        width: 35,
-                        decoration: BoxDecoration(
-                          color: AppColors.whiteColor,
-                          borderRadius: .circular(20 / 2),
-                          border: Border.all(color: AppColors.borderColor),
-                        ),
-                        child: Center(child: Icon(BoxIcons.bx_x, size: 20)),
-                      ),
-                    ),
+      final ImagesEquipamento imagesEquipamento =
+          Provider.of<ImagesEquipamento>(context);
+      final ProductRepository productRepository =
+          Provider.of<ProductRepository>(context);
 
-                    Text(
-                      'Anunciar equipamento',
-                      style: TextStyle(fontSize: 18, fontWeight: .w600),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 5),
-
-                Row(
-                  spacing: 5,
-                  children: [
-                    GestureDetector(
-                      onTap: () async => await selectImages.onSelectImages(),
-                      child: DottedBorder(
-                        options: RoundedRectDottedBorderOptions(
-                          dashPattern: [8, 4],
-                          strokeWidth: 1,
-                          radius: Radius.circular(30 / 2),
-                        ),
-                        child: Container(
-                          height: 70,
-                          width: 70,
-                          decoration: BoxDecoration(
-                            color: AppColors.whiteColor,
-                            borderRadius: .circular(30 / 2),
-                          ),
-                          child: Center(child: Icon(Icons.add)),
-                        ),
-                      ),
-                    ),
-
-                    Expanded(
-                      child: SingleChildScrollView(
-                        scrollDirection: .horizontal,
-                        child: Row(
-                          children: selectImages.listImages.asMap().entries.map(
-                            (entry) {
-                              return Container(
-                                alignment: .center,
-                                height: 85,
-                                width: 80,
-                                child: Stack(
-                                  clipBehavior: Clip.none,
-                                  children: [
-                                    SizedBox(
-                                      height: 70,
-                                      width: 70,
-                                      child: ClipRRect(
-                                        borderRadius: .circular(30 / 2),
-                                        child: Image.file(
-                                          File(entry.value),
-                                          width: 10,
-                                          fit: .cover,
-                                        ),
-                                      ),
-                                    ),
-
-                                    Positioned(
-                                      top: -5,
-                                      right: -5,
-                                      child: GestureDetector(
-                                        onTap: () => selectImages
-                                            .onRemoveImages(entry.key),
-                                        child: Container(
-                                          height: 25,
-                                          width: 25,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.black,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Icon(
-                                            BoxIcons.bx_x,
-                                            color: AppColors.whiteColor,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+      return Consumer6<
+        ImageManager,
+        EquipamentosModel,
+        NameEquipamento,
+        PriceEquipamento,
+        DaysEquipamento,
+        DescriptionEquipamento
+      >(
+        builder:
+            (
+              context,
+              imageManager,
+              equipamentos,
+              nameEquipamento,
+              priceEquipamento,
+              daysEquipamento,
+              descriptionEquipamento,
+              _,
+            ) {
+              return Stack(
+                children: [
+                  Container(
+                    padding: .all(12),
+                    height: double.infinity,
+                    width: double.infinity,
+                    child: Column(
+                      spacing: 8,
+                      crossAxisAlignment: .start,
+                      children: [
+                        Row(
+                          spacing: 30,
+                          children: [
+                            InkWell(
+                              borderRadius: .circular(20 / 2),
+                              onTap: () => Navigator.pop(context),
+                              child: Ink(
+                                height: 35,
+                                width: 35,
+                                decoration: BoxDecoration(
+                                  color: AppColors.whiteColor,
+                                  borderRadius: .circular(20 / 2),
+                                  border: Border.all(
+                                    color: AppColors.borderColor,
+                                  ),
                                 ),
-                              );
-                            },
-                          ).toList(),
+                                child: Center(
+                                  child: Icon(BoxIcons.bx_x, size: 20),
+                                ),
+                              ),
+                            ),
+
+                            Text(
+                              'Anunciar equipamento',
+                              style: TextStyle(fontSize: 18, fontWeight: .w600),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(height: 5),
+
+                        Row(
+                          spacing: 5,
+                          children: [
+                            GestureDetector(
+                              onTap: () async =>
+                                  await imageManager.onSelectImages(),
+                              child: DottedBorder(
+                                options: RoundedRectDottedBorderOptions(
+                                  dashPattern: [8, 4],
+                                  strokeWidth: 1,
+                                  radius: Radius.circular(30 / 2),
+                                ),
+                                child: Container(
+                                  height: 70,
+                                  width: 70,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.whiteColor,
+                                    borderRadius: .circular(30 / 2),
+                                  ),
+                                  child: Center(child: Icon(Icons.add)),
+                                ),
+                              ),
+                            ),
+
+                            Expanded(
+                              child: SingleChildScrollView(
+                                scrollDirection: .horizontal,
+                                child: Row(
+                                  children: imageManager.listImages
+                                      .asMap()
+                                      .entries
+                                      .map((entry) {
+                                        return Container(
+                                          alignment: .center,
+                                          height: 85,
+                                          width: 80,
+                                          child: Stack(
+                                            clipBehavior: Clip.none,
+                                            children: [
+                                              SizedBox(
+                                                height: 70,
+                                                width: 70,
+                                                child: ClipRRect(
+                                                  borderRadius: .circular(
+                                                    30 / 2,
+                                                  ),
+                                                  child: Image.file(
+                                                    File(entry.value),
+                                                    width: 10,
+                                                    fit: .cover,
+                                                  ),
+                                                ),
+                                              ),
+
+                                              Positioned(
+                                                top: -5,
+                                                right: -5,
+                                                child: GestureDetector(
+                                                  onTap: () => imageManager
+                                                      .onRemoveImages(
+                                                        entry.key,
+                                                      ),
+                                                  child: Container(
+                                                    height: 25,
+                                                    width: 25,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                          color: Colors.black,
+                                                          shape:
+                                                              BoxShape.circle,
+                                                        ),
+                                                    child: Icon(
+                                                      BoxIcons.bx_x,
+                                                      color:
+                                                          AppColors.whiteColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      })
+                                      .toList(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        if (imageManager.isNotEmpty) ...[
+                          if (imageManager.length > 1)
+                            Text('${imageManager.length} selecionadas.')
+                          else
+                            Text('${imageManager.length} selecionada.'),
+                        ],
+
+                        Divider(),
+
+                        InputText(
+                          onChanged: (name) => equipamentos.name = name,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: .circular(12),
+                          ),
+                          prefixIcon: BoxIcons.bx_edit_alt,
+                          hintText: "Nome do Equipamento",
+                          errorText: nameEquipamento.msgError,
+                        ),
+
+                        InputText(
+                          onChanged: (price) => equipamentos.price = price,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: .circular(12),
+                          ),
+                          prefixIcon: BoxIcons.bx_purchase_tag,
+                          hintText: "Preço (R\$)",
+                          keyboardType: .number,
+                          inputFormatters: [equipamentos.formatter],
+                          errorText: priceEquipamento.msgError,
+                        ),
+
+                        InputText(
+                          onChanged: (days) => equipamentos.periodDays = days,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: .circular(12),
+                          ),
+                          prefixIcon: BoxIcons.bx_calendar,
+                          hintText: "Período de aluguel em dias. (ex: 30)",
+                          keyboardType: .number,
+                          errorText: daysEquipamento.msgError,
+                        ),
+
+                        InputText(
+                          onChanged: (description) =>
+                              equipamentos.description = description,
+                          height: 150,
+                          maxLines: null,
+                          expands: true,
+                          maxLength: 300,
+                          autoFocus: false,
+                          keyboardType: .multiline,
+                          textCapitalization: .sentences,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: .circular(12),
+                          ),
+                          hintText: "Descrição do Equipamento",
+                          errorText: descriptionEquipamento.msgError,
+                        ),
+
+                        _SubmitEquipamentosBtn(
+                          onTap: () async {
+                            nameEquipamento.validate(equipamentos.name);
+                            priceEquipamento.validate(equipamentos.price);
+                            daysEquipamento.validate(equipamentos.periodDays);
+                            descriptionEquipamento.validate(
+                              equipamentos.description,
+                            );
+                            imagesEquipamento.validate(imageManager.listImages);
+
+                            await productRepository.saveProduct(
+                              equipamentos,
+                              imageManager,
+                            );
+
+                            if (!context.mounted) return;
+
+                            await Navigator.of(context).maybePop();
+
+                            if (!context.mounted) return;
+
+                            Utils.showMessage(
+                              context,
+                              message: 'Ferramenta publicada com sucesso!',
+                            );
+
+                            if (imageManager.listImages.isNotEmpty) {
+                              imageManager.clearImages();
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  if (productRepository.isLoading)
+                    Container(
+                      color: Colors.black.withAlpha(75),
+                      child: Center(
+                        child: Container(
+                          padding: const EdgeInsets.all(22),
+                          height: 82,
+                          width: 82,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withAlpha(40),
+                                blurRadius: 24,
+                              ),
+                            ],
+                          ),
+                          child: CircularProgressIndicator(
+                            color: AppColors.mainColor,
+                            strokeWidth: 3,
+                          ),
                         ),
                       ),
                     ),
-                  ],
-                ),
-
-                if (selectImages.isNotEmpty) ...[
-                  if (selectImages.length > 1)
-                    Text('${selectImages.length} selecionadas.')
-                  else
-                    Text('${selectImages.length} selecionada.'),
                 ],
-
-                Divider(),
-
-                InputText(
-                  onChanged: (name) => equipamentos.name = name,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: .circular(12),
-                  ),
-                  prefixIcon: BoxIcons.bx_edit_alt,
-                  hintText: "Nome do equipamento",
-                ),
-
-                InputText(
-                  onChanged: (price) => equipamentos.price = price,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: .circular(12),
-                  ),
-                  prefixIcon: BoxIcons.bx_purchase_tag,
-                  hintText: "Preço (R\$)",
-                  keyboardType: .number,
-
-                  inputFormatters: [equipamentos.formatter],
-                ),
-
-                _PeriodSelector(
-                  label: equipamentos.periodLabel,
-                  onTap: () async {
-                    final DateTime today = DateUtils.dateOnly(DateTime.now());
-
-                    final DateTimeRange? period = await showDateRangePicker(
-                      context: context,
-                      locale: const Locale('pt', 'BR'),
-                      firstDate: today,
-                      lastDate: today.add(const Duration(days: 365)),
-                      initialDateRange: equipamentos.period,
-                      helpText: 'Período de aluguel',
-                      saveText: 'Confirmar',
-                      builder: (context, child) {
-                        return Theme(
-                          data: Theme.of(context).copyWith(
-                            colorScheme: .fromSeed(
-                              seedColor: AppColors.mainColor,
-                            ),
-                          ),
-                          child: child!,
-                        );
-                      },
-                    );
-
-                    if (period != null) equipamentos.period = period;
-                  },
-                ),
-
-                InputText(
-                  onChanged: (description) =>
-                      equipamentos.description = description,
-                  height: 150,
-                  maxLines: null,
-                  expands: true,
-                  maxLength: 300,
-                  autoFocus: false,
-                  keyboardType: .multiline,
-                  textCapitalization: .sentences,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: .circular(12),
-                  ),
-                  hintText: "Descrição do Equipamento",
-                ),
-
-                _SubmitEquipamentosBtn(
-                  onTap: () async {
-                    final ProductRepository productRepository =
-                        ProductRepository();
-
-                    await productRepository.saveProduct(equipamentos);
-                  },
-                ),
-              ],
-            ),
-          );
-        },
+              );
+            },
       );
     },
   );

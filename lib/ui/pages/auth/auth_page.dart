@@ -71,21 +71,24 @@ class AuthPage extends StatelessWidget {
               EventButton(
                 userModelProvider: userModelProvider,
                 title: 'Entrar',
-                onTap: () async {
-                  email.validate(userModelProvider.email);
-                  password.validate(userModelProvider.password);
+                onTap: userModelProvider.isLoading
+                    ? null
+                    : () async {
+                        email.validate(userModelProvider.email);
+                        password.validate(userModelProvider.password);
 
-                  if (email.getValue != null && password.getValue != null) {
-                    await authServices.signIn(
-                      email: email.getValue!,
-                      password: password.getValue!,
-                      userModel: userModelProvider,
-                    );
+                        if (email.getValue != null &&
+                            password.getValue != null) {
+                          await authServices.signIn(
+                            email: email.getValue!,
+                            password: password.getValue!,
+                            userModel: userModelProvider,
+                          );
 
-                    if (!context.mounted) return;
-                    await NavigatorsApp.push(context, HomePage());
-                  }
-                },
+                          if (!context.mounted) return;
+                          await NavigatorsApp.push(context, HomePage());
+                        }
+                      },
               ),
 
               Row(

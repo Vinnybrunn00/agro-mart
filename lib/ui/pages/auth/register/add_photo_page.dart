@@ -4,8 +4,6 @@
 //  Create by Vinicius Bruno on 06/09/2026
 //
 
-import 'dart:developer';
-
 import 'package:agroshare/models/auth/user_model.dart';
 import 'package:agroshare/navigator/navigator_app.dart';
 import 'package:agroshare/services/auth/auth_services.dart';
@@ -192,7 +190,7 @@ class _CreateAccount extends StatelessWidget {
 
                     if (!context.mounted) return;
 
-                    await NavigatorsApp.push(context, HomePage());
+                    await NavigatorsApp.pushAndRemoveUntil(context, HomePage());
                   }
                 : null,
             child: Ink(

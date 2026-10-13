@@ -31,6 +31,7 @@ class InputText extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final bool expands;
   final TextCapitalization textCapitalization;
+  final String? initialValue;
 
   const InputText({
     super.key,
@@ -62,6 +63,7 @@ class InputText extends StatelessWidget {
     this.padding,
     this.expands = false,
     this.textCapitalization = TextCapitalization.words,
+    this.initialValue,
   });
 
   @override
@@ -71,8 +73,8 @@ class InputText extends StatelessWidget {
       decoration: decoration,
       height: height ?? (errorText != null ? 65 : 43),
       width: width,
-
-      child: TextField(
+      child: TextFormField(
+        initialValue: initialValue,
         maxLines: maxLines,
         expands: expands,
         textAlignVertical: expands ? TextAlignVertical.top : null,

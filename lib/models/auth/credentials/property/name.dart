@@ -4,8 +4,6 @@
 //  Create by Vinicius Bruno on 26/09/2026
 //
 
-import 'dart:developer';
-
 import 'package:agroshare/models/auth/credentials/contract/credentials_contract.dart';
 import 'package:flutter/widgets.dart';
 

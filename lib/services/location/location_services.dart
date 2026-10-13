@@ -1,3 +1,10 @@
+//
+// location_services.dart
+// AgroShare
+//
+// Create by Vinícius Bruno on 28/09/2026
+//
+
 import 'package:flutter/material.dart';
 
 import 'package:geolocator/geolocator.dart';

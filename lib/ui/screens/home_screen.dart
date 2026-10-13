@@ -1,13 +1,10 @@
-import 'dart:developer';
-
 import 'package:agroshare/core/streams/user_stream.dart';
+import 'package:agroshare/repository/equipamento/equipamento_repository.dart';
 import 'package:agroshare/repository/users/users_repository.dart';
-import 'package:agroshare/ui/colors/app_colors.dart';
-import 'package:agroshare/ui/components/box_anuncio.dart';
+import 'package:agroshare/ui/components/box_home_anuncio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 
 class HomeScreen extends StatelessWidget {
   new({super.key});
@@ -54,6 +51,11 @@ class HomeScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final queryEquipamentos = equipamentos?[index];
 
+                      final EquipamentoRepository equipamentoRepository =
+                          EquipamentoRepository.fromQueryDocument(
+                            queryEquipamentos,
+                          );
+
                       final double distanceKm =
                           Geolocator.distanceBetween(
                             currentUser.latitude,
@@ -68,8 +70,9 @@ class HomeScreen extends StatelessWidget {
 
                       return (isNotView || distanceKm >= 160)
                           ? SizedBox.shrink()
-                          : BoxAnuncio(
-                              equipamentos: queryEquipamentos,
+                          : BoxHomeAnuncio(
+                              currentUser: currentUser,
+                              equipamentos: equipamentoRepository,
                               distanceKm: distanceKm,
                             );
                     },

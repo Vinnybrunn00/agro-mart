@@ -4,7 +4,6 @@ import 'package:agroshare/navigator/navigator_app.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
 import 'package:agroshare/ui/input/input.dart';
 import 'package:agroshare/ui/pages/auth/register/add_info_sitio.dart';
-import 'package:agroshare/ui/pages/auth/register/add_photo_page.dart';
 import 'package:agroshare/ui/pages/auth/components/background_auth.dart';
 import 'package:agroshare/ui/pages/auth/components/card_auth.dart';
 import 'package:agroshare/ui/pages/auth/components/event_button.dart';
