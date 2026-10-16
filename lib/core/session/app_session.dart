@@ -1,3 +1,9 @@
+//  app_session.dart
+//  AgroMart
+//
+//  Create by Vinicius Bruno on 12/10/2026
+//
+
 import 'package:flutter/widgets.dart';
 
 /// Envolve a árvore do app e permite recriá-la do zero.

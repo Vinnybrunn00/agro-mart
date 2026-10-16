@@ -1,3 +1,9 @@
+//  user_stream.dart
+//  AgroMart
+//
+//  Create by Vinicius Bruno on 01/10/2026
+//
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

@@ -1,3 +1,9 @@
+//  requests_repository.dart
+//  AgroMart
+//
+//  Create by Vinicius Bruno on 09/10/2026
+//
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RequestsRepository {

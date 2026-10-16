@@ -1,3 +1,9 @@
+//  picker_profile.dart
+//  AgroMart
+//
+//  Create by Vinicius Bruno on 25/09/2026
+//
+
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';

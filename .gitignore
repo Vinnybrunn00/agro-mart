@@ -55,4 +55,4 @@ lib/firebase_options.dart
 
 .env
 
-android/build/reports/problems/
+/android/build/reports/problems/

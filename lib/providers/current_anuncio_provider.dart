@@ -1,3 +1,9 @@
+//  current_anuncio_provider.dart
+//  AgroMart
+//
+//  Create by Vinicius Bruno on 12/10/2026
+//
+
 import 'dart:developer';
 
 import 'package:agroshare/repository/equipamento/equipamento_repository.dart';

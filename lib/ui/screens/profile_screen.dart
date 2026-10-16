@@ -1,5 +1,5 @@
 //  profile_screen.dart
-//  AgroShare
+//  AgroMart
 //
 //  Create by Vinicius Bruno on 06/09/2026
 //
