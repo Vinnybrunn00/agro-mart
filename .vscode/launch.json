@@ -1,0 +1,39 @@
+{
+    // Use o IntelliSense para saber mais sobre os atributos possíveis.
+    // Focalizar para exibir as descrições dos atributos existentes.
+    // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Xiaomi Home",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "192.168.0.105:55555",
+        },
+        {
+            "name": "Xiaomi Facape",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "192.168.10.104:55555",
+        },
+        {
+            "name": "Pixel 10 Pro",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554",
+        },
+        
+    ], 
+    "compounds": [
+        {
+            "name": "All Devices",
+            "configurations": [
+                //"Xiaomi Facape",
+                "Xiaomi Home",
+                "Pixel 10 Pro",
+                //"windows",
+            ]
+        }
+    ]
+}

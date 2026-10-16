@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 import 'dart:io';
 
 import 'package:agroshare/core/streams/user_stream.dart';
@@ -8,15 +8,13 @@ import 'package:agroshare/models/equipamentos/equipamentos_model.dart';
 import 'package:agroshare/models/equipamentos/images.dart';
 import 'package:agroshare/models/equipamentos/name_equipamento.dart';
 import 'package:agroshare/models/equipamentos/price.dart';
+import 'package:agroshare/providers/navigator/navigator_provider.dart';
 import 'package:agroshare/repository/product_repository.dart';
 import 'package:agroshare/services/location/location_services.dart';
 import 'package:agroshare/services/picker/select_images.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
 import 'package:agroshare/ui/components/shimmer_loading_app.dart';
 import 'package:agroshare/ui/input/input.dart';
-import 'package:agroshare/ui/screens/ferramenta_screen.dart';
-import 'package:agroshare/ui/screens/home_screen.dart';
-import 'package:agroshare/ui/screens/profile_screen.dart';
 import 'package:agroshare/utils/utils.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -119,145 +117,6 @@ class MainPage extends StatelessWidget {
       backgroundColor: AppColors.backgroundColor,
       bottomNavigationBar: _NavigatorButtons(),
       body: SafeArea(child: navigator.screens[navigator.index]['screen']),
-    );
-  }
-}
-
-class _ErrorLocation extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-
-      body: SafeArea(
-        child: Padding(
-          padding: .symmetric(horizontal: 24),
-          child: Column(
-            mainAxisAlignment: .center,
-            crossAxisAlignment: .center,
-            children: [
-              // ICONE
-              Container(
-                height: 96,
-                width: 96,
-                decoration: BoxDecoration(
-                  shape: .circle,
-                  color: AppColors.backgroundColorWhite,
-                ),
-                child: Icon(
-                  Iconsax.location_outline,
-                  size: 44,
-                  color: AppColors.mainColor,
-                ),
-              ),
-
-              const SizedBox(height: 24),
-
-              // TITULO
-              Text(
-                'Localização desativada',
-                textAlign: .center,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: AppColors.textColor,
-                  fontWeight: .w600,
-                ),
-              ),
-
-              const SizedBox(height: 8),
-
-              // SUBTITULO
-              Text(
-                'Precisamos da sua localização para mostrar equipamentos e serviços perto de você.',
-                textAlign: .center,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: AppColors.blackColorAlpha120,
-                ),
-              ),
-
-              const SizedBox(height: 32),
-
-              // BOTAO
-              Material(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(12),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(12),
-                  onTap: () async {
-                    LocationServices locationServices = LocationServices();
-
-                    try {
-                      await locationServices.determinePosition();
-                    } catch (err) {
-                      log(err.toString());
-                    }
-                  },
-                  child: Ink(
-                    height: 50,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppColors.mainColor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Permitir localização',
-                        style: TextStyle(
-                          color: AppColors.whiteColor,
-                          fontWeight: .w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _NavigatorButtons extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: AnimatedContainer(
-        margin: .only(top: 8, left: 12, right: 12, bottom: 8),
-        duration: Duration(milliseconds: 450),
-        height: 65,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(25),
-        ),
-        child: Consumer<NavigatorProvider>(
-          builder: (_, NavigatorProvider navigator, _) {
-            return Row(
-              mainAxisAlignment: .spaceEvenly,
-              children: navigator.screens.asMap().entries.map((entry) {
-                final Map<String, dynamic> value = entry.value;
-                final int index = entry.key;
-
-                final bool selected = navigator.index == index;
-
-                final bool isAdd = value['screen'] == null;
-
-                return _NavigatorApp(
-                  iconColor: selected ? AppColors.mainColor : null,
-                  icon: selected ? value['SelectIcon'] : value['icon'],
-                  title: value['title'],
-                  onTap: isAdd
-                      ? () async => await _addEquipamento(context)
-                      : (selected ? null : () => navigator.changePage(index)),
-                );
-              }).toList(),
-            );
-          },
-        ),
-      ),
     );
   }
 }
@@ -560,47 +419,42 @@ Future<void> _addEquipamento(BuildContext context) async {
   );
 }
 
-class _PeriodSelector extends StatelessWidget {
-  final String? label;
-  final void Function()? onTap;
-
-  const _PeriodSelector({required this.label, required this.onTap});
-
+class _NavigatorButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      borderRadius: .circular(12),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: .circular(12),
-        child: Ink(
-          height: 43,
-          padding: .symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-            borderRadius: .circular(12),
-            border: Border.all(color: AppColors.blackColorAlpha55),
-          ),
-          child: Row(
-            spacing: 12,
-            children: [
-              Icon(
-                BoxIcons.bx_calendar,
-                size: 21,
-                color: AppColors.blackColorAlpha120,
-              ),
-              Expanded(
-                child: Text(
-                  label ?? 'Período de aluguel',
-                  overflow: .ellipsis,
-                  style: TextStyle(
-                    color: label == null ? AppColors.blackColorAlpha55 : null,
-                    fontSize: label == null ? 12.5 : 14,
-                  ),
-                ),
-              ),
-            ],
-          ),
+    return SafeArea(
+      child: AnimatedContainer(
+        margin: .only(top: 8, left: 12, right: 12, bottom: 8),
+        duration: Duration(milliseconds: 450),
+        height: 65,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: Consumer<NavigatorProvider>(
+          builder: (_, NavigatorProvider navigator, _) {
+            return Row(
+              mainAxisAlignment: .spaceEvenly,
+              children: navigator.screens.asMap().entries.map((entry) {
+                final Map<String, dynamic> value = entry.value;
+                final int index = entry.key;
+
+                final bool selected = navigator.index == index;
+
+                final bool isAdd = value['screen'] == null;
+
+                return _NavigatorApp(
+                  iconColor: selected ? AppColors.mainColor : null,
+                  icon: selected ? value['SelectIcon'] : value['icon'],
+                  title: value['title'],
+                  onTap: isAdd
+                      ? () async => await _addEquipamento(context)
+                      : (selected ? null : () => navigator.changePage(index)),
+                );
+              }).toList(),
+            );
+          },
         ),
       ),
     );
@@ -653,43 +507,6 @@ class _NavigatorApp extends StatelessWidget {
       ),
     );
   }
-}
-
-class NavigatorProvider with ChangeNotifier {
-  int _index = 0;
-  int get index => _index;
-
-  void changePage(int index) {
-    _index = index;
-    notifyListeners();
-  }
-
-  int get length => screens.length;
-
-  List<Map<String, dynamic>> screens = [
-    {
-      'SelectIcon': Iconsax.home_2_bold,
-      'icon': Iconsax.home_2_outline,
-      'title': 'Início',
-      'screen': HomeScreen(),
-    },
-
-    {
-      'SelectIcon': Iconsax.truck_bold,
-      'icon': Iconsax.truck_outline,
-      'title': 'Anuncios',
-      'screen': FerramentaScreen(),
-    },
-
-    {
-      'SelectIcon': Iconsax.user_bold,
-      'icon': Iconsax.user_outline,
-      'title': 'Conta',
-      'screen': ProfileScreen(),
-    },
-
-    {'icon': Iconsax.add_outline, 'title': 'Criar'},
-  ];
 }
 
 class _SubmitEquipamentosBtn extends StatelessWidget {

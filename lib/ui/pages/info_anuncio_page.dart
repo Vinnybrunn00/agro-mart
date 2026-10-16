@@ -3,8 +3,8 @@ import 'package:agroshare/repository/equipamento/equipamento_repository.dart';
 import 'package:agroshare/repository/users/users_repository.dart';
 import 'package:agroshare/services/ferramentas/ferramentas_services.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
-import 'package:agroshare/ui/pages/chat_page.dart';
 import 'package:agroshare/ui/pages/profile_user_page.dart';
+import 'package:agroshare/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +25,8 @@ class InfoAnuncioPage extends StatelessWidget {
     final FerramentasServices ferramentas = Provider.of<FerramentasServices>(
       context,
     );
+
+    final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
@@ -95,20 +97,7 @@ class InfoAnuncioPage extends StatelessWidget {
                       if (currentUser != null &&
                           currentUser!.id != equipamentos.uid) ...[
                         SizedBox(height: 12),
-                        _ChatButton(
-                          onTap: () async => await NavigatorsApp.push(
-                            context,
-                            ChatPage(
-                              chatReference: equipamentos.equipamentoReference!
-                                  .collection('chats')
-                                  .doc(currentUser!.id),
-                              currentUser: currentUser!,
-                              peerName: equipamentos.name,
-                              peerPhoto: equipamentos.urlPhotoUser,
-                              subtitle: equipamentos.nomeEquipamento,
-                            ),
-                          ),
-                        ),
+                        _ChatButton(onTap: () async => {}),
                       ],
                       SizedBox(height: 14),
                       Text(
@@ -127,6 +116,8 @@ class InfoAnuncioPage extends StatelessWidget {
 
             if (ferramentas.isLoading)
               Container(
+                height: size.height,
+                width: size.width,
                 color: Colors.black.withAlpha(75),
                 child: Center(
                   child: Container(
@@ -155,12 +146,23 @@ class InfoAnuncioPage extends StatelessWidget {
       ),
       bottomNavigationBar: _BottomBar(
         price: equipamentos.price,
-        onTap: () async {
-          await ferramentas.sendRequestEquipamento(
-            collection: equipamentos.requestCollection,
-            user: currentUser,
-          );
-        },
+        onTap: ferramentas.isLoading
+            ? null
+            : () async {
+                await ferramentas.sendRequestEquipamento(
+                  collection: equipamentos.requestCollection,
+                  user: currentUser,
+                );
+
+                if (!context.mounted) return;
+                await Navigator.of(context).maybePop();
+
+                if (!context.mounted) return;
+                Utils.showMessage(
+                  context,
+                  message: 'Proposta enviada com sucesso!',
+                );
+              },
       ),
     );
   }

@@ -55,12 +55,14 @@ class BoxFerramentasAnuncio extends StatelessWidget {
         borderRadius: .circular(14),
         clipBehavior: .antiAlias,
         child: InkWell(
-          onTap: () async {
-            final AnuncioEntityPage currentAnuncio = AnuncioEntityPage(
-              equipamentos: equipamentos,
-            );
-            await NavigatorsApp.push(context, currentAnuncio);
-          },
+          onTap: equipamentos.accept
+              ? null
+              : () async {
+                  final AnuncioEntityPage currentAnuncio = AnuncioEntityPage(
+                    equipamentos: equipamentos,
+                  );
+                  await NavigatorsApp.push(context, currentAnuncio);
+                },
           child: Column(
             children: [
               Padding(

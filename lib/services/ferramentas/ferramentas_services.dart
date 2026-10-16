@@ -22,11 +22,12 @@ class FerramentasServices with ChangeNotifier {
     try {
       _setLoading(true);
 
-      await collection?.doc().set({
+      await collection?.doc(user?.id).set({
         'id': user?.id,
         'name': user?.name,
         'photo': user?.photo,
         'nameProperty': user?.nameProperty,
+        'accept': false,
       });
     } catch (erro) {
       log('Error in ferramentas_services.dart');

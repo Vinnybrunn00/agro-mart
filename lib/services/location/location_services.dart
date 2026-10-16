@@ -29,36 +29,37 @@ class LocationServices with ChangeNotifier {
   Future<void> determinePosition() async {
     _setLoading(true);
 
-    final bool serviceEnabled;
-    late LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      await Geolocator.openLocationSettings();
-    }
-
-    permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+    try {
+      final bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        // O usuário precisa ligar o GPS e tocar no mapa novamente.
+        await Geolocator.openLocationSettings();
+        return;
       }
+
+      LocationPermission permission = await Geolocator.checkPermission();
+
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+
+      if (permission == LocationPermission.denied) return;
+
+      if (permission == LocationPermission.deniedForever) {
+        // Só é possível conceder pelas configurações do app.
+        await Geolocator.openAppSettings();
+        return;
+      }
+
+      final Position currentPosition = await Geolocator.getCurrentPosition();
+
+      _latitude = currentPosition.latitude;
+      _longitude = currentPosition.longitude;
+    } catch (e) {
+      debugPrint('Erro ao obter localização: $e');
+    } finally {
+      _setLoading(false);
     }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-        'Location permissions are permanently denied, we cannot request permissions.',
-      );
-    }
-
-    final Position currentPosition = await Geolocator.getCurrentPosition();
-
-    _latitude = currentPosition.latitude;
-    _longitude = currentPosition.longitude;
-    notifyListeners();
-
-    _setLoading(false);
   }
 
   Stream<bool> get locationServiceStatusStream async* {

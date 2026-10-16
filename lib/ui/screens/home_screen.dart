@@ -60,21 +60,47 @@ class HomeScreen extends StatelessWidget {
                           Geolocator.distanceBetween(
                             currentUser.latitude,
                             currentUser.longitude,
-                            queryEquipamentos?['lat'],
-                            queryEquipamentos?['long'],
+                            equipamentoRepository.lat,
+                            equipamentoRepository.long,
                           ) /
                           1000;
 
                       final bool isNotView =
-                          currentUser.id == queryEquipamentos?['uid'];
+                          currentUser.id == equipamentoRepository.uid;
 
-                      return (isNotView || distanceKm >= 160)
-                          ? SizedBox.shrink()
-                          : BoxHomeAnuncio(
-                              currentUser: currentUser,
-                              equipamentos: equipamentoRepository,
-                              distanceKm: distanceKm,
-                            );
+                      if (equipamentoRepository.accept) {
+                        return SizedBox.shrink();
+                      }
+
+                      if (isNotView || distanceKm >= 160) {
+                        return SizedBox.shrink();
+                      }
+
+                      // O documento do pedido é salvo com o id do usuário
+                      // (requests/{userId}), então basta checar se ele existe.
+                      final requests = queryEquipamentos?.reference
+                          .collection('requests')
+                          .doc(currentUser.id);
+
+                      return StreamBuilder<
+                        DocumentSnapshot<Map<String, dynamic>>
+                      >(
+                        stream: requests?.snapshots(),
+                        builder: (context, requestSnapshot) {
+                          final bool hasRequest =
+                              requestSnapshot.data?.exists ?? false;
+
+                          if (hasRequest) {
+                            return SizedBox.shrink();
+                          }
+
+                          return BoxHomeAnuncio(
+                            currentUser: currentUser,
+                            equipamentos: equipamentoRepository,
+                            distanceKm: distanceKm,
+                          );
+                        },
+                      );
                     },
                   );
                 },

@@ -1,3 +1,12 @@
+import java.util.Properties
+
+val env = Properties().apply {
+    // rootProject = pasta android/, o .env fica na raiz do projeto Flutter.
+    val f = rootProject.file("../.env")
+    if (f.exists()) f.inputStream().use { load(it) }
+    else logger.warn("Arquivo .env não encontrado em ${f.path}: MAPS_API_KEY ficará vazia.")
+}
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -18,6 +27,7 @@ android {
     }
 
     defaultConfig {
+        manifestPlaceholders["MAPS_API_KEY"] = env.getProperty("MAPS_API_KEY") ?: ""
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.vindev.agroshare"
         // You can update the following values to match your application needs.

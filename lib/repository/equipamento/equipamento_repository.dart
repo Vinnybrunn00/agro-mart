@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
@@ -21,6 +20,7 @@ class EquipamentoRepository {
   final int timestamp;
   final String uid;
   final String urlPhotoUser;
+  final bool accept;
 
   EquipamentoRepository({
     required this.requestCollection,
@@ -41,6 +41,7 @@ class EquipamentoRepository {
     required this.uid,
     required this.equipamentoReference,
     required this.urlPhotoUser,
+    required this.accept,
   });
 
   factory EquipamentoRepository.fromQueryDocument(
@@ -67,6 +68,7 @@ class EquipamentoRepository {
       timestamp: data?['timestamp'],
       uid: data?['uid'],
       urlPhotoUser: data?['url_photo'],
+      accept: data?['accept'],
     );
   }
 

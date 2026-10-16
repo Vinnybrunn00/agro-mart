@@ -1,8 +1,12 @@
+
+
 import 'package:agroshare/models/equipamentos/equipamentos_model.dart';
+import 'package:agroshare/providers/current_anuncio_provider.dart';
 import 'package:agroshare/repository/equipamento/equipamento_repository.dart';
 import 'package:agroshare/repository/equipamento/requests/requests_repository.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
 import 'package:agroshare/ui/input/input.dart';
+import 'package:agroshare/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
@@ -13,20 +17,12 @@ class AnuncioEntityPage extends StatelessWidget {
 
   const new({super.key, required this.equipamentos});
 
-  int _convertForCent(String formatText) {
-    if (formatText.isNotEmpty) {
-      String onlyDigit = formatText.replaceAll(RegExp(r'[^\d]'), '');
-
-      if (onlyDigit.isEmpty) return 0;
-
-      return int.parse(onlyDigit);
-    }
-    return 0;
-  }
-
   @override
   Widget build(BuildContext context) {
     final EditEquipamento editEquip = Provider.of<EditEquipamento>(context);
+    final CurrentAnuncioProvider anuncioProvider =
+        Provider.of<CurrentAnuncioProvider>(context);
+
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
@@ -88,9 +84,9 @@ class AnuncioEntityPage extends StatelessWidget {
               value: editEquip.newStatus ?? equipamentos.status,
               onChanged: (status) async {
                 editEquip.change(status);
-                await equipamentos.equipamentoReference?.update({
-                  'status': editEquip.newStatus,
-                });
+
+                // update status do equipamento
+                await anuncioProvider.updateStatus(equipamentos, editEquip);
               },
             ),
 
@@ -99,13 +95,18 @@ class AnuncioEntityPage extends StatelessWidget {
             _SaveAnuncioBtn(
               onTap: () async {
                 if (editEquip.isNotEmpty) {
-                  await equipamentos.equipamentoReference?.update({
-                    if (editEquip.newPrice != null)
-                      'price': _convertForCent(editEquip.newPrice!),
+                  // update price
+                  if (editEquip.newPrice != null) {
+                    await anuncioProvider.updatePrice(equipamentos, editEquip);
+                  }
 
-                    if (editEquip.newPeriodic != null)
-                      'periodo_dias': editEquip.newPeriodic,
-                  });
+                  // update período do aluguel
+                  if (editEquip.newPeriodic != null) {
+                    await anuncioProvider.updatePeriodic(
+                      equipamentos,
+                      editEquip,
+                    );
+                  }
 
                   editEquip.clearData();
 
@@ -115,7 +116,10 @@ class AnuncioEntityPage extends StatelessWidget {
               },
             ),
 
-            _SolicitacoesAluguel(equipamentos: equipamentos),
+            _SolicitacoesAluguel(
+              equipamentos: equipamentos,
+              anuncioProvider: anuncioProvider,
+            ),
           ],
         ),
       ),
@@ -239,8 +243,9 @@ class _SaveAnuncioBtn extends StatelessWidget {
 
 class _SolicitacoesAluguel extends StatelessWidget {
   final EquipamentoRepository equipamentos;
+  final CurrentAnuncioProvider anuncioProvider;
 
-  const new({required this.equipamentos});
+  const new({required this.equipamentos, required this.anuncioProvider});
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +279,20 @@ class _SolicitacoesAluguel extends StatelessWidget {
                 return _SolicitacaoTile(
                   onCancell: () async =>
                       await requestsRepository.requestsReference.delete(),
-                  onAccept: () {},
+                  onAccept: () async {
+                    await requestsRepository.requestsReference.update({
+                      'accept': true,
+                    });
+                    await equipamentos.equipamentoReference?.update({
+                      'accept': true,
+                    });
+
+                    if (!context.mounted) return;
+                    await Navigator.of(context).maybePop();
+
+                    if (!context.mounted) return;
+                    Utils.showMessage(context, message: 'Aceito com sucesso!');
+                  },
                   photoUrl: requestsRepository.photo,
                   name: requestsRepository.name,
                   nameProperty: requestsRepository.nameProperty,

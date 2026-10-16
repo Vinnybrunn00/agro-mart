@@ -83,6 +83,7 @@ class ProductRepository with ChangeNotifier {
         'nameProperty': usersRepository.nameProperty,
         'locationProperty': usersRepository.locationProperty,
         'url_photo': usersRepository.photo,
+        'accept': false,
       });
     } catch (err) {
       log('error in Product_repository.dart');

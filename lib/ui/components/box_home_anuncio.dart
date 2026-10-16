@@ -43,7 +43,6 @@ class BoxHomeAnuncio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String? distanceLabel = _distanceLabel;
-
     return Container(
       margin: .only(left: 16, right: 16, top: 10),
       decoration: BoxDecoration(

@@ -92,8 +92,10 @@ class ProfileScreen extends StatelessWidget {
                   ),
 
                   _CredentialCard(
-                    onTap: () async =>
-                        await NavigatorsApp.push(context, PedidosPage()),
+                    onTap: () async => await NavigatorsApp.push(
+                      context,
+                      PedidosPage(currentUser: currentUser),
+                    ),
                     icon: Iconsax.arrow_2_bold,
                     value: 'Pedidos',
                   ),
@@ -123,12 +125,14 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class CurrentUser {
+  final String id;
   final String name;
   final String email;
   final String cpf;
   final String photoUrl;
 
   CurrentUser({
+    required this.id,
     required this.name,
     required this.email,
     required this.cpf,
@@ -137,6 +141,7 @@ class CurrentUser {
 
   factory CurrentUser.fromMap({required Map<String, dynamic> data}) {
     return CurrentUser(
+      id: data['id'],
       name: data['name'],
       email: data['email'],
       cpf: data['cpf'],

@@ -21,6 +21,8 @@ import 'package:agroshare/models/equipamentos/equipamentos_model.dart';
 import 'package:agroshare/models/equipamentos/images.dart';
 import 'package:agroshare/models/equipamentos/name_equipamento.dart';
 import 'package:agroshare/models/equipamentos/price.dart';
+import 'package:agroshare/providers/current_anuncio_provider.dart';
+import 'package:agroshare/providers/navigator/navigator_provider.dart';
 import 'package:agroshare/repository/product_repository.dart';
 import 'package:agroshare/services/auth/auth_services.dart';
 import 'package:agroshare/services/ferramentas/ferramentas_services.dart';
@@ -83,6 +85,7 @@ class AgroShare extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => EditEquipamento()),
           ChangeNotifierProvider(create: (_) => ProductRepository()),
           ChangeNotifierProvider(create: (_) => FerramentasServices()),
+          ChangeNotifierProvider(create: (_) => CurrentAnuncioProvider()),
         ],
         child: MaterialApp(
           builder: (context, child) {
