@@ -4,6 +4,7 @@
 //  Create by Vinicius Bruno on 05/09/2026
 //
 
+import 'package:agroshare/core/providers/ferramentas/ferramentas_services.dart';
 import 'package:agroshare/models/auth/credentials/cpf.dart';
 import 'package:agroshare/models/auth/credentials/email.dart';
 import 'package:agroshare/models/auth/credentials/name.dart';
@@ -21,13 +22,12 @@ import 'package:agroshare/models/equipamentos/equipamentos_model.dart';
 import 'package:agroshare/models/equipamentos/images.dart';
 import 'package:agroshare/models/equipamentos/name_equipamento.dart';
 import 'package:agroshare/models/equipamentos/price.dart';
-import 'package:agroshare/providers/current_anuncio_provider.dart';
-import 'package:agroshare/providers/navigator/navigator_provider.dart';
+import 'package:agroshare/core/providers/current_anuncio_provider.dart';
+import 'package:agroshare/core/providers/navigator/navigator_provider.dart';
 import 'package:agroshare/repository/product_repository.dart';
 import 'package:agroshare/services/auth/auth_services.dart';
-import 'package:agroshare/services/ferramentas/ferramentas_services.dart';
-import 'package:agroshare/services/location/location_services.dart';
-import 'package:agroshare/services/picker/select_images.dart';
+import 'package:agroshare/core/providers/location/location_services.dart';
+import 'package:agroshare/core/providers/select_images.dart';
 import 'package:agroshare/ui/pages/current_anuncio_page.dart';
 import 'package:agroshare/ui/pages/auth/auth_page.dart';
 import 'package:agroshare/ui/pages/home/home_page.dart';

@@ -1,7 +1,7 @@
+import 'package:agroshare/core/providers/ferramentas/ferramentas_services.dart';
 import 'package:agroshare/navigator/navigator_app.dart';
 import 'package:agroshare/repository/equipamento/equipamento_repository.dart';
 import 'package:agroshare/repository/users/users_repository.dart';
-import 'package:agroshare/services/ferramentas/ferramentas_services.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
 import 'package:agroshare/ui/pages/profile_user_page.dart';
 import 'package:agroshare/utils/utils.dart';

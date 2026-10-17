@@ -9,7 +9,7 @@ import 'dart:io';
 
 import 'package:agroshare/models/equipamentos/equipamentos_model.dart';
 import 'package:agroshare/repository/users/users_repository.dart';
-import 'package:agroshare/services/picker/select_images.dart';
+import 'package:agroshare/core/providers/select_images.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';

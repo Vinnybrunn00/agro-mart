@@ -6,6 +6,7 @@
 
 import 'package:agroshare/core/session/app_session.dart';
 import 'package:agroshare/core/streams/user_stream.dart';
+import 'package:agroshare/models/profile/current_user_model.dart';
 import 'package:agroshare/navigator/navigator_app.dart';
 import 'package:agroshare/core/providers/picker/picker_profile.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
@@ -120,32 +121,6 @@ class ProfileScreen extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class CurrentUser {
-  final String id;
-  final String name;
-  final String email;
-  final String cpf;
-  final String photoUrl;
-
-  CurrentUser({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.cpf,
-    required this.photoUrl,
-  });
-
-  factory CurrentUser.fromMap({required Map<String, dynamic> data}) {
-    return CurrentUser(
-      id: data['id'],
-      name: data['name'],
-      email: data['email'],
-      cpf: data['cpf'],
-      photoUrl: data['photo'],
     );
   }
 }

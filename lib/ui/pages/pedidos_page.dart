@@ -1,5 +1,5 @@
+import 'package:agroshare/models/profile/current_user_model.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
-import 'package:agroshare/ui/screens/profile_screen.dart';
 import 'package:agroshare/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

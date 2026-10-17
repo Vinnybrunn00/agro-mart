@@ -1,7 +1,7 @@
 
 
 import 'package:agroshare/models/equipamentos/equipamentos_model.dart';
-import 'package:agroshare/providers/current_anuncio_provider.dart';
+import 'package:agroshare/core/providers/current_anuncio_provider.dart';
 import 'package:agroshare/repository/equipamento/equipamento_repository.dart';
 import 'package:agroshare/repository/equipamento/requests/requests_repository.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';

@@ -6,7 +6,7 @@ import 'package:agroshare/models/auth/credentials/property/longitude.dart';
 import 'package:agroshare/models/auth/credentials/property/name.dart';
 import 'package:agroshare/models/auth/user_model.dart';
 import 'package:agroshare/navigator/navigator_app.dart';
-import 'package:agroshare/services/location/location_services.dart';
+import 'package:agroshare/core/providers/location/location_services.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
 import 'package:agroshare/ui/input/input.dart';
 import 'package:agroshare/ui/pages/auth/components/background_auth.dart';
