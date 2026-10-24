@@ -34,4 +34,9 @@ class RequestsRepository {
       nameProperty: data['nameProperty'],
     );
   }
+
+  Future<void> delete() async => await requestsReference.delete();
+
+  Future<void> updateAccept() async =>
+      await requestsReference.update({'accept': true});
 }

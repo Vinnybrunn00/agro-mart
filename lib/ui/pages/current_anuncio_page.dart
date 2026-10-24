@@ -1,11 +1,14 @@
+import 'dart:developer';
 
-
+import 'package:agroshare/core/providers/equipamento/equipamentos_provider.dart';
 import 'package:agroshare/models/equipamentos/equipamentos_model.dart';
 import 'package:agroshare/core/providers/current_anuncio_provider.dart';
+import 'package:agroshare/navigator/navigator_app.dart';
 import 'package:agroshare/repository/equipamento/equipamento_repository.dart';
 import 'package:agroshare/repository/equipamento/requests/requests_repository.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
 import 'package:agroshare/ui/input/input.dart';
+import 'package:agroshare/ui/pages/chat/chat_page.dart';
 import 'package:agroshare/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -90,31 +93,35 @@ class AnuncioEntityPage extends StatelessWidget {
               },
             ),
 
-            SizedBox(height: 8),
+            SizedBox(height: equipamentos.accept ? 0 : 8),
 
-            _SaveAnuncioBtn(
-              onTap: () async {
-                if (editEquip.isNotEmpty) {
-                  // update price
-                  if (editEquip.newPrice != null) {
-                    await anuncioProvider.updatePrice(equipamentos, editEquip);
+            if (equipamentos.accept)
+              _SaveAnuncioBtn(
+                onTap: () async {
+                  if (editEquip.isNotEmpty) {
+                    // update price
+                    if (editEquip.newPrice != null) {
+                      await anuncioProvider.updatePrice(
+                        equipamentos,
+                        editEquip,
+                      );
+                    }
+
+                    // update período do aluguel
+                    if (editEquip.newPeriodic != null) {
+                      await anuncioProvider.updatePeriodic(
+                        equipamentos,
+                        editEquip,
+                      );
+                    }
+
+                    editEquip.clearData();
+
+                    if (!context.mounted) return;
+                    await Navigator.of(context).maybePop();
                   }
-
-                  // update período do aluguel
-                  if (editEquip.newPeriodic != null) {
-                    await anuncioProvider.updatePeriodic(
-                      equipamentos,
-                      editEquip,
-                    );
-                  }
-
-                  editEquip.clearData();
-
-                  if (!context.mounted) return;
-                  Navigator.of(context).maybePop();
-                }
-              },
-            ),
+                },
+              ),
 
             _SolicitacoesAluguel(
               equipamentos: equipamentos,
@@ -277,15 +284,13 @@ class _SolicitacoesAluguel extends StatelessWidget {
                     RequestsRepository.fromQueryDocument(docs[index]);
 
                 return _SolicitacaoTile(
-                  onCancell: () async =>
-                      await requestsRepository.requestsReference.delete(),
+                  onCancell: () async => await requestsRepository.delete(),
                   onAccept: () async {
-                    await requestsRepository.requestsReference.update({
-                      'accept': true,
-                    });
-                    await equipamentos.equipamentoReference?.update({
-                      'accept': true,
-                    });
+                    // este metodo altera o "accept" na Requests Collections
+                    await requestsRepository.updateAccept();
+
+                    // este metodo altera o "accept" no Equipamento Collections
+                    await equipamentos.updateAccept();
 
                     if (!context.mounted) return;
                     await Navigator.of(context).maybePop();
@@ -293,9 +298,11 @@ class _SolicitacoesAluguel extends StatelessWidget {
                     if (!context.mounted) return;
                     Utils.showMessage(context, message: 'Aceito com sucesso!');
                   },
+                  requestId: requestsRepository.uid,
                   photoUrl: requestsRepository.photo,
                   name: requestsRepository.name,
                   nameProperty: requestsRepository.nameProperty,
+                  accept: equipamentos.accept,
                 );
               },
             );
@@ -307,6 +314,8 @@ class _SolicitacoesAluguel extends StatelessWidget {
 }
 
 class _SolicitacaoTile extends StatelessWidget {
+  final String requestId;
+  final bool accept;
   final String name;
   final String nameProperty;
   final String photoUrl;
@@ -319,6 +328,8 @@ class _SolicitacaoTile extends StatelessWidget {
     required this.photoUrl,
     this.onCancell,
     this.onAccept,
+    required this.accept,
+    required this.requestId,
   });
 
   @override
@@ -356,14 +367,26 @@ class _SolicitacaoTile extends StatelessWidget {
               ],
             ),
           ),
+
+          if (!accept) ...[
+            _SolicitacaoActionBtn(
+              onTap: onCancell,
+              icon: BoxIcons.bx_x,
+              color: Colors.redAccent,
+            ),
+            _SolicitacaoActionBtn(
+              onTap: onAccept,
+              icon: BoxIcons.bx_check,
+              color: AppColors.mainColor,
+            ),
+          ],
+
           _SolicitacaoActionBtn(
-            onTap: onCancell,
-            icon: BoxIcons.bx_x,
-            color: Colors.redAccent,
-          ),
-          _SolicitacaoActionBtn(
-            onTap: onAccept,
-            icon: BoxIcons.bx_check,
+            onTap: () async {
+              log(requestId);
+              await NavigatorsApp.push(context, ChatPage());
+            },
+            icon: BoxIcons.bx_chat,
             color: AppColors.mainColor,
           ),
         ],
@@ -424,27 +447,5 @@ class _EmptySolicitacoes extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class EditEquipamento with ChangeNotifier {
-  String? newPrice;
-  String? newPeriodic;
-  bool? _newStatus;
-
-  bool? get newStatus => _newStatus;
-
-  void change(bool? status) {
-    _newStatus = status;
-    notifyListeners();
-  }
-
-  bool get isNotEmpty => (newPeriodic != null) || (newPrice != null);
-
-  void clearData() {
-    newPrice = null;
-    newPeriodic = null;
-    _newStatus = null;
-    notifyListeners();
   }
 }

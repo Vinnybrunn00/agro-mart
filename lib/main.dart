@@ -4,6 +4,7 @@
 //  Create by Vinicius Bruno on 05/09/2026
 //
 
+import 'package:agroshare/core/providers/equipamento/equipamentos_provider.dart';
 import 'package:agroshare/core/providers/ferramentas/ferramentas_services.dart';
 import 'package:agroshare/models/auth/credentials/cpf.dart';
 import 'package:agroshare/models/auth/credentials/email.dart';
@@ -28,7 +29,6 @@ import 'package:agroshare/repository/product_repository.dart';
 import 'package:agroshare/services/auth/auth_services.dart';
 import 'package:agroshare/core/providers/location/location_services.dart';
 import 'package:agroshare/core/providers/select_images.dart';
-import 'package:agroshare/ui/pages/current_anuncio_page.dart';
 import 'package:agroshare/ui/pages/auth/auth_page.dart';
 import 'package:agroshare/ui/pages/home/home_page.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
@@ -48,8 +48,8 @@ void main() async {
 
   await FirebaseAppCheck.instance.activate(
     providerAndroid: kDebugMode
-        ? const AndroidDebugProvider()
-        : const AndroidPlayIntegrityProvider(),
+        ? AndroidDebugProvider()
+        : AndroidPlayIntegrityProvider(),
   );
   runApp(const AgroShare());
 }
@@ -98,7 +98,7 @@ class AgroShare extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           localizationsDelegates: GlobalMaterialLocalizations.delegates,
           supportedLocales: const [Locale('pt', 'BR')],
-          title: 'AgroShare',
+          title: 'AgroMart',
           theme: ThemeData(
             textTheme: GoogleFonts.figtreeTextTheme(),
             colorScheme: .fromSeed(seedColor: Colors.deepPurple),

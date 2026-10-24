@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:agroshare/models/profile/current_user_model.dart';
+import 'package:agroshare/navigator/navigator_app.dart';
 import 'package:agroshare/ui/colors/app_colors.dart';
+import 'package:agroshare/ui/pages/chat/chat_page.dart';
 import 'package:agroshare/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -54,8 +58,8 @@ class PedidosPage extends StatelessWidget {
 
                       // requests ficam em equipamentos/{id}/requests/{uid},
                       // então o pai do documento é o equipamento solicitado.
-                      final equipamentoReference =
-                          requestsReference.parent.parent;
+                      final DocumentReference<Map<String, dynamic>>?
+                      equipamentoReference = requestsReference.parent.parent;
 
                       if (equipamentoReference == null) {
                         return SizedBox.shrink();
@@ -117,7 +121,9 @@ class _BoxPedido extends StatelessWidget {
             borderRadius: .circular(14),
             clipBehavior: .antiAlias,
             child: InkWell(
-              onTap: info == null ? null : () => _showDetalhes(context, info),
+              onTap: info == null
+                  ? null
+                  : () => _showDetalhes(context, info, requestsReference),
               child: Padding(
                 padding: .all(10),
                 child: Row(
@@ -179,7 +185,11 @@ class _BoxPedido extends StatelessWidget {
     );
   }
 
-  void _showDetalhes(BuildContext context, _PedidoInfo info) async {
+  void _showDetalhes(
+    BuildContext context,
+    _PedidoInfo info,
+    DocumentReference<Map<String, dynamic>> requestsReference,
+  ) async {
     final Size size = MediaQuery.of(context).size;
     await showModalBottomSheet(
       isScrollControlled: true,
@@ -250,7 +260,11 @@ class _BoxPedido extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(
-                  onPressed: () {},
+                  onPressed: () async {
+                    log(requestsReference.id);
+
+                    await NavigatorsApp.push(context, ChatPage());
+                  },
                   icon: Icon(Icons.chat_bubble_outline),
                   label: Text('Chat'),
                   style: FilledButton.styleFrom(

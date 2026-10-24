@@ -93,12 +93,15 @@ class ProfileScreen extends StatelessWidget {
                   ),
 
                   _CredentialCard(
-                    onTap: () async => await NavigatorsApp.push(
-                      context,
-                      PedidosPage(currentUser: currentUser),
-                    ),
+                    onTap: () async {
+                      final PedidosPage pedidosPage = PedidosPage(
+                        currentUser: currentUser,
+                      );
+
+                      await NavigatorsApp.push(context, pedidosPage);
+                    },
                     icon: Iconsax.arrow_2_bold,
-                    value: 'Pedidos',
+                    value: 'Meus pedidos',
                   ),
                 ],
               ),

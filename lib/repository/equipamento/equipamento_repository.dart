@@ -87,4 +87,7 @@ class EquipamentoRepository {
     double real = cent / 100;
     return formatter.format(real);
   }
+
+  Future<void> updateAccept() async =>
+      await equipamentoReference?.update({'accept': true});
 }

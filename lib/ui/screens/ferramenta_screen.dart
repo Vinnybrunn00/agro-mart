@@ -1,15 +1,13 @@
+import 'package:agroshare/core/streams/equipamento_stream.dart';
 import 'package:agroshare/repository/equipamento/equipamento_repository.dart';
 import 'package:agroshare/ui/components/box_ferramentas_anuncio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FerramentaScreen extends StatelessWidget {
   new({super.key});
 
-  User? get _currentUser => FirebaseAuth.instance.currentUser;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+  final FerramentaStream _ferramentaStream = FerramentaStream();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -17,12 +15,7 @@ class FerramentaScreen extends StatelessWidget {
       children: [
         Expanded(
           child: StreamBuilder(
-            stream: _firestore
-                .collection('users')
-                .doc(_currentUser?.uid)
-                .collection('equipamentos')
-                .orderBy('timestamp', descending: true)
-                .snapshots(),
+            stream: _ferramentaStream.equipamentoSnapshot(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());

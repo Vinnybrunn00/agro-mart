@@ -14,7 +14,7 @@ class BoxFerramentasAnuncio extends StatelessWidget {
     return days == '1' ? '1 dia' : '$days dias';
   }
 
-  /// Ex.: Publicado hoje, Publicado há 3 dias, Publicado há 2 meses
+  /// Ex.: Publicado hoje, Publicado há 3 dias, Publicado há 2 meses...
   String get _publishedLabel {
     final DateTime created = DateTime.fromMillisecondsSinceEpoch(
       equipamentos.timestamp,
@@ -28,6 +28,7 @@ class BoxFerramentasAnuncio extends StatelessWidget {
     if (days < 30) return 'Publicado há $days dias';
 
     final int months = days ~/ 30;
+
     if (months < 12) {
       return months == 1 ? 'Publicado há 1 mês' : 'Publicado há $months meses';
     }
@@ -55,14 +56,12 @@ class BoxFerramentasAnuncio extends StatelessWidget {
         borderRadius: .circular(14),
         clipBehavior: .antiAlias,
         child: InkWell(
-          onTap: equipamentos.accept
-              ? null
-              : () async {
-                  final AnuncioEntityPage currentAnuncio = AnuncioEntityPage(
-                    equipamentos: equipamentos,
-                  );
-                  await NavigatorsApp.push(context, currentAnuncio);
-                },
+          onTap: () async {
+            final AnuncioEntityPage currentAnuncio = AnuncioEntityPage(
+              equipamentos: equipamentos,
+            );
+            await NavigatorsApp.push(context, currentAnuncio);
+          },
           child: Column(
             children: [
               Padding(

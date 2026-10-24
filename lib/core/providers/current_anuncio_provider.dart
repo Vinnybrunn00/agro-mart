@@ -6,8 +6,8 @@
 
 import 'dart:developer';
 
+import 'package:agroshare/core/providers/equipamento/equipamentos_provider.dart';
 import 'package:agroshare/repository/equipamento/equipamento_repository.dart';
-import 'package:agroshare/ui/pages/current_anuncio_page.dart';
 import 'package:flutter/material.dart';
 
 class CurrentAnuncioProvider with ChangeNotifier {

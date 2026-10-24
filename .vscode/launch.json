@@ -15,7 +15,7 @@
             "name": "Xiaomi Facape",
             "request": "launch",
             "type": "dart",
-            "deviceId": "192.168.10.104:55555",
+            "deviceId": "192.168.1.239:55555",
         },
         {
             "name": "Pixel 10 Pro",

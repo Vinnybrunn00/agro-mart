@@ -76,7 +76,7 @@ class AddInfoSitioPage extends StatelessWidget {
                     prefixIcon: Icons.location_city,
                     hintText: 'Município - Estado',
                     keyboardType: .text,
-                    onChanged: (location) =>
+                    onChanged: ( location) =>
                         userModelProvider.locationProperty = location,
                     errorText: location.msgError,
                   ),

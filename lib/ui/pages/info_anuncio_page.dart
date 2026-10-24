@@ -85,17 +85,18 @@ class InfoAnuncioPage extends StatelessWidget {
                         photo: equipamentos.urlPhotoUser,
                         name: equipamentos.name,
                         subtitle: equipamentos.locationProperty,
-                        onTap: () async => await NavigatorsApp.push(
-                          context,
-                          ProfileUserPage(
-                            equipamentos: equipamentos,
-                            currentUser: currentUser,
-                            distanceKm: distanceKm,
-                          ),
-                        ),
+                        onTap: () async {
+                          final ProfileUserPage profileUserPage =
+                              ProfileUserPage(
+                                equipamentos: equipamentos,
+                                currentUser: currentUser,
+                                distanceKm: distanceKm,
+                              );
+                          await NavigatorsApp.push(context, profileUserPage);
+                        },
                       ),
                       if (currentUser != null &&
-                          currentUser!.id != equipamentos.uid) ...[
+                          currentUser?.id != equipamentos.uid) ...[
                         SizedBox(height: 12),
                         _ChatButton(onTap: () async => {}),
                       ],

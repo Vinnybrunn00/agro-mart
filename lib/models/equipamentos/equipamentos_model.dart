@@ -35,7 +35,9 @@ class EquipamentosModel with ChangeNotifier {
   String? get periodLabel {
     if (_period == null) return null;
 
-    final String days = periodDays == 1 ? '1 dia' : '$periodDays dias';
+    final String days = int.parse(periodDays!) == 1
+        ? '1 dia'
+        : '$periodDays dias';
 
     return '${_dateFormat.format(_period!.start)} - '
         '${_dateFormat.format(_period!.end)} ($days)';

@@ -62,10 +62,4 @@ class LocationServices with ChangeNotifier {
     }
   }
 
-  Stream<bool> get locationServiceStatusStream async* {
-    yield await Geolocator.isLocationServiceEnabled();
-    yield* Geolocator.getServiceStatusStream().map(
-      (ServiceStatus status) => status == ServiceStatus.enabled,
-    );
-  }
 }

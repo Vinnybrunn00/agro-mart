@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:agroshare/core/streams/user_stream.dart';
 import 'package:agroshare/repository/equipamento/equipamento_repository.dart';
 import 'package:agroshare/repository/users/users_repository.dart';
@@ -72,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                         return SizedBox.shrink();
                       }
 
-                      if (isNotView || distanceKm >= 160) {
+                      if (isNotView) {
                         return SizedBox.shrink();
                       }
 
