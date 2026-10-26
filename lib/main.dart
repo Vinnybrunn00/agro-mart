@@ -4,33 +4,35 @@
 //  Create by Vinicius Bruno on 05/09/2026
 //
 
-import 'package:agroshare/core/providers/equipamento/equipamentos_provider.dart';
-import 'package:agroshare/core/providers/ferramentas/ferramentas_services.dart';
-import 'package:agroshare/models/auth/credentials/cpf.dart';
-import 'package:agroshare/models/auth/credentials/email.dart';
-import 'package:agroshare/models/auth/credentials/name.dart';
-import 'package:agroshare/models/auth/credentials/password.dart';
-import 'package:agroshare/models/auth/credentials/property/latitude.dart';
-import 'package:agroshare/models/auth/credentials/property/location.dart';
-import 'package:agroshare/models/auth/credentials/property/longitude.dart';
-import 'package:agroshare/models/auth/credentials/property/name.dart';
-import 'package:agroshare/models/auth/user_model.dart';
-import 'package:agroshare/core/providers/picker/picker_profile.dart';
+import 'package:agroshare/features/chat/providers/conversations_provider.dart';
+import 'package:agroshare/features/equipment/form/equipment_edit_form.dart';
+import 'package:agroshare/features/rental_requests/providers/rental_request_provider.dart';
+import 'package:agroshare/features/auth/form/fields/cpf_field.dart';
+import 'package:agroshare/features/auth/form/fields/email_field.dart';
+import 'package:agroshare/features/auth/form/fields/name_field.dart';
+import 'package:agroshare/features/auth/form/fields/password_field.dart';
+import 'package:agroshare/features/auth/form/fields/latitude_field.dart';
+import 'package:agroshare/features/auth/form/fields/farm_location_field.dart';
+import 'package:agroshare/features/auth/form/fields/longitude_field.dart';
+import 'package:agroshare/features/auth/form/fields/farm_name_field.dart';
+import 'package:agroshare/features/auth/form/auth_form.dart';
+import 'package:agroshare/features/auth/providers/profile_photo_picker.dart';
 import 'package:agroshare/core/session/app_session.dart';
-import 'package:agroshare/models/equipamentos/days.dart';
-import 'package:agroshare/models/equipamentos/description.dart';
-import 'package:agroshare/models/equipamentos/equipamentos_model.dart';
-import 'package:agroshare/models/equipamentos/images.dart';
-import 'package:agroshare/models/equipamentos/name_equipamento.dart';
-import 'package:agroshare/models/equipamentos/price.dart';
-import 'package:agroshare/core/providers/current_anuncio_provider.dart';
-import 'package:agroshare/core/providers/navigator/navigator_provider.dart';
-import 'package:agroshare/repository/product_repository.dart';
-import 'package:agroshare/services/auth/auth_services.dart';
-import 'package:agroshare/core/providers/location/location_services.dart';
-import 'package:agroshare/core/providers/select_images.dart';
-import 'package:agroshare/ui/pages/auth/auth_page.dart';
-import 'package:agroshare/ui/pages/home/home_page.dart';
+import 'package:agroshare/features/equipment/form/fields/equipment_days_field.dart';
+import 'package:agroshare/features/equipment/form/fields/equipment_description_field.dart';
+import 'package:agroshare/features/equipment/form/equipment_form.dart';
+import 'package:agroshare/features/equipment/form/fields/equipment_images_field.dart';
+import 'package:agroshare/features/equipment/form/fields/equipment_name_field.dart';
+import 'package:agroshare/features/equipment/form/fields/equipment_price_field.dart';
+import 'package:agroshare/features/equipment/providers/manage_equipment_provider.dart';
+import 'package:agroshare/features/home/providers/bottom_nav_provider.dart';
+import 'package:agroshare/features/equipment/providers/create_equipment_provider.dart';
+import 'package:agroshare/features/auth/services/auth_service.dart';
+import 'package:agroshare/core/services/notification_service.dart';
+import 'package:agroshare/features/auth/providers/location_provider.dart';
+import 'package:agroshare/features/equipment/providers/equipment_image_picker.dart';
+import 'package:agroshare/features/auth/ui/login_page.dart';
+import 'package:agroshare/features/home/ui/main_shell_page.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -52,6 +54,9 @@ void main() async {
         : AndroidPlayIntegrityProvider(),
   );
   runApp(const AgroShare());
+
+  // permissão, token FCM e abertura de notificações
+  await NotificationService.instance.init();
 }
 
 class AgroShare extends StatelessWidget {
@@ -62,32 +67,34 @@ class AgroShare extends StatelessWidget {
     return AppSession(
       builder: (_) => MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => UserModel()),
-          ChangeNotifierProvider(create: (_) => NavigatorProvider()),
-          ChangeNotifierProvider(create: (_) => PickerProfile()),
-          ChangeNotifierProvider(create: (_) => AuthServices()),
-          ChangeNotifierProvider(create: (_) => Name()),
-          ChangeNotifierProvider(create: (_) => Cpf()),
-          ChangeNotifierProvider(create: (_) => Email()),
-          ChangeNotifierProvider(create: (_) => Password()),
-          ChangeNotifierProvider(create: (_) => NameProperty()),
-          ChangeNotifierProvider(create: (_) => LocationProperty()),
-          ChangeNotifierProvider(create: (_) => LocationServices()),
-          ChangeNotifierProvider(create: (_) => ImageManager()),
-          ChangeNotifierProvider(create: (_) => EquipamentosModel()),
-          ChangeNotifierProvider(create: (_) => NameEquipamento()),
-          ChangeNotifierProvider(create: (_) => PriceEquipamento()),
-          ChangeNotifierProvider(create: (_) => DaysEquipamento()),
-          ChangeNotifierProvider(create: (_) => DescriptionEquipamento()),
-          ChangeNotifierProvider(create: (_) => ImagesEquipamento()),
-          ChangeNotifierProvider(create: (_) => LatitudeProperty()),
-          ChangeNotifierProvider(create: (_) => LongitudeProperty()),
-          ChangeNotifierProvider(create: (_) => EditEquipamento()),
-          ChangeNotifierProvider(create: (_) => ProductRepository()),
-          ChangeNotifierProvider(create: (_) => FerramentasServices()),
-          ChangeNotifierProvider(create: (_) => CurrentAnuncioProvider()),
+          ChangeNotifierProvider(create: (_) => AuthForm()),
+          ChangeNotifierProvider(create: (_) => BottomNavProvider()),
+          ChangeNotifierProvider(create: (_) => ProfilePhotoPicker()),
+          ChangeNotifierProvider(create: (_) => AuthService()),
+          ChangeNotifierProvider(create: (_) => NameField()),
+          ChangeNotifierProvider(create: (_) => CpfField()),
+          ChangeNotifierProvider(create: (_) => EmailField()),
+          ChangeNotifierProvider(create: (_) => PasswordField()),
+          ChangeNotifierProvider(create: (_) => FarmNameField()),
+          ChangeNotifierProvider(create: (_) => FarmLocationField()),
+          ChangeNotifierProvider(create: (_) => LocationProvider()),
+          ChangeNotifierProvider(create: (_) => EquipmentImagePicker()),
+          ChangeNotifierProvider(create: (_) => EquipmentForm()),
+          ChangeNotifierProvider(create: (_) => EquipmentNameField()),
+          ChangeNotifierProvider(create: (_) => EquipmentPriceField()),
+          ChangeNotifierProvider(create: (_) => EquipmentDaysField()),
+          ChangeNotifierProvider(create: (_) => EquipmentDescriptionField()),
+          ChangeNotifierProvider(create: (_) => EquipmentImagesField()),
+          ChangeNotifierProvider(create: (_) => LatitudeField()),
+          ChangeNotifierProvider(create: (_) => LongitudeField()),
+          ChangeNotifierProvider(create: (_) => EquipmentEditForm()),
+          ChangeNotifierProvider(create: (_) => CreateEquipmentProvider()),
+          ChangeNotifierProvider(create: (_) => RentalRequestProvider()),
+          ChangeNotifierProvider(create: (_) => ManageEquipmentProvider()),
+          ChangeNotifierProvider(create: (_) => ConversationsProvider()),
         ],
         child: MaterialApp(
+          navigatorKey: NotificationService.navigatorKey,
           builder: (context, child) {
             return MediaQuery(
               data: MediaQuery.of(context)
@@ -106,7 +113,7 @@ class AgroShare extends StatelessWidget {
           home: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
-              return snapshot.hasData ? HomePage() : AuthPage();
+              return snapshot.hasData ? MainShellPage() : LoginPage();
             },
           ),
         ),

@@ -23,6 +23,12 @@
             "type": "dart",
             "deviceId": "emulator-5554",
         },
+        {
+            "name": "Xiaomi Home Mother",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "192.168.0.103:55555",
+        },
         
     ], 
     "compounds": [
@@ -30,7 +36,8 @@
             "name": "All Devices",
             "configurations": [
                 //"Xiaomi Facape",
-                "Xiaomi Home",
+                //"Xiaomi Home",
+                "Xiaomi Home Mother",
                 "Pixel 10 Pro",
                 //"windows",
             ]
