@@ -9,9 +9,11 @@ import 'package:agroshare/core/navigation/app_navigator.dart';
 import 'package:agroshare/features/auth/providers/location_provider.dart';
 import 'package:agroshare/core/theme/app_colors.dart';
 import 'package:agroshare/core/widgets/app_text_field.dart';
+import 'package:agroshare/features/auth/ui/widgets/auth_back_button.dart';
 import 'package:agroshare/features/auth/ui/widgets/auth_background.dart';
 import 'package:agroshare/features/auth/ui/widgets/auth_card.dart';
 import 'package:agroshare/features/auth/ui/widgets/auth_button.dart';
+import 'package:agroshare/features/auth/ui/widgets/auth_header.dart';
 import 'package:agroshare/features/auth/ui/register/register_photo_page.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
@@ -32,13 +34,7 @@ class RegisterFarmPage extends StatelessWidget {
 
     return Scaffold(
       floatingActionButtonLocation: .startTop,
-      floatingActionButton: Padding(
-        padding: .only(left: 5, top: 20),
-        child: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Icon(BoxIcons.bx_arrow_back, color: AppColors.whiteColor),
-        ),
-      ),
+      floatingActionButton: AuthBackButton(),
       body: AuthBackground(
         children: [
           Stack(
@@ -46,53 +42,57 @@ class RegisterFarmPage extends StatelessWidget {
             children: [
               AuthCard(
                 children: [
-                  Text(
-                    'Informações do Sítio',
-                    style: TextStyle(
-                      color: Color(0xFF111540),
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  AuthHeader(
+                    step: 5,
+                    icon: BoxIcons.bx_leaf,
+                    title: 'Informações do sítio',
+                    subtitle:
+                        'Informe o nome do sítio e o município para continuar.',
                   ),
-
-                  Text(
-                    'Informe o nome do sítio e o município para continuar',
-                    style: TextStyle(color: AppColors.greyColor, fontSize: 13),
-                  ),
-
-                  SizedBox(height: 15),
 
                   AppTextField(
-                    prefixIcon: Icons.location_city,
+                    prefixIcon: Icons.home_work_outlined,
                     hintText: 'Nome da propriedade / Sítio',
                     keyboardType: .text,
                     onChanged: (name) => userModelProvider.nameProperty = name,
                     errorText: nameProperty.msgError,
                   ),
 
-                  SizedBox(height: 10),
+                  SizedBox(height: 12),
 
                   AppTextField(
-                    prefixIcon: Icons.location_city,
+                    prefixIcon: Icons.place_outlined,
                     hintText: 'Município - Estado',
                     keyboardType: .text,
-                    onChanged: ( location) =>
+                    onChanged: (location) =>
                         userModelProvider.locationProperty = location,
                     errorText: location.msgError,
                   ),
 
-                  SizedBox(height: 8),
+                  SizedBox(height: 18),
 
-                  Text(
-                    'Selecionar a localização do sítio (opcional)',
-                    style: TextStyle(
-                      color: AppColors.greyColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  Row(
+                    spacing: 6,
+                    children: [
+                      Text(
+                        'Localização do sítio',
+                        style: TextStyle(
+                          color: AppColors.textColor,
+                          fontSize: 13,
+                          fontWeight: .w600,
+                        ),
+                      ),
+                      Text(
+                        '(opcional)',
+                        style: TextStyle(
+                          color: AppColors.greyColor,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
                   ),
 
-                  SizedBox(height: 8),
+                  SizedBox(height: 10),
 
                   Material(
                     color: Colors.transparent,
@@ -100,34 +100,87 @@ class RegisterFarmPage extends StatelessWidget {
                       onTap: locServices.isLoading
                           ? null
                           : () async => await locServices.determinePosition(),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(16),
                       child: locServices.latLongIsNotEmpty
                           ? _showGoogleMaps(locServices)
                           : Ink(
-                              height: 130,
+                              height: 140,
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: AppColors.mainColor.withAlpha(80),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  BoxIcons.bx_map,
-                                  color: AppColors.mainColor,
-                                  size: 50,
+                                color: AppColors.mainColor.withAlpha(18),
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: AppColors.mainColor.withAlpha(70),
+                                  width: 1.2,
                                 ),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: .center,
+                                spacing: 8,
+                                children: [
+                                  Container(
+                                    height: 52,
+                                    width: 52,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.mainColor.withAlpha(30),
+                                      shape: .circle,
+                                    ),
+                                    child: Icon(
+                                      BoxIcons.bx_map,
+                                      color: AppColors.mainColor,
+                                      size: 28,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Toque para usar sua localização atual',
+                                    style: TextStyle(
+                                      color: AppColors.mainColor,
+                                      fontSize: 12.5,
+                                      fontWeight: .w600,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                     ),
                   ),
 
                   if (locServices.latLongIsNotEmpty)
-                    Text('${locServices.latitude}, ${locServices.longitude}'),
+                    Padding(
+                      padding: .only(top: 8),
+                      child: Row(
+                        spacing: 4,
+                        children: [
+                          Icon(
+                            Icons.location_on_rounded,
+                            size: 15,
+                            color: AppColors.mainColor,
+                          ),
+                          Text(
+                            '${locServices.latitude}, ${locServices.longitude}',
+                            style: TextStyle(
+                              color: AppColors.greyColor,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
 
                   if (latitude.msgError != null)
-                    Text('Clique no mapa acima para obter as coordenadas.'),
+                    Padding(
+                      padding: .only(top: 8),
+                      child: Text(
+                        'Clique no mapa acima para obter as coordenadas.',
+                        style: TextStyle(
+                          color: Color(0xFFFF9500),
+                          fontSize: 12,
+                          fontWeight: .w600,
+                        ),
+                      ),
+                    ),
 
-                  SizedBox(height: 12),
+                  SizedBox(height: 22),
 
                   AuthButton(
                     key: ValueKey('password'),
@@ -162,18 +215,33 @@ class RegisterFarmPage extends StatelessWidget {
 
 Widget _showLoading() {
   return Container(
-    padding: .all(12),
-    width: 200,
+    padding: .symmetric(horizontal: 20, vertical: 22),
+    width: 220,
     decoration: BoxDecoration(
-      color: AppColors.greyColor,
-      borderRadius: .circular(6),
+      color: AppColors.whiteColor,
+      borderRadius: .circular(18),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withAlpha(50),
+          blurRadius: 24,
+          offset: Offset(0, 10),
+        ),
+      ],
     ),
     alignment: .center,
     child: Column(
-      spacing: 7,
+      spacing: 14,
+      mainAxisSize: .min,
       children: [
-        CircularProgressIndicator(color: AppColors.mainColor),
-        Text('Obtendo Coordenadas...'),
+        CircularProgressIndicator(color: AppColors.mainColor, strokeWidth: 3),
+        Text(
+          'Obtendo coordenadas...',
+          style: TextStyle(
+            color: AppColors.textColor,
+            fontSize: 13,
+            fontWeight: .w600,
+          ),
+        ),
       ],
     ),
   );
@@ -184,11 +252,12 @@ Widget _showGoogleMaps(LocationProvider locServices) {
       Completer<GoogleMapController>();
 
   return Container(
-    height: 130,
+    height: 140,
     width: double.infinity,
+    clipBehavior: .antiAlias,
     decoration: BoxDecoration(
       color: AppColors.mainColor.withAlpha(80),
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(16),
     ),
     child: GoogleMap(
       initialCameraPosition: CameraPosition(

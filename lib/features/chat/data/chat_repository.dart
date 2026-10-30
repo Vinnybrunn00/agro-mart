@@ -66,8 +66,7 @@ class ChatRepository {
   }
 
   /// Marca a conversa como lida pelo usuário (usado na lista de conversas).
-  Future<void> markAsRead(String uid) async =>
-      await chatReference.update({
-        'lastRead.$uid': DateTime.now().millisecondsSinceEpoch,
-      });
+  Future<void> markAsRead(String uid) async => await chatReference.update({
+    'lastRead.$uid': DateTime.now().millisecondsSinceEpoch,
+  });
 }

@@ -9,6 +9,9 @@ import 'package:agroshare/core/navigation/app_navigator.dart';
 import 'package:agroshare/features/auth/services/auth_service.dart';
 import 'package:agroshare/features/auth/providers/profile_photo_picker.dart';
 import 'package:agroshare/core/theme/app_colors.dart';
+import 'package:agroshare/features/auth/ui/widgets/auth_back_button.dart';
+import 'package:agroshare/features/auth/ui/widgets/auth_background.dart';
+import 'package:agroshare/features/auth/ui/widgets/auth_card.dart';
 import 'package:agroshare/features/home/ui/main_shell_page.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
@@ -19,98 +22,64 @@ class RegisterPhotoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       floatingActionButtonLocation: .startTop,
-      floatingActionButton: Padding(
-        padding: .only(left: 5, top: 20),
-        child: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Icon(BoxIcons.bx_arrow_back, color: AppColors.whiteColor),
-        ),
-      ),
-      body: Container(
-        padding: .only(left: 15, right: 15),
-        height: size.height,
-        width: size.width,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color.fromARGB(255, 11, 41, 25),
-              Color(0xFF2F6B4A),
-              AppColors.mainColor,
-            ],
-            stops: [0.0, 1, 1.0],
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: .center,
+      floatingActionButton: AuthBackButton(),
+      body: AuthBackground(
+        children: [
+          AuthCard(
+            crossAxisAlignment: .center,
             children: [
-              _CardPhoto(
+              Column(
+                spacing: 8,
                 children: [
-                  Column(
-                    spacing: 8,
-                    children: [
-                      // TITULO
-                      Text(
-                        'Adicione uma foto de perfil',
-                        textAlign: .center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: AppColors.textColor,
-                          fontWeight: .w600,
-                        ),
-                      ),
-
-                      // SUBTITULO
-                      Text(
-                        'Ajude outros produtores a te reconhecer no AgroShare',
-                        textAlign: .center,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: AppColors.blackColorAlpha120,
-                        ),
-                      ),
-                    ],
+                  // ETAPA
+                  Text(
+                    'ÚLTIMA ETAPA',
+                    style: TextStyle(
+                      color: AppColors.mainColor,
+                      fontSize: 11,
+                      fontWeight: .w700,
+                      letterSpacing: 1.1,
+                    ),
                   ),
 
-                  // AVATAR
-                  _AvatarPicker(),
+                  // TITULO
+                  Text(
+                    'Adicione uma foto de perfil',
+                    textAlign: .center,
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: AppColors.textColor,
+                      fontWeight: .w700,
+                    ),
+                  ),
 
-                  // CONTINUAR
-                  _CreateAccount(),
+                  // SUBTITULO
+                  Text(
+                    'Ajude outros produtores a te reconhecer no AgroShare',
+                    textAlign: .center,
+                    style: TextStyle(
+                      fontSize: 13.5,
+                      height: 1.4,
+                      color: AppColors.greyColor,
+                    ),
+                  ),
                 ],
               ),
+
+              SizedBox(height: 28),
+
+              // AVATAR
+              _AvatarPicker(),
+
+              SizedBox(height: 32),
+
+              // CONTINUAR
+              _CreateAccount(),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _CardPhoto extends StatelessWidget {
-  final List<Widget> _children;
-
-  const new({required this._children});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: .symmetric(horizontal: 20, vertical: 30),
-      decoration: BoxDecoration(
-        color: AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        spacing: 20,
-        mainAxisSize: .min,
-        crossAxisAlignment: .center,
-        children: _children,
+        ],
       ),
     );
   }
@@ -122,17 +91,26 @@ class _AvatarPicker extends StatelessWidget {
     return Consumer<ProfilePhotoPicker>(
       builder: (_, picker, _) {
         return InkWell(
+          customBorder: CircleBorder(),
           onTap: () async => await picker.handlePicker(),
           child: Ink(
             height: 140,
             width: 140,
+            padding: .all(4),
+            decoration: BoxDecoration(
+              shape: .circle,
+              border: Border.all(
+                color: AppColors.mainColor.withAlpha(60),
+                width: 2,
+              ),
+            ),
             child: Stack(
               clipBehavior: .none,
               children: [
                 // CIRCULO PLACEHOLDER
                 CircleAvatar(
                   maxRadius: 140,
-                  backgroundColor: AppColors.backgroundColorWhite,
+                  backgroundColor: AppColors.mainColor.withAlpha(18),
                   backgroundImage: picker.image != null
                       ? FileImage(picker.image!)
                       : null,
@@ -147,11 +125,11 @@ class _AvatarPicker extends StatelessWidget {
 
                 // BADGE DA CAMERA
                 Positioned(
-                  right: 2,
-                  bottom: 2,
+                  right: 0,
+                  bottom: 0,
                   child: Container(
-                    height: 38,
-                    width: 38,
+                    height: 40,
+                    width: 40,
                     decoration: BoxDecoration(
                       shape: .circle,
                       color: AppColors.mainColor,
@@ -179,9 +157,10 @@ class _CreateAccount extends StatelessWidget {
     return Consumer3<ProfilePhotoPicker, AuthForm, AuthService>(
       builder: (_, picker, userModelProvider, authService, _) {
         return Material(
-          borderRadius: BorderRadius.circular(12),
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(14),
           child: InkWell(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(14),
             onTap: picker.image != null
                 ? () async {
                     userModelProvider.image = picker.image;
@@ -190,29 +169,46 @@ class _CreateAccount extends StatelessWidget {
 
                     if (!context.mounted) return;
 
-                    await AppNavigator.pushAndRemoveUntil(context, MainShellPage());
+                    await AppNavigator.pushAndRemoveUntil(
+                      context,
+                      MainShellPage(),
+                    );
                   }
                 : null,
             child: Ink(
-              height: 50,
+              height: 52,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: AppColors.mainColor.withAlpha(
-                  picker.image != null ? 255 : 200,
+                  picker.image != null ? 255 : 150,
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  if (picker.image != null)
+                    BoxShadow(
+                      color: AppColors.mainColor.withAlpha(90),
+                      blurRadius: 16,
+                      offset: Offset(0, 6),
+                    ),
+                ],
               ),
               child: Center(
                 child: userModelProvider.isLoading
-                    ? CircularProgressIndicator(
-                        color: AppColors.whiteColor,
-                        strokeWidth: 1.8,
+                    ? SizedBox(
+                        height: 22,
+                        width: 22,
+                        child: CircularProgressIndicator(
+                          color: AppColors.whiteColor,
+                          strokeWidth: 2.5,
+                        ),
                       )
                     : Text(
-                        'Concluir Cadastro',
+                        'Concluir cadastro',
                         style: TextStyle(
                           color: AppColors.whiteColor,
+                          fontSize: 15,
                           fontWeight: .w600,
+                          letterSpacing: 0.3,
                         ),
                       ),
               ),

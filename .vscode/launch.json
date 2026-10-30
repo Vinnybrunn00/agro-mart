@@ -36,8 +36,8 @@
             "name": "All Devices",
             "configurations": [
                 //"Xiaomi Facape",
-                //"Xiaomi Home",
-                "Xiaomi Home Mother",
+                "Xiaomi Home",
+                //"Xiaomi Home Mother",
                 "Pixel 10 Pro",
                 //"windows",
             ]

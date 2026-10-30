@@ -32,18 +32,24 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: AuthBackground(
         children: [
-          AuthCard(
-            spacing: 12,
-            children: [
-              Column(
-                spacing: 10,
-                children: [
-                  // ICONE
-                  _BoxIcon(),
+          // ICONE
+          _BoxIcon(),
+          SizedBox(height: 18),
 
-                  // TEXT - ENTRAR
-                  _AuthText(),
-                ],
+          // TEXT - ENTRAR
+          _AuthText(),
+          SizedBox(height: 28),
+
+          AuthCard(
+            spacing: 14,
+            children: [
+              Text(
+                'Acesse sua conta',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: AppColors.textColor,
+                  fontWeight: .w700,
+                ),
               ),
 
               // EMAIL
@@ -95,18 +101,28 @@ class LoginPage extends StatelessWidget {
                 spacing: 4,
                 mainAxisAlignment: .center,
                 children: [
-                  Text('Não tem conta?'),
+                  Text(
+                    'Não tem conta?',
+                    style: TextStyle(
+                      color: AppColors.greyColor,
+                      fontSize: 13.5,
+                    ),
+                  ),
                   GestureDetector(
                     onTap: userModelProvider.isLoading
                         ? null
                         : () async {
-                            await AppNavigator.push(context, RegisterNamePage());
+                            await AppNavigator.push(
+                              context,
+                              RegisterNamePage(),
+                            );
                           },
                     child: Text(
                       'Cadastre-se',
                       style: TextStyle(
                         color: AppColors.mainColor,
-                        fontWeight: .w600,
+                        fontSize: 13.5,
+                        fontWeight: .w700,
                       ),
                     ),
                   ),
@@ -126,13 +142,24 @@ class _BoxIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: 85,
-        width: 85,
+        height: 92,
+        width: 92,
         decoration: BoxDecoration(
           color: AppColors.mainColor,
-          borderRadius: BorderRadius.circular(42.5 / 2),
+          borderRadius: BorderRadius.circular(28),
+          border: Border.all(
+            color: AppColors.whiteColor.withAlpha(60),
+            width: 1.5,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(70),
+              blurRadius: 24,
+              offset: Offset(0, 10),
+            ),
+          ],
         ),
-        child: Center(child: Image.asset('assets/icons/icon.png', width: 65)),
+        child: Center(child: Image.asset('assets/icons/icon.png', width: 66)),
       ),
     );
   }
@@ -145,11 +172,18 @@ class _ForgetPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _userModelProvider.isLoading ? null : () {},
-      child: Text(
-        'Esqueceu a senha?',
-        style: TextStyle(color: AppColors.mainColor),
+    return Align(
+      alignment: .centerRight,
+      child: GestureDetector(
+        onTap: _userModelProvider.isLoading ? null : () {},
+        child: Text(
+          'Esqueceu a senha?',
+          style: TextStyle(
+            color: AppColors.mainColor,
+            fontSize: 13,
+            fontWeight: .w600,
+          ),
+        ),
       ),
     );
   }
@@ -158,13 +192,28 @@ class _ForgetPassword extends StatelessWidget {
 class _AuthText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text(
-      'Entrar no AgroShare',
-      style: TextStyle(
-        fontSize: 18,
-        color: AppColors.textColor,
-        fontWeight: .w600,
-      ),
+    return Column(
+      spacing: 6,
+      children: [
+        Text(
+          'AgroShare',
+          style: TextStyle(
+            fontSize: 28,
+            color: AppColors.whiteColor,
+            fontWeight: .w800,
+            letterSpacing: 0.4,
+          ),
+        ),
+        Text(
+          'Máquinas e ferramentas compartilhadas\nentre produtores da sua região',
+          textAlign: .center,
+          style: TextStyle(
+            fontSize: 13.5,
+            height: 1.4,
+            color: AppColors.whiteColor.withAlpha(190),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -24,38 +24,45 @@ setGlobalOptions({ region: "us-central1", maxInstances: 10 });
 
 const db = getFirestore();
 
-const REQUEST_PATH = "users/{ownerId}/equipamentos/{equipamentoId}/requests/{requesterId}";
+const REQUEST_PATH =
+  "users/{ownerId}/equipamentos/{equipamentoId}/requests/{requesterId}";
 
 /** Nova solicitação de aluguel => avisa o dono do equipamento. */
-export const onNovaSolicitacao = onDocumentCreated(REQUEST_PATH, async (event) => {
-  const request = event.data?.data();
-  if (!request) return;
+export const onNovaSolicitacao = onDocumentCreated(
+  REQUEST_PATH,
+  async (event) => {
+    const request = event.data?.data();
+    if (!request) return;
 
-  const { ownerId, equipamentoId } = event.params;
-  const nomeEquipamento = await getNomeEquipamento(ownerId, equipamentoId);
+    const { ownerId, equipamentoId } = event.params;
+    const nomeEquipamento = await getNomeEquipamento(ownerId, equipamentoId);
 
-  await notify(ownerId, {
-    title: "Nova solicitação de aluguel",
-    body: `${request.name ?? "Alguém"} quer alugar ${nomeEquipamento}`,
-    data: { tipo: "solicitacao", ownerId, equipamentoId },
-  });
-});
+    await notify(ownerId, {
+      title: "Nova solicitação de aluguel",
+      body: `${request.name ?? "Alguém"} quer alugar ${nomeEquipamento}`,
+      data: { tipo: "solicitacao", ownerId, equipamentoId },
+    });
+  },
+);
 
 /** Solicitação aceita (accept false => true) => avisa quem solicitou. */
-export const onSolicitacaoAceita = onDocumentUpdated(REQUEST_PATH, async (event) => {
-  const before = event.data?.before.data();
-  const after = event.data?.after.data();
-  if (!after || before?.accept === true || after.accept !== true) return;
+export const onSolicitacaoAceita = onDocumentUpdated(
+  REQUEST_PATH,
+  async (event) => {
+    const before = event.data?.before.data();
+    const after = event.data?.after.data();
+    if (!after || before?.accept === true || after.accept !== true) return;
 
-  const { ownerId, equipamentoId, requesterId } = event.params;
-  const nomeEquipamento = await getNomeEquipamento(ownerId, equipamentoId);
+    const { ownerId, equipamentoId, requesterId } = event.params;
+    const nomeEquipamento = await getNomeEquipamento(ownerId, equipamentoId);
 
-  await notify(requesterId, {
-    title: "Solicitação aceita!",
-    body: `Seu pedido de aluguel de ${nomeEquipamento} foi aceito`,
-    data: { tipo: "aceite", ownerId, equipamentoId },
-  });
-});
+    await notify(requesterId, {
+      title: "Solicitação aceita!",
+      body: `Seu pedido de aluguel de ${nomeEquipamento} foi aceito`,
+      data: { tipo: "aceite", ownerId, equipamentoId },
+    });
+  },
+);
 
 /** Nova mensagem no chat => avisa o outro participante. */
 export const onNovaMensagem = onDocumentCreated(

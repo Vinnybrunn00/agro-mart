@@ -1,11 +1,12 @@
 import 'package:agroshare/features/auth/form/fields/cpf_field.dart';
 import 'package:agroshare/features/auth/form/auth_form.dart';
 import 'package:agroshare/core/navigation/app_navigator.dart';
-import 'package:agroshare/core/theme/app_colors.dart';
 import 'package:agroshare/core/widgets/app_text_field.dart';
+import 'package:agroshare/features/auth/ui/widgets/auth_back_button.dart';
 import 'package:agroshare/features/auth/ui/widgets/auth_background.dart';
 import 'package:agroshare/features/auth/ui/widgets/auth_card.dart';
 import 'package:agroshare/features/auth/ui/widgets/auth_button.dart';
+import 'package:agroshare/features/auth/ui/widgets/auth_header.dart';
 import 'package:agroshare/features/auth/ui/register/register_email_page.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
@@ -21,30 +22,17 @@ class RegisterCpfPage extends StatelessWidget {
     final CpfField cpf = Provider.of<CpfField>(context);
     return Scaffold(
       floatingActionButtonLocation: .startTop,
-      floatingActionButton: Padding(
-        padding: .only(left: 5, top: 20),
-        child: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Icon(BoxIcons.bx_arrow_back, color: AppColors.whiteColor),
-        ),
-      ),
+      floatingActionButton: AuthBackButton(),
       body: AuthBackground(
         children: [
           AuthCard(
             children: [
-              Text(
-                'Seu CPF',
-                style: TextStyle(
-                  color: Color(0xFF111540),
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                ),
+              AuthHeader(
+                step: 2,
+                icon: BoxIcons.bx_id_card,
+                title: 'Seu CPF',
+                subtitle: 'Usamos o CPF para garantir a segurança entre os produtores.',
               ),
-              Text(
-                'Preencha abaixo com o seu CPF',
-                style: TextStyle(color: AppColors.greyColor, fontSize: 13),
-              ),
-              SizedBox(height: 15),
 
               AppTextField(
                 prefixIcon: BoxIcons.bx_credit_card,
@@ -60,7 +48,7 @@ class RegisterCpfPage extends StatelessWidget {
                 errorText: cpf.msgError,
               ),
 
-              SizedBox(height: 12),
+              SizedBox(height: 20),
 
               AuthButton(
                 userModelProvider: userModelProvider,

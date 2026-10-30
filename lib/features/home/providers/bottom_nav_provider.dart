@@ -47,6 +47,6 @@ class BottomNavProvider with ChangeNotifier {
       'screen': ProfileTab(),
     },
 
-    {'icon': Iconsax.add_outline, 'title': 'Criar'},
+    {'icon': Iconsax.add_outline, 'title': 'Anunciar'},
   ];
 }

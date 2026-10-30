@@ -34,7 +34,6 @@ class LocationProvider with ChangeNotifier {
       if (!serviceEnabled) {
         // O usuário precisa ligar o GPS e tocar no mapa novamente.
         await Geolocator.openLocationSettings();
-        return;
       }
 
       LocationPermission permission = await Geolocator.checkPermission();
@@ -61,5 +60,4 @@ class LocationProvider with ChangeNotifier {
       _setLoading(false);
     }
   }
-
 }
