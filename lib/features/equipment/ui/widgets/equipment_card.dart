@@ -3,7 +3,7 @@ import 'package:agroshare/features/equipment/models/equipment_model.dart';
 import 'package:agroshare/features/profile/models/user_model.dart';
 import 'package:agroshare/core/theme/app_colors.dart';
 import 'package:agroshare/features/equipment/ui/equipment_details_page.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class EquipmentCard extends StatelessWidget {
   final EquipmentModel equipamentos;

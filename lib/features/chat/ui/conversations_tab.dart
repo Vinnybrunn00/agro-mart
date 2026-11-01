@@ -10,7 +10,7 @@ import 'package:agroshare/features/chat/models/conversation_model.dart';
 import 'package:agroshare/core/navigation/app_navigator.dart';
 import 'package:agroshare/core/theme/app_colors.dart';
 import 'package:agroshare/features/chat/ui/chat_page.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 

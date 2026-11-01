@@ -2,7 +2,7 @@ import 'package:agroshare/features/equipment/data/my_equipment_stream.dart';
 import 'package:agroshare/features/equipment/models/equipment_model.dart';
 import 'package:agroshare/features/equipment/ui/widgets/my_equipment_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MyEquipmentTab extends StatelessWidget {
   new({super.key});

@@ -1,6 +1,6 @@
 import 'package:agroshare/features/auth/form/auth_form.dart';
 import 'package:agroshare/core/theme/app_colors.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // botão de entrar e criar conta
 class AuthButton extends StatelessWidget {

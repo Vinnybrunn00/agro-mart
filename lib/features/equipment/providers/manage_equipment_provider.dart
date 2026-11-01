@@ -8,7 +8,7 @@ import 'dart:developer';
 
 import 'package:agroshare/features/equipment/form/equipment_edit_form.dart';
 import 'package:agroshare/features/equipment/models/equipment_model.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ManageEquipmentProvider with ChangeNotifier {
   bool _isLoading = false;

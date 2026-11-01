@@ -5,7 +5,7 @@ import 'package:agroshare/features/equipment/models/equipment_model.dart';
 import 'package:agroshare/features/profile/models/user_model.dart';
 import 'package:agroshare/features/equipment/ui/widgets/equipment_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class HomeTab extends StatelessWidget {

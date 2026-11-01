@@ -8,7 +8,7 @@ import 'package:agroshare/features/chat/providers/chat_provider.dart';
 import 'package:agroshare/features/chat/models/message_model.dart';
 import 'package:agroshare/features/chat/data/chat_repository.dart';
 import 'package:agroshare/core/theme/app_colors.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 

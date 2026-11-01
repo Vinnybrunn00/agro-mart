@@ -1,5 +1,5 @@
 import 'package:agroshare/core/theme/app_colors.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // cabeçalho padrão das telas de cadastro (etapa, icone, titulo e subtitulo)
 class AuthHeader extends StatelessWidget {

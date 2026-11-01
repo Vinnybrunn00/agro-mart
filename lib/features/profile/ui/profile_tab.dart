@@ -13,7 +13,7 @@ import 'package:agroshare/core/theme/app_colors.dart';
 import 'package:agroshare/features/rental_requests/ui/my_rental_requests_page.dart';
 import 'package:agroshare/core/services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:provider/provider.dart';
 

@@ -2,7 +2,7 @@ import 'package:agroshare/features/chat/ui/conversations_tab.dart';
 import 'package:agroshare/features/equipment/ui/my_equipment_tab.dart';
 import 'package:agroshare/features/home/ui/home_tab.dart';
 import 'package:agroshare/features/profile/ui/profile_tab.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 
 class BottomNavProvider with ChangeNotifier {

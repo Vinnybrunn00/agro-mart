@@ -9,7 +9,7 @@ import 'dart:developer';
 
 import 'package:agroshare/features/chat/data/conversations_stream.dart';
 import 'package:agroshare/features/chat/models/conversation_model.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Conversas do usuário em tempo real, compartilhadas entre a aba
 /// "Conversas" e o contador de não lidas da barra de navegação.

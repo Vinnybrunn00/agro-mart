@@ -8,7 +8,7 @@ import 'package:agroshare/features/auth/form/auth_form.dart';
 import 'package:agroshare/features/auth/services/profile_photo_uploader.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class AuthService extends ProfilePhotoUploader with ChangeNotifier {
   // instancia do firebaseFirestore

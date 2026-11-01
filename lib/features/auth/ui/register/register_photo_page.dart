@@ -13,7 +13,7 @@ import 'package:agroshare/features/auth/ui/widgets/auth_back_button.dart';
 import 'package:agroshare/features/auth/ui/widgets/auth_background.dart';
 import 'package:agroshare/features/auth/ui/widgets/auth_card.dart';
 import 'package:agroshare/features/home/ui/main_shell_page.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:provider/provider.dart';
 

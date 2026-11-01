@@ -10,7 +10,7 @@ import 'package:agroshare/features/chat/models/message_model.dart';
 import 'package:agroshare/features/chat/data/chat_repository.dart';
 import 'package:agroshare/core/services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ChatProvider with ChangeNotifier {
   final ChatRepository repository;

@@ -8,7 +8,7 @@ import 'package:agroshare/features/auth/ui/widgets/auth_card.dart';
 import 'package:agroshare/features/auth/ui/widgets/auth_button.dart';
 import 'package:agroshare/features/auth/ui/widgets/auth_header.dart';
 import 'package:agroshare/features/auth/ui/register/register_password_page.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';
 import 'package:provider/provider.dart';
 

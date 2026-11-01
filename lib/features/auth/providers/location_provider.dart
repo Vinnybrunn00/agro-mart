@@ -5,7 +5,7 @@
 // Create by Vinícius Bruno on 28/09/2026
 //
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:geolocator/geolocator.dart';
 

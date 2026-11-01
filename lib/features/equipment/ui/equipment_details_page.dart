@@ -6,7 +6,7 @@ import 'package:agroshare/core/theme/app_colors.dart';
 import 'package:agroshare/features/chat/ui/chat_page.dart';
 import 'package:agroshare/features/profile/ui/user_profile_page.dart';
 import 'package:agroshare/core/utils/app_messenger.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
 class EquipmentDetailsPage extends StatelessWidget {
