@@ -8,19 +8,13 @@ import 'package:flutter/material.dart';
 class EquipmentCard extends StatelessWidget {
   final EquipmentModel equipamentos;
   final UserModel? currentUser;
-  final double? distanceKm;
 
-  const new({
-    super.key,
-    required this.equipamentos,
-    this.distanceKm,
-    this.currentUser,
-  });
+  const new({super.key, required this.equipamentos, this.currentUser});
 
   static const int _newAnuncioDays = 7;
   static const double _nearKm = 5;
 
-  bool get _isNear => distanceKm != null && distanceKm! <= _nearKm;
+  bool get _isNear => equipamentos.distanceKm <= _nearKm;
 
   bool get _isNew {
     final DateTime created = DateTime.fromMillisecondsSinceEpoch(
@@ -30,9 +24,8 @@ class EquipmentCard extends StatelessWidget {
   }
 
   String? get _distanceLabel {
-    if (distanceKm == null) return null;
     if (_isNear) return 'Próximo de você';
-    return '${distanceKm!.toStringAsFixed(1).replaceAll('.', ',')} km';
+    return '${equipamentos.distanceKm.toStringAsFixed(1).replaceAll('.', ',')} km';
   }
 
   String get _periodLabel {
@@ -66,7 +59,6 @@ class EquipmentCard extends StatelessWidget {
                   final EquipmentDetailsPage info = EquipmentDetailsPage(
                     currentUser: currentUser,
                     equipamentos: equipamentos,
-                    distanceKm: distanceKm,
                   );
 
                   await AppNavigator.push(context, info);

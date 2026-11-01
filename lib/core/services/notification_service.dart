@@ -94,9 +94,10 @@ class NotificationService {
 
   void _onForegroundMessage(RemoteMessage message) {
     final BuildContext? context = navigatorKey.currentContext;
+    final OverlayState? overlay = navigatorKey.currentState?.overlay;
     final RemoteNotification? notification = message.notification;
 
-    if (context == null || notification == null) return;
+    if (context == null || overlay == null || notification == null) return;
     if (message.data['chatId'] != null &&
         message.data['chatId'] == activeChatId) {
       return;
@@ -104,6 +105,7 @@ class NotificationService {
 
     AppMessenger.showMessage(
       context,
+      overlayState: overlay,
       title: notification.title,
       message: notification.body ?? '',
       icon: message.data['tipo'] == 'chat'

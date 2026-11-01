@@ -12,31 +12,23 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class UserProfilePage extends StatelessWidget {
   final EquipmentModel equipamentos;
   final UserModel? currentUser;
-  final double? distanceKm;
 
-  const new({
-    super.key,
-    required this.equipamentos,
-    this.currentUser,
-    this.distanceKm,
-  });
+  const new({super.key, required this.equipamentos, this.currentUser});
 
   /// Até essa distância o produtor é considerado próximo e o trajeto não é
   /// traçado no mapa.
   static const double _nearKm = 5;
 
   String? get _distanceLabel {
-    if (distanceKm == null) return null;
-
-    return distanceKm! <= _nearKm
+    return equipamentos.distanceKm <= _nearKm
         ? 'Próximo de você'
-        : '${distanceKm!.toStringAsFixed(1)} km de você';
+        : '${equipamentos.distanceKm.toStringAsFixed(1)} km de você';
   }
 
   /// Localização do usuário atual, apenas quando o produtor não está próximo.
   LatLng? get _userPosition {
-    if (currentUser == null || distanceKm == null) return null;
-    if (distanceKm! <= _nearKm) return null;
+    if (currentUser == null) return null;
+    if (equipamentos.distanceKm <= _nearKm) return null;
 
     return LatLng(currentUser!.latitude, currentUser!.longitude);
   }
@@ -126,7 +118,7 @@ class UserProfilePage extends StatelessWidget {
                     title: equipamentos.nameProperty,
                     subtitle: equipamentos.locationProperty,
                     userPosition: _userPosition,
-                    distanceKm: distanceKm,
+                    distanceKm: equipamentos.distanceKm,
                   ),
                 ],
               ),

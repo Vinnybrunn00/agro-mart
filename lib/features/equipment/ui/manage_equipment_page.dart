@@ -91,35 +91,31 @@ class ManageEquipmentPage extends StatelessWidget {
               },
             ),
 
-            SizedBox(height: equipamentos.accept ? 0 : 8),
+            SizedBox(height: 8),
 
-            if (equipamentos.accept)
-              _SaveEquipmentButton(
-                onTap: () async {
-                  if (editEquip.isNotEmpty) {
-                    // update price
-                    if (editEquip.newPrice != null) {
-                      await anuncioProvider.updatePrice(
-                        equipamentos,
-                        editEquip,
-                      );
-                    }
-
-                    // update período do aluguel
-                    if (editEquip.newPeriodic != null) {
-                      await anuncioProvider.updatePeriodic(
-                        equipamentos,
-                        editEquip,
-                      );
-                    }
-
-                    editEquip.clearData();
-
-                    if (!context.mounted) return;
-                    await Navigator.of(context).maybePop();
+            _SaveEquipmentButton(
+              onTap: () async {
+                if (editEquip.isNotEmpty) {
+                  // update price
+                  if (editEquip.newPrice != null) {
+                    await anuncioProvider.updatePrice(equipamentos, editEquip);
                   }
-                },
-              ),
+
+                  // update período do aluguel
+                  if (editEquip.newPeriodic != null) {
+                    await anuncioProvider.updatePeriodic(
+                      equipamentos,
+                      editEquip,
+                    );
+                  }
+
+                  editEquip.clearData();
+
+                  if (!context.mounted) return;
+                  await Navigator.of(context).maybePop();
+                }
+              },
+            ),
 
             _RentalRequestsSection(
               equipamentos: equipamentos,
@@ -294,7 +290,10 @@ class _RentalRequestsSection extends StatelessWidget {
                     await Navigator.of(context).maybePop();
 
                     if (!context.mounted) return;
-                    AppMessenger.showMessage(context, message: 'Aceito com sucesso!');
+                    AppMessenger.showMessage(
+                      context,
+                      message: 'Aceito com sucesso!',
+                    );
                   },
                   onChat: () async {
                     final ChatPage chatPage = ChatPage(

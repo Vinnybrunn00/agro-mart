@@ -24,6 +24,12 @@
             "deviceId": "emulator-5554",
         },
         {
+            "name": "Pixel 10 Pro (2)",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5556",
+        },
+        {
             "name": "Xiaomi Home Mother",
             "request": "launch",
             "type": "dart",
@@ -36,10 +42,10 @@
             "name": "All Devices",
             "configurations": [
                 //"Xiaomi Facape",
-                "Xiaomi Home",
+                //"Xiaomi Home",
                 //"Xiaomi Home Mother",
                 "Pixel 10 Pro",
-                //"windows",
+                "Pixel 10 Pro (2)",
             ]
         }
     ]

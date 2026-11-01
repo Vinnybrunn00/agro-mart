@@ -35,35 +35,23 @@ class _MainShell extends StatelessWidget {
   PreferredSizeWidget? _showAppBar(int index) {
     switch (index) {
       case 0:
-        return PreferredSize(
-          preferredSize: Size(double.infinity, 110),
-          child: Column(
-            children: [
-              AppBar(
-                scrolledUnderElevation: 0,
-                backgroundColor: AppColors.backgroundColor,
-                title: StreamBuilder(
-                  stream: _userStream.snapshot(),
-                  builder: (_, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return ShimmerLoading(width: 130);
-                    }
+        return AppBar(
+          scrolledUnderElevation: 0,
+          backgroundColor: AppColors.backgroundColor,
+          title: StreamBuilder(
+            stream: _userStream.snapshot(),
+            builder: (_, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return ShimmerLoading(width: 130);
+              }
 
-                    final Map<String, dynamic>? data = snapshot.data?.data();
+              final Map<String, dynamic>? data = snapshot.data?.data();
 
-                    return Text(
-                      'Olá, ${data?['name'].toString()}',
-                      style: TextStyle(fontSize: 18),
-                    );
-                  },
-                ),
-              ),
-              AppTextField(
-                autoFocus: false,
-                padding: .only(left: 12, right: 12),
-                prefixIcon: BoxIcons.bx_search,
-              ),
-            ],
+              return Text(
+                'Olá, ${data?['name'].toString()}',
+                style: TextStyle(fontSize: 18),
+              );
+            },
           ),
         );
       case 1:
@@ -133,29 +121,27 @@ Future<void> _addEquipamento(BuildContext context) async {
     isScrollControlled: true,
     backgroundColor: AppColors.backgroundColor,
     context: context,
-    builder: (_) {
+    builder: (contextBuilder) {
       final EquipmentImagesField imagesEquipamento =
-          Provider.of<EquipmentImagesField>(context);
+          Provider.of<EquipmentImagesField>(contextBuilder);
 
       final CreateEquipmentProvider productRepository =
-          Provider.of<CreateEquipmentProvider>(context);
+          Provider.of<CreateEquipmentProvider>(contextBuilder);
 
-      final EquipmentImagePicker imageManager = Provider.of<EquipmentImagePicker>(context);
+      final EquipmentImagePicker imageManager =
+          Provider.of<EquipmentImagePicker>(contextBuilder);
 
       final EquipmentForm equipamentos = Provider.of<EquipmentForm>(
-        context,
+        contextBuilder,
       );
-      final EquipmentNameField nameEquipamento = Provider.of<EquipmentNameField>(
-        context,
-      );
-      final EquipmentPriceField priceEquipamento = Provider.of<EquipmentPriceField>(
-        context,
-      );
-      final EquipmentDaysField daysEquipamento = Provider.of<EquipmentDaysField>(
-        context,
-      );
+      final EquipmentNameField nameEquipamento =
+          Provider.of<EquipmentNameField>(contextBuilder);
+      final EquipmentPriceField priceEquipamento =
+          Provider.of<EquipmentPriceField>(contextBuilder);
+      final EquipmentDaysField daysEquipamento =
+          Provider.of<EquipmentDaysField>(contextBuilder);
       final EquipmentDescriptionField descriptionEquipamento =
-          Provider.of<EquipmentDescriptionField>(context);
+          Provider.of<EquipmentDescriptionField>(contextBuilder);
 
       return Stack(
         children: [

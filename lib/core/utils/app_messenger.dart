@@ -23,8 +23,13 @@ class AppMessenger {
     bool floating = true,
     double borderRadius = 12,
     EdgeInsetsGeometry? margin,
+    OverlayState? overlayState,
   }) {
-    final OverlayState overlay = Overlay.of(context, rootOverlay: true);
+    // Quem chama de fora da árvore de widgets (ex.: notificações via
+    // navigatorKey) deve passar [overlayState]: o contexto do Navigator fica
+    // acima do Overlay dele, então Overlay.of(context) não o encontraria.
+    final OverlayState overlay =
+        overlayState ?? Overlay.of(context, rootOverlay: true);
 
     hideMessage();
 

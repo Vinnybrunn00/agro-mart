@@ -196,7 +196,7 @@ class _AuthText extends StatelessWidget {
       spacing: 6,
       children: [
         Text(
-          'AgroShare',
+          'AgroMart',
           style: TextStyle(
             fontSize: 28,
             color: AppColors.whiteColor,

@@ -12,20 +12,13 @@ import 'package:provider/provider.dart';
 class EquipmentDetailsPage extends StatelessWidget {
   final EquipmentModel equipamentos;
   final UserModel? currentUser;
-  final double? distanceKm;
 
-  const new({
-    super.key,
-    required this.equipamentos,
-    this.distanceKm,
-    this.currentUser,
-  });
+  const new({super.key, required this.equipamentos, this.currentUser});
 
   @override
   Widget build(BuildContext context) {
-    final RentalRequestProvider ferramentas = Provider.of<RentalRequestProvider>(
-      context,
-    );
+    final RentalRequestProvider ferramentas =
+        Provider.of<RentalRequestProvider>(context);
 
     final Size size = MediaQuery.of(context).size;
 
@@ -69,7 +62,7 @@ class EquipmentDetailsPage extends StatelessWidget {
                           ),
                           Expanded(
                             child: Text(
-                              '${equipamentos.nameProperty} · ${distanceKm! <= 5 ? 'Proximo de você' : '${distanceKm!.toStringAsFixed(1)} km'}',
+                              '${equipamentos.nameProperty} · ${equipamentos.distanceKm <= 5 ? 'Proximo de você' : '${equipamentos.distanceKm.toStringAsFixed(1)} km'}',
                               overflow: .ellipsis,
                               style: TextStyle(
                                 color: AppColors.greyColor,
@@ -91,7 +84,6 @@ class EquipmentDetailsPage extends StatelessWidget {
                               UserProfilePage(
                                 equipamentos: equipamentos,
                                 currentUser: currentUser,
-                                distanceKm: distanceKm,
                               );
                           await AppNavigator.push(context, profileUserPage);
                         },
@@ -253,7 +245,10 @@ class _HeaderPhotosState extends State<_HeaderPhotos> {
                 children: [
                   _HeaderButton(icon: Icons.arrow_back, onTap: widget.onBack),
                   Spacer(),
-                  _HeaderButton(icon: Icons.share_outlined, onTap: widget.onShare),
+                  _HeaderButton(
+                    icon: Icons.share_outlined,
+                    onTap: widget.onShare,
+                  ),
                   _HeaderButton(
                     icon: Icons.favorite_border,
                     onTap: widget.onFavorite,

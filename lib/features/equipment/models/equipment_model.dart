@@ -4,7 +4,9 @@
 //  Create by Vinicius Bruno on 09/10/2026
 //
 
+import 'package:agroshare/features/profile/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 
 class EquipmentModel {
@@ -27,6 +29,8 @@ class EquipmentModel {
   final String uid;
   final String urlPhotoUser;
   final bool accept;
+  final double distanceKm;
+  final bool isNotView;
 
   EquipmentModel({
     required this.requestCollection,
@@ -48,12 +52,19 @@ class EquipmentModel {
     required this.equipamentoReference,
     required this.urlPhotoUser,
     required this.accept,
+    required this.distanceKm,
+    required this.isNotView,
   });
 
   factory EquipmentModel.fromQueryDocument(
-    QueryDocumentSnapshot<Map<String, dynamic>>? equipamentos,
-  ) {
+    QueryDocumentSnapshot<Map<String, dynamic>>? equipamentos, [
+    UserModel? userModel,
+  ]) {
     final Map<String, dynamic>? data = equipamentos?.data();
+
+    final double lat = (data?['lat'] as num).toDouble();
+    final double long = (data?['long'] as num).toDouble();
+    final String uid = data?['uid'];
 
     return EquipmentModel(
       equipamentoReference: equipamentos?.reference,
@@ -62,9 +73,9 @@ class EquipmentModel {
       referenceId: equipamentos!.reference.id,
       description: data?['description'],
       images: data?['image_quipamentos'],
-      lat: data?['lat'],
+      lat: lat,
       locationProperty: data?['locationProperty'],
-      long: data?['long'],
+      long: long,
       name: data?['name'],
       nameProperty: data?['nameProperty'],
       nomeEquipamento: data?['nome_equipamento'],
@@ -72,9 +83,13 @@ class EquipmentModel {
       price: _convertCentInReais(data?['price']),
       status: data?['status'],
       timestamp: data?['timestamp'],
-      uid: data?['uid'],
+      uid: uid,
       urlPhotoUser: data?['url_photo'],
       accept: data?['accept'],
+      distanceKm: userModel != null
+          ? _getDistanceKm(currentUser: userModel, lat: lat, long: long)
+          : 0,
+      isNotView: _isNotView(currentUser: userModel, uid: uid),
     );
   }
 
@@ -90,4 +105,22 @@ class EquipmentModel {
 
   Future<void> updateAccept() async =>
       await equipamentoReference?.update({'accept': true});
+
+  static bool _isNotView({
+    required UserModel? currentUser,
+    required String uid,
+  }) => currentUser?.id == uid;
+
+  static double _getDistanceKm({
+    required UserModel currentUser,
+    required double lat,
+    required double long,
+  }) =>
+      Geolocator.distanceBetween(
+        currentUser.latitude,
+        currentUser.longitude,
+        lat,
+        long,
+      ) /
+      1000;
 }
