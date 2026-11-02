@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/icons/icon.png" width="110" alt="Ícone do AgroMart" />
+<img src="docs/logo.png" width="90" alt="Logo do AgroMart" />
 
 # AgroMart
 
