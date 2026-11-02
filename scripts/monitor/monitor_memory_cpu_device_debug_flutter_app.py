@@ -1,5 +1,15 @@
 #!/usr/bin/env python3
-"""Monitora CPU e memória de um app Android e grava num CSV."""
+
+"""
+ * scripts/monitor/monitor_memory_cpu_device_debug_flutter_app.py
+ *
+ * Monitora CPU e memória de um app Android via adb e grava num CSV.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 02/11/2026
+"""
+
 import csv
 import re
 import subprocess
@@ -7,17 +17,21 @@ import sys
 import time
 from datetime import datetime
 
+# Pacote do app (1º argumento), intervalo de leitura e arquivo de saída
 PACKAGE = sys.argv[1] if len(sys.argv) > 1 else "com.exemplo.meuapp"
 INTERVAL = 1.0  # segundos
 OUT = f"flutter_logs/perf_{datetime.now():%Y-%m-%d_%H-%M}.csv"
 
+# Executa um comando no shell do dispositivo via adb
 def adb(*args: str) -> str:
     return subprocess.run(
         ["adb", "shell", *args], capture_output=True, text=True
     ).stdout.strip()
 
+# PID do app, ou None se não estiver rodando
 def pid_do_app() -> str | None: return adb("pidof", PACKAGE) or None
 
+# Uso de CPU (%) do processo pelo top
 def cpu(pid: str) -> float | None:
     out = adb("top", "-b", "-n", "1", "-q", "-p", pid, "-o", "%CPU")
     try:
@@ -25,11 +39,13 @@ def cpu(pid: str) -> float | None:
     except (ValueError, IndexError):
         return None
 
+# Memória total (PSS) do processo em MB pelo dumpsys
 def memoria_mb(pid: str) -> float | None:
     out = adb("dumpsys", "meminfo", pid)
     m = re.search(r"TOTAL(?: PSS:)?\s+(\d+)", out)
     return int(m.group(1)) / 1024 if m else None
 
+# Lê CPU e memória a cada INTERVAL e grava no CSV até Ctrl+C
 def main() -> None:
     import os
     os.makedirs("flutter_logs", exist_ok=True)
