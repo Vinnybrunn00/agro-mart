@@ -1,8 +1,12 @@
-//  profile_tab.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 06/09/2026
-//
+/*
+ * lib/features/profile/ui/profile_tab.dart
+ *
+ * Aba de perfil do usuário autenticado.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 06/09/2026
+ */
 
 import 'package:agroshare/core/session/app_session.dart';
 import 'package:agroshare/features/profile/data/user_stream.dart';

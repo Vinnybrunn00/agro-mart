@@ -1,8 +1,12 @@
-//  user_stream.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 01/10/2026
-//
+/*
+ * lib/features/profile/data/user_stream.dart
+ *
+ * Stream do documento do usuário autenticado.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 01/10/2026
+ */
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

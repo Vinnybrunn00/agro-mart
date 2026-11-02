@@ -1,8 +1,13 @@
-//  notification_service.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 23/10/2026
-//
+/*
+ * lib/core/services/notification_service.dart
+ *
+ * Push notifications (FCM): permissão, token e tratamento das
+ * notificações disparadas pelas Cloud Functions.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 23/10/2026
+ */
 
 import 'dart:async';
 import 'dart:developer';

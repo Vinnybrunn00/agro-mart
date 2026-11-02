@@ -1,8 +1,12 @@
-//  chat_repository.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 23/10/2026
-//
+/*
+ * lib/features/chat/data/chat_repository.dart
+ *
+ * Acesso ao Firestore para as conversas entre dono e solicitante.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 23/10/2026
+ */
 
 import 'package:agroshare/features/chat/models/message_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

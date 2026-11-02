@@ -1,3 +1,13 @@
+/*
+ * lib/features/home/ui/main_shell_page.dart
+ *
+ * Estrutura principal do app com a barra de navegação inferior.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 08/09/2026
+ */
+
 import 'dart:io';
 
 import 'package:agroshare/features/chat/providers/conversations_provider.dart';

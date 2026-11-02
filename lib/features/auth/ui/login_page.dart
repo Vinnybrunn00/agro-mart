@@ -1,8 +1,12 @@
-//  login_page.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 05/09/2026
-//
+/*
+ * lib/features/auth/ui/login_page.dart
+ *
+ * Tela de login.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 05/09/2026
+ */
 
 import 'package:agroshare/features/auth/form/fields/email_field.dart';
 import 'package:agroshare/features/auth/form/fields/password_field.dart';

@@ -1,3 +1,12 @@
+/*
+ * lib/features/equipment/form/fields/equipment_images_field.dart
+ *
+ * Campo de fotos do equipamento e sua validação.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 13/10/2026
+ */
 
 import 'dart:io';
 

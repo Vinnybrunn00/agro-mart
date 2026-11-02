@@ -1,3 +1,13 @@
+/*
+ * lib/features/profile/models/current_user_model.dart
+ *
+ * Modelo do usuário autenticado.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 17/10/2026
+ */
+
 class CurrentUserModel {
   final String id;
   final String name;

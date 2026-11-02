@@ -1,3 +1,13 @@
+/*
+ * lib/features/equipment/ui/widgets/my_equipment_card.dart
+ *
+ * Card de equipamento exibido na aba "Meus equipamentos".
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 13/10/2026
+ */
+
 import 'package:agroshare/core/navigation/app_navigator.dart';
 import 'package:agroshare/features/equipment/models/equipment_model.dart';
 import 'package:agroshare/core/theme/app_colors.dart';

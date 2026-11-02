@@ -1,8 +1,12 @@
-//  create_equipment_provider.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 05/10/2026
-//
+/*
+ * lib/features/equipment/providers/create_equipment_provider.dart
+ *
+ * Criação e publicação de um novo equipamento.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 05/10/2026
+ */
 
 import 'dart:developer';
 import 'dart:io';

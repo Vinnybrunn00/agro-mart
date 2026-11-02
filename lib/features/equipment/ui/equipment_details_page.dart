@@ -1,3 +1,13 @@
+/*
+ * lib/features/equipment/ui/equipment_details_page.dart
+ *
+ * Tela de detalhes de um equipamento anunciado.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 13/10/2026
+ */
+
 import 'package:agroshare/features/rental_requests/providers/rental_request_provider.dart';
 import 'package:agroshare/core/navigation/app_navigator.dart';
 import 'package:agroshare/features/equipment/models/equipment_model.dart';

@@ -1,3 +1,13 @@
+/*
+ * lib/core/constants/regex_patterns.dart
+ *
+ * Expressões regulares compartilhadas pelas validações de formulário.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 05/09/2026
+ */
+
 final hasCharacter = RegExp(r'[@#$%^&*]');
 final hasUpperCase = RegExp(r'[A-Z]');
 final hasLowerCase = RegExp(r'[a-z]');

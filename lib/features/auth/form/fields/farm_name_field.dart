@@ -1,8 +1,12 @@
-//  farm_name_field.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 26/09/2026
-//
+/*
+ * lib/features/auth/form/fields/farm_name_field.dart
+ *
+ * Campo de nome da propriedade e sua validação.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 26/09/2026
+ */
 
 import 'package:agroshare/features/auth/form/fields/credential_field.dart';
 import 'package:flutter/widgets.dart';

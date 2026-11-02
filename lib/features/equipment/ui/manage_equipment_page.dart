@@ -1,3 +1,13 @@
+/*
+ * lib/features/equipment/ui/manage_equipment_page.dart
+ *
+ * Tela de gerenciamento de um equipamento do usuário.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 13/10/2026
+ */
+
 import 'package:agroshare/features/equipment/form/equipment_edit_form.dart';
 import 'package:agroshare/features/equipment/form/equipment_form.dart';
 import 'package:agroshare/features/equipment/providers/manage_equipment_provider.dart';

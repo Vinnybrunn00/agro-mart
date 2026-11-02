@@ -1,3 +1,13 @@
+/*
+ * lib/features/equipment/form/equipment_edit_form.dart
+ *
+ * Formulário de edição de preço, período e status do equipamento.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 23/10/2026
+ */
+
 import 'package:material_ui/material_ui.dart';
 
 class EquipmentEditForm with ChangeNotifier {

@@ -1,3 +1,13 @@
+/*
+ * lib/features/auth/ui/register/register_farm_page.dart
+ *
+ * Etapa de cadastro: propriedade rural e localização.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 02/10/2026
+ */
+
 import 'dart:async';
 
 import 'package:agroshare/features/auth/form/fields/latitude_field.dart';

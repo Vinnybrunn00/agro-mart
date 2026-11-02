@@ -1,9 +1,12 @@
-//
-// rental_request_provider.dart
-// AgroShare
-//
-//  Create by Vinícius Bruno on 12/10/2026.
-//
+/*
+ * lib/features/rental_requests/providers/rental_request_provider.dart
+ *
+ * Envio, aceite e recusa de solicitações de aluguel.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 12/10/2026
+ */
 
 import 'dart:developer';
 

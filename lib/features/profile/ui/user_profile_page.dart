@@ -1,3 +1,13 @@
+/*
+ * lib/features/profile/ui/user_profile_page.dart
+ *
+ * Perfil público de um produtor, com a localização no mapa.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 13/10/2026
+ */
+
 import 'dart:math' as math;
 
 import 'package:agroshare/features/equipment/models/equipment_model.dart';

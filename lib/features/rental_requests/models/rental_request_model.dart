@@ -1,8 +1,12 @@
-//  rental_request_model.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 09/10/2026
-//
+/*
+ * lib/features/rental_requests/models/rental_request_model.dart
+ *
+ * Modelo de uma solicitação de aluguel.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 09/10/2026
+ */
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 

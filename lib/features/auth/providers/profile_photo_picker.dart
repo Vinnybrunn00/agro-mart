@@ -1,8 +1,12 @@
-//  profile_photo_picker.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 25/09/2026
-//
+/*
+ * lib/features/auth/providers/profile_photo_picker.dart
+ *
+ * Seleção da foto de perfil pela câmera ou galeria.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 25/09/2026
+ */
 
 import 'dart:io';
 

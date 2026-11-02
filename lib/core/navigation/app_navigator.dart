@@ -1,3 +1,13 @@
+/*
+ * lib/core/navigation/app_navigator.dart
+ *
+ * Atalhos de navegação entre telas do app.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 08/09/2026
+ */
+
 import 'package:material_ui/material_ui.dart';
 
 abstract class AppNavigator {

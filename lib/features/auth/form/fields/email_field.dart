@@ -1,3 +1,13 @@
+/*
+ * lib/features/auth/form/fields/email_field.dart
+ *
+ * Campo de e-mail e sua validação.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 05/09/2026
+ */
+
 import 'package:agroshare/core/constants/regex_patterns.dart';
 import 'package:agroshare/features/auth/form/fields/credential_field.dart';
 import 'package:flutter/widgets.dart';

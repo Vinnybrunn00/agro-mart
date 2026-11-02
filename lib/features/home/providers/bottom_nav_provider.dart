@@ -1,3 +1,13 @@
+/*
+ * lib/features/home/providers/bottom_nav_provider.dart
+ *
+ * Estado da barra de navegação inferior.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 16/10/2026
+ */
+
 import 'package:agroshare/features/chat/ui/conversations_tab.dart';
 import 'package:agroshare/features/equipment/ui/my_equipment_tab.dart';
 import 'package:agroshare/features/home/ui/home_tab.dart';

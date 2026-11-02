@@ -1,8 +1,12 @@
-//  conversations_stream.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 23/10/2026
-//
+/*
+ * lib/features/chat/data/conversations_stream.dart
+ *
+ * Streams das conversas do usuário e dos seus contatos.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 23/10/2026
+ */
 
 import 'package:agroshare/features/chat/models/conversation_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

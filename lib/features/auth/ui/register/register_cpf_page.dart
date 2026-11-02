@@ -1,3 +1,13 @@
+/*
+ * lib/features/auth/ui/register/register_cpf_page.dart
+ *
+ * Etapa de cadastro: CPF.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 25/09/2026
+ */
+
 import 'package:agroshare/features/auth/form/fields/cpf_field.dart';
 import 'package:agroshare/features/auth/form/auth_form.dart';
 import 'package:agroshare/core/navigation/app_navigator.dart';

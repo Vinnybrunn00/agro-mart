@@ -1,8 +1,12 @@
-//  app_session.dart
-//  AgroMart
-//
-//  Create by Vinicius Bruno on 12/10/2026
-//
+/*
+ * lib/core/session/app_session.dart
+ *
+ * Sessão do app: permite recriar toda a árvore de widgets no logout.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 12/10/2026
+ */
 
 import 'package:flutter/widgets.dart';
 

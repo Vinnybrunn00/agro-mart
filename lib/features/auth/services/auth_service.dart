@@ -1,8 +1,12 @@
-//  auth_service.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 05/09/2026
-//
+/*
+ * lib/features/auth/services/auth_service.dart
+ *
+ * Autenticação com Firebase Auth e persistência do usuário no Firestore.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 05/09/2026
+ */
 
 import 'package:agroshare/features/auth/form/auth_form.dart';
 import 'package:agroshare/features/auth/services/profile_photo_uploader.dart';

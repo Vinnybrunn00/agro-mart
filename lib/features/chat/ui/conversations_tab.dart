@@ -1,8 +1,12 @@
-//  conversations_tab.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 23/10/2026
-//
+/*
+ * lib/features/chat/ui/conversations_tab.dart
+ *
+ * Aba com a lista de conversas do usuário.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 23/10/2026
+ */
 
 import 'package:agroshare/features/chat/providers/conversations_provider.dart';
 import 'package:agroshare/features/chat/data/conversations_stream.dart';

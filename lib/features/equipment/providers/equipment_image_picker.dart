@@ -1,8 +1,12 @@
-//  equipment_image_picker.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 03/10/2026
-//
+/*
+ * lib/features/equipment/providers/equipment_image_picker.dart
+ *
+ * Seleção das fotos do equipamento pela câmera ou galeria.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 03/10/2026
+ */
 
 import 'package:file_picker/file_picker.dart';
 import 'package:material_ui/material_ui.dart';

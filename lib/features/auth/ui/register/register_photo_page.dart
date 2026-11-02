@@ -1,8 +1,12 @@
-//  register_photo_page.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 06/09/2026
-//
+/*
+ * lib/features/auth/ui/register/register_photo_page.dart
+ *
+ * Etapa de cadastro: foto de perfil.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 06/09/2026
+ */
 
 import 'package:agroshare/features/auth/form/auth_form.dart';
 import 'package:agroshare/core/navigation/app_navigator.dart';

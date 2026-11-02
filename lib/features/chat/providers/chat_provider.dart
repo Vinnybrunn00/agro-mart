@@ -1,8 +1,12 @@
-//  chat_provider.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 23/10/2026
-//
+/*
+ * lib/features/chat/providers/chat_provider.dart
+ *
+ * Estado de uma conversa aberta: envio e leitura de mensagens.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 23/10/2026
+ */
 
 import 'dart:developer';
 

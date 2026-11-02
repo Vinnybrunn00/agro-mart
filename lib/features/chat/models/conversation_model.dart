@@ -1,8 +1,12 @@
-//  conversation_model.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 23/10/2026
-//
+/*
+ * lib/features/chat/models/conversation_model.dart
+ *
+ * Modelo do resumo de uma conversa.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 23/10/2026
+ */
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 

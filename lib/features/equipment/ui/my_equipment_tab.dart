@@ -1,3 +1,13 @@
+/*
+ * lib/features/equipment/ui/my_equipment_tab.dart
+ *
+ * Aba com os equipamentos anunciados pelo usuário.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 04/10/2026
+ */
+
 import 'package:agroshare/features/equipment/data/my_equipment_stream.dart';
 import 'package:agroshare/features/equipment/models/equipment_model.dart';
 import 'package:agroshare/features/equipment/ui/widgets/my_equipment_card.dart';

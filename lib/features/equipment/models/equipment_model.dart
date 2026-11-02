@@ -1,8 +1,12 @@
-//  equipment_model.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 09/10/2026
-//
+/*
+ * lib/features/equipment/models/equipment_model.dart
+ *
+ * Modelo de um equipamento anunciado.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 09/10/2026
+ */
 
 import 'package:agroshare/features/profile/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

@@ -1,3 +1,13 @@
+/*
+ * lib/core/theme/app_colors.dart
+ *
+ * Paleta de cores do AgroMart.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 05/09/2026
+ */
+
 import 'package:material_ui/material_ui.dart';
 
 abstract final class AppColors {

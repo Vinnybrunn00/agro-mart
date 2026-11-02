@@ -1,8 +1,12 @@
-//  chat_page.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 23/10/2026
-//
+/*
+ * lib/features/chat/ui/chat_page.dart
+ *
+ * Tela de conversa entre o dono do equipamento e o solicitante.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 23/10/2026
+ */
 
 import 'package:agroshare/features/chat/providers/chat_provider.dart';
 import 'package:agroshare/features/chat/models/message_model.dart';

@@ -1,3 +1,13 @@
+/*
+ * lib/features/auth/ui/widgets/auth_button.dart
+ *
+ * Botão principal das telas de login e cadastro.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 25/09/2026
+ */
+
 import 'package:agroshare/features/auth/form/auth_form.dart';
 import 'package:agroshare/core/theme/app_colors.dart';
 import 'package:material_ui/material_ui.dart';

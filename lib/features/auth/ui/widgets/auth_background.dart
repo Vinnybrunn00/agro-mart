@@ -1,3 +1,13 @@
+/*
+ * lib/features/auth/ui/widgets/auth_background.dart
+ *
+ * Fundo decorativo das telas de autenticação.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 25/09/2026
+ */
+
 import 'package:agroshare/core/theme/app_colors.dart';
 import 'package:flutter/widgets.dart';
 

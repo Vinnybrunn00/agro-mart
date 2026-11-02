@@ -1,3 +1,13 @@
+/*
+ * lib/core/utils/app_messenger.dart
+ *
+ * Mensagens flutuantes de sucesso, erro, aviso e informação.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 13/10/2026
+ */
+
 import 'dart:async';
 
 import 'package:agroshare/core/theme/app_colors.dart';

@@ -1,3 +1,13 @@
+/*
+ * lib/features/rental_requests/ui/my_rental_requests_page.dart
+ *
+ * Tela com as solicitações de aluguel feitas pelo usuário.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 13/10/2026
+ */
+
 import 'package:agroshare/features/profile/models/current_user_model.dart';
 import 'package:agroshare/core/navigation/app_navigator.dart';
 import 'package:agroshare/core/theme/app_colors.dart';

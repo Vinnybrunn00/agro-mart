@@ -1,10 +1,12 @@
-//
-//
-// profile_photo_uploader.dart
-// AgroShare
-//
-// Create by Vinícius Bruno on 01/10/2026
-//
+/*
+ * lib/features/auth/services/profile_photo_uploader.dart
+ *
+ * Upload da foto de perfil para o Firebase Storage.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 01/10/2026
+ */
 
 import 'dart:developer';
 import 'dart:io';

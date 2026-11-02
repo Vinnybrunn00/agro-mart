@@ -1,3 +1,13 @@
+/*
+ * lib/features/auth/ui/widgets/auth_header.dart
+ *
+ * Cabeçalho das telas de cadastro: etapa, ícone, título e subtítulo.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 30/10/2026
+ */
+
 import 'package:agroshare/core/theme/app_colors.dart';
 import 'package:material_ui/material_ui.dart';
 

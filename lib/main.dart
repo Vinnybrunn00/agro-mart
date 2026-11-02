@@ -1,8 +1,13 @@
-//  main.dart
-//  AgroMart
-//
-//  Create by Vinicius Bruno on 05/09/2026
-//
+/*
+ * lib/main.dart
+ *
+ * Ponto de entrada do AgroMart: inicializa o Firebase, as
+ * notificações e monta a árvore de providers do app.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 05/09/2026
+ */
 
 import 'package:agroshare/features/chat/providers/conversations_provider.dart';
 import 'package:agroshare/features/equipment/form/equipment_edit_form.dart';

@@ -1,8 +1,12 @@
-//  manage_equipment_provider.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 12/10/2026
-//
+/*
+ * lib/features/equipment/providers/manage_equipment_provider.dart
+ *
+ * Edição, alteração de status e remoção de equipamentos.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 12/10/2026
+ */
 
 import 'dart:developer';
 

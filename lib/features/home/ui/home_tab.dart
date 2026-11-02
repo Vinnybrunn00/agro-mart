@@ -1,3 +1,13 @@
+/*
+ * lib/features/home/ui/home_tab.dart
+ *
+ * Aba inicial: anúncios de equipamentos próximos ao usuário.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 08/09/2026
+ */
+
 import 'package:agroshare/core/theme/app_colors.dart';
 import 'package:agroshare/core/widgets/shimmer_loading.dart';
 import 'package:agroshare/features/profile/data/user_stream.dart';

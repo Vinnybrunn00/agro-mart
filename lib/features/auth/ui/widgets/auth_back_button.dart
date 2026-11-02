@@ -1,3 +1,13 @@
+/*
+ * lib/features/auth/ui/widgets/auth_back_button.dart
+ *
+ * Botão de voltar das telas de cadastro.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 30/10/2026
+ */
+
 import 'package:agroshare/core/theme/app_colors.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:iconsx_plus/iconsx_plus.dart';

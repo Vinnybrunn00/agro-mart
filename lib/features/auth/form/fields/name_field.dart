@@ -1,8 +1,12 @@
-//  name_field.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 05/09/2026
-//
+/*
+ * lib/features/auth/form/fields/name_field.dart
+ *
+ * Campo de nome do usuário e sua validação.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 05/09/2026
+ */
 
 import 'package:agroshare/core/constants/regex_patterns.dart';
 import 'package:agroshare/features/auth/form/fields/credential_field.dart';

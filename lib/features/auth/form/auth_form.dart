@@ -1,8 +1,12 @@
-//  auth_form.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 05/09/2026
-//
+/*
+ * lib/features/auth/form/auth_form.dart
+ *
+ * Formulário de autenticação: agrega os campos de login e cadastro.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 05/09/2026
+ */
 
 import 'dart:io';
 

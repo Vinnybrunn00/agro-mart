@@ -1,9 +1,12 @@
-//
-// location_provider.dart
-// AgroShare
-//
-// Create by Vinícius Bruno on 28/09/2026
-//
+/*
+ * lib/features/auth/providers/location_provider.dart
+ *
+ * Localização do dispositivo: permissões, GPS e ponto escolhido no mapa.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 28/09/2026
+ */
 
 import 'package:material_ui/material_ui.dart';
 

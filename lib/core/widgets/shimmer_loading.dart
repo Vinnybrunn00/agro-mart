@@ -1,3 +1,13 @@
+/*
+ * lib/core/widgets/shimmer_loading.dart
+ *
+ * Placeholder animado (shimmer) exibido durante carregamentos.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 08/09/2026
+ */
+
 import 'package:material_ui/material_ui.dart';
 import 'package:shimmer/shimmer.dart';
 

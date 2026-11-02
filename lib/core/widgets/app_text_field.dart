@@ -1,3 +1,13 @@
+/*
+ * lib/core/widgets/app_text_field.dart
+ *
+ * Campo de texto padrão do app.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 05/09/2026
+ */
+
 import 'package:agroshare/core/theme/app_colors.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';

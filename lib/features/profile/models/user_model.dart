@@ -1,8 +1,12 @@
-//  user_model.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 08/10/2026
-//
+/*
+ * lib/features/profile/models/user_model.dart
+ *
+ * Modelo de um usuário (produtor rural).
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 08/10/2026
+ */
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 

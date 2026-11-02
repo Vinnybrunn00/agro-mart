@@ -1,8 +1,12 @@
-//  conversations_provider.dart
-//  AgroShare
-//
-//  Create by Vinicius Bruno on 23/10/2026
-//
+/*
+ * lib/features/chat/providers/conversations_provider.dart
+ *
+ * Conversas do usuário em tempo real e contador de não lidas.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 23/10/2026
+ */
 
 import 'dart:async';
 import 'dart:developer';

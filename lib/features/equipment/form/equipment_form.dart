@@ -1,3 +1,13 @@
+/*
+ * lib/features/equipment/form/equipment_form.dart
+ *
+ * Formulário de cadastro de equipamento.
+ *
+ * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ *
+ * Created on 04/10/2026
+ */
+
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:intl/intl.dart';
