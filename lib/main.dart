@@ -6,6 +6,8 @@
  *
  * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
  * Copyright (C) 2026 Guilherme Serra <gserravilla@gmail.com>
+ * Copyright (C) 2026 Antonio Gabriel <antoniogabrielrodgurgel@gmail.com>
+ * Copyright (C) 2026 João Gabriel <joaogcaze@gmail.com@gmail.com>
  *
  * Created on 05/09/2026
  */

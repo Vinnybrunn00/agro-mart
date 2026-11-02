@@ -4,5 +4,6 @@
     "flutterTools.displayRiverpodContextMenu": false,
     "flutterTools.displayModularContextMenu": false,
     "flutterTools.displaySignalsContextMenu": false,
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "dart.dapLogFile": "flutter_logs/dap_${name}.log"
 }

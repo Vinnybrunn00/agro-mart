@@ -6,5 +6,4 @@ print(result.stdout)
 print(result.stderr)    
 print(result.returncode)
 
-if (result.returncode):
-    print("sucess")
+if (result.returncode): print("sucess")
