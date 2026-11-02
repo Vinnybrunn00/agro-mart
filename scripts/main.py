@@ -2,7 +2,7 @@ from lib.disk.disk import Disk
 from lib.hardware.hardware import Hardware
 from lib.memory.memory import Memory
 
-if (__name__ == "__main__"):
+def _main():
     
     # disk
     disk = Disk()
@@ -40,3 +40,7 @@ if (__name__ == "__main__"):
     memory_percent = memory.memory_percent()
     memory_used = memory.memory_used()
     memory_free = memory.memory_free()
+    
+
+if (__name__ == "__main__"):
+    _main()
