@@ -5,6 +5,7 @@
  * notificações e monta a árvore de providers do app.
  *
  * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
+ * Copyright (C) 2026 Guilherme Serra <gserravilla@gmail.com>
  *
  * Created on 05/09/2026
  */

@@ -56,3 +56,4 @@ lib/firebase_options.dart
 .env
 
 /android/build/reports/problems/
+/scripts/search/__pycache__
