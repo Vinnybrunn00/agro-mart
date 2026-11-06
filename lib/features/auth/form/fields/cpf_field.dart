@@ -5,7 +5,7 @@
  *
  * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
  *
- * Created on 05/09/2026
+ * Created on 05/09/2026 - Updated on 06/11/2026
  */
 
 import 'package:agroshare/core/constants/regex_patterns.dart';
@@ -44,34 +44,38 @@ class CpfField with ChangeNotifier implements CredentialField {
       throw Exception(_msgError);
     }
 
-    /*
-
-    if (!_hasValidCheckDigits(digits)) {
+    if (!_validateCpf(digits)) {
       _msgError = 'CPF inválido.';
       notifyListeners();
       throw Exception(_msgError);
-  */
+    }
 
     _cpf = cpf;
     _msgError = null;
     notifyListeners();
   }
 
-  bool _hasValidCheckDigits(String digits) {
-    final List<int> numbers = digits.split('').map(int.parse).toList();
+  static String _completeCpf(String partialCpf) {
+    if (partialCpf.length == 11) return partialCpf;
 
-    for (final int position in [9, 10]) {
-      int sum = 0;
-      for (int i = 0; i < position; i++) {
-        sum += numbers[i] * (position + 1 - i);
+    int sum = 0;
+
+    for (int weight = partialCpf.length + 1; weight >= 2; weight--) {
+      final int? digit = int.tryParse(
+        partialCpf[partialCpf.length + 1 - weight],
+      );
+
+      if (digit != null) {
+        sum += digit * weight;
       }
-
-      int checkDigit = (sum * 10) % 11;
-      if (checkDigit == 10) checkDigit = 0;
-
-      if (checkDigit != numbers[position]) return false;
     }
 
-    return true;
+    final int rawCheckDigit = 11 - (sum % 11);
+    final int checkDigit = rawCheckDigit > 9 ? 0 : rawCheckDigit;
+    final String extendedCpf = '$partialCpf$checkDigit';
+    return _completeCpf(extendedCpf);
   }
+
+  static bool _validateCpf(String cpf) =>
+      _completeCpf(cpf.substring(0, cpf.length - 2)) == cpf;
 }
