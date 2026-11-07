@@ -41,6 +41,8 @@ class BottomNavProvider with ChangeNotifier {
       'screen': MyEquipmentTab(),
     },
 
+    {'icon': Iconsax.add_outline, 'title': 'Anunciar'},
+
     {
       'SelectIcon': Iconsax.messages_2_bold,
       'icon': Iconsax.messages_2_outline,
@@ -56,7 +58,5 @@ class BottomNavProvider with ChangeNotifier {
       'title': 'Conta',
       'screen': ProfileTab(),
     },
-
-    {'icon': Iconsax.add_outline, 'title': 'Anunciar'},
   ];
 }
