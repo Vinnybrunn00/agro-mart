@@ -5,7 +5,7 @@
  *
  * Copyright (C) 2026 Vinícius Bruno <vinibruno.dev@gmail.com>
  *
- * Created on 06/09/2026
+ * Created on 06/09/2026 - Updated on 07/11/2026
  */
 
 import 'package:agroshare/core/session/app_session.dart';
@@ -14,6 +14,7 @@ import 'package:agroshare/features/profile/models/current_user_model.dart';
 import 'package:agroshare/core/navigation/app_navigator.dart';
 import 'package:agroshare/features/auth/providers/profile_photo_picker.dart';
 import 'package:agroshare/core/theme/app_colors.dart';
+import 'package:agroshare/features/profile/ui/components/logout_confirm_dialog.dart';
 import 'package:agroshare/features/rental_requests/ui/my_rental_requests_page.dart';
 import 'package:agroshare/core/services/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,7 +42,9 @@ class ProfileTab extends StatelessWidget {
 
           final Map<String, dynamic>? data = snapshot.data?.data();
 
-          final CurrentUserModel currentUser = CurrentUserModel.fromMap(data: data!);
+          final CurrentUserModel currentUser = CurrentUserModel.fromMap(
+            data: data!,
+          );
 
           return Column(
             crossAxisAlignment: .start,
@@ -99,9 +102,8 @@ class ProfileTab extends StatelessWidget {
 
                   _CredentialCard(
                     onTap: () async {
-                      final MyRentalRequestsPage pedidosPage = MyRentalRequestsPage(
-                        currentUser: currentUser,
-                      );
+                      final MyRentalRequestsPage pedidosPage =
+                          MyRentalRequestsPage(currentUser: currentUser);
 
                       await AppNavigator.push(context, pedidosPage);
                     },
@@ -117,15 +119,21 @@ class ProfileTab extends StatelessWidget {
                 title: 'Sair da conta',
                 color: Colors.redAccent,
                 onTap: () async {
-                  // remove o token antes do signOut para este aparelho
-                  // não receber notificações da conta anterior
-                  await NotificationService.instance.removeToken();
-                  await FirebaseAuth.instance.signOut();
+                  final bool? isLogout = await LogoutConfirmDialog.show(
+                    context,
+                  );
 
-                  if (!context.mounted) return;
+                  if (isLogout != null && isLogout) {
+                    // remove o token antes do signOut para este aparelho
+                    // não receber notificações da conta anterior
+                    await NotificationService.instance.removeToken();
+                    await FirebaseAuth.instance.signOut();
 
-                  // RECRIA PROVIDERS E NAVEGAÇÃO, LIMPANDO OS DADOS DA CONTA
-                  AppSession.reset(context);
+                    if (!context.mounted) return;
+
+                    // RECRIA PROVIDERS E NAVEGAÇÃO, LIMPANDO OS DADOS DA CONTA
+                    AppSession.reset(context);
+                  }
                 },
               ),
             ],
